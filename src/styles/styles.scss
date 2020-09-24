@@ -1,0 +1,68 @@
+@import 'material';
+@import 'main';
+@import 'utils';
+@import '~ngx-toastr/toastr.css';
+@import 'responsive';
+// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+.primary-red {
+    background-color: #B70000;
+    color: white;
+}
+
+.img-center {
+    text-align: center
+}
+
+.filter-option>.mat-pseudo-checkbox {
+    display: none !important;
+}
+
+.filter-sidenav .mat-list-item-content {
+    padding: 0 10px !important;
+    font-size: 0.875rem !important;
+}
+
+.filter-sidenav .mat-select-trigger {
+    font-size: 1rem !important;
+}
+
+img {
+    cursor: pointer !important;
+}
+
+mat-card {
+    border-top: 1px solid #AFAFAF !important
+}
+
+.img-container {
+    position: relative;
+    text-align: center;
+    // color: red;
+    color: white;
+    // font-weight: 700;
+}
+
+.top-left {
+    position: absolute;
+    top: 8px;
+    left: 25px;
+}
+
+.top-right-red {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: red;
+    padding: 3px 5px
+  }
+
+  .top-right-green {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: green;
+    padding: 3px 5px
+  }
+// mat-card {
+//     border-top: 1px solid lightgray;
+// }

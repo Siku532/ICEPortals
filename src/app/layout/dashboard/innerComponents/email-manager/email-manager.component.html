@@ -1,0 +1,187 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="container-fluid app">
+    <div class="row app-one">
+        <div class="col-sm-4 side">
+            <div class="side-one">
+                <div class="row heading">
+                    <div class="col-sm-10 col-xs-10 heading-avatar">
+                        <div class="heading-avatar-icon">
+                            <!-- <img src="https://bootdey.com/img/Content/avatar/avatar1.png"> -->
+                            <h3>SMS Manager</h3>
+                        </div>
+
+
+                    </div>
+                    <div class="col-sm-1 col-xs-1  heading-dot  pull-right">
+                        <!-- <i class="fa fa-plus fa-2x  pull-right" aria-hidden="true" (click)="showSoSModal()"></i> -->
+                        <i class="fa fa-plus fa-2x  pull-right" aria-hidden="true"></i>
+
+                    </div>
+                </div>
+
+                <div class="row searchBox">
+                    <div class="col-sm-12 searchBox-inner">
+                        <div class="form-group has-feedback">
+                            <input id="searchText" type="text" class="form-control" name="searchText" placeholder="Search">
+                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row sideBar">
+                    <!-- <div class="row sideBar-body">
+                        <div class="col-sm-3 col-xs-3 sideBar-avatar">
+                            <div class="avatar-icon">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png">
+                            </div>
+                        </div>
+                        <div class="col-sm-9 col-xs-9 sideBar-main">
+                            <div class="row">
+                                <div class="col-sm-8 col-xs-8 sideBar-name">
+                                    <span class="name-meta">John Doe
+                </span>
+                                </div>
+                                <div class="col-sm-4 col-xs-4 pull-right sideBar-time">
+                                    <span class="time-meta pull-right">18:18
+                </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <ng-container *ngFor="let item of [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];let i=index">
+                        <div class="row sideBar-body">
+                            <div class="col-sm-3 col-xs-3 sideBar-avatar">
+
+                                <input class="form-control cb-top-20" type="checkbox" name="" id="">
+                                <!-- <div class="avatar-icon">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar2.png">
+                                </div> -->
+                            </div>
+                            <div class="col-sm-9 col-xs-9 sideBar-main">
+                                <div class="row">
+                                    <div class="col-sm-8 col-xs-8 sideBar-name">
+                                        <span class="name-meta">John Doe {{i+1}}
+                </span>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-4 pull-right sideBar-time">
+                                        <div class="example-section" style="text-align: end">
+                                            <button title="Send Message" class="hidden-sm" mat-icon-button [matMenuTriggerFor]="profile">
+                                    
+                                          <i class="material-icons">
+                                                more_vert
+                                          </i>
+                                        </button>
+                                            <mat-menu #profile="matMenu">
+
+                                                <button mat-menu-item>
+                                    
+                                            <mat-icon>near_me</mat-icon>
+                                    
+                                            <span>Rename </span>
+                                    </button>
+                                                <button mat-menu-item>
+                                    
+                                            <mat-icon>access_time</mat-icon>
+                                    
+                                            <span>Edit </span>
+                                          </button>
+
+
+
+
+
+                                            </mat-menu>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-8 conversation">
+            <!-- <div class="row heading">
+                <div class="col-sm-2 col-md-1 col-xs-3 heading-avatar">
+                    <div class="heading-avatar-icon">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar6.png">
+                    </div>
+                </div>
+                <div class="col-sm-8 col-xs-7 heading-name">
+                    <a class="heading-name-meta">John Doe
+          </a>
+                    <span class="heading-online">Online</span>
+                </div>
+                <div class="col-sm-1 col-xs-1  heading-dot pull-right">
+                    <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i>
+                </div>
+            </div> -->
+            <div class="row" id="tabSet">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" [class.active]="(tabName=='home')" data-toggle="tab" role="tab" aria-controls="home" aria-selected="true" (click)="clickedNow('Message list','home');">Message list</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" [class.active]="(tabName=='profile')" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false" (click)="clickedNow('Add new message','profile');">Add new message</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" id="addEdit-tab" [class.active]="(tabName=='addEdit')" data-toggle="tab" role="tab" aria-controls="addEdit" aria-selected="false" (click)="clickedNow('Add new Group','addEdit');">Add new group</a>
+                    </li>
+
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div *ngIf="(tabName=='home')" class="tab-pane fade show" [class.active]="(tabName=='home')" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <message-status-list></message-status-list>
+
+                    </div>
+                    <div *ngIf="(tabName=='profile')" class="tab-pane fade show" [class.active]="(tabName=='profile')" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <add-new-message></add-new-message>
+
+                    </div>
+
+                    <div *ngIf="(tabName=='addEdit')" class="tab-pane fade show" [class.active]="(tabName=='addEdit')" id="addEdit" role="tabpanel" aria-labelledby="addEdit-tab">
+                        <add-edit-group></add-edit-group>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<!-- sos modal -->
+<div bsModal #sosModal="bs-modal" [config]="{backdrop: 'static',keyboard:false}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-child-name" class="modal-title pull-left">Edit Add new Group</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideSoSModal()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding:10px">
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Enter height" name="height">
+                </mat-form-field>
+
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary">
+                    update
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

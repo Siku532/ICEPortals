@@ -1,0 +1,65 @@
+<div id="sidebar">
+    <mat-nav-list>
+
+        <ng-container *ngFor="let item of menuList;let i=index">
+
+            <ng-container *ngIf="!item.subMenu">
+                <a mat-list-item routerLink='/dashboard/{{item.menuList[0].link}}' [routerLinkActive]="'link-active'">
+                    <mat-icon class="sidenav-icon">dashboard</mat-icon> {{ item.header | translate }}
+                </a>
+            </ng-container>
+
+            <ng-container *ngIf="item.subMenu">
+                <div class="nested-menu">
+                    <a mat-list-item (click)="addExpandClass(item.header)" (click)="getIndex(i)">
+                        <mat-icon class="sidenav-icon" *ngIf="item.header=='Dashboard' ">add</mat-icon>
+                        <mat-icon class="sidenav-icon" *ngIf="item.header=='Reports' ">add</mat-icon>
+                        <mat-icon class="sidenav-icon" *ngIf="item.header=='Admin' ">add</mat-icon>
+                        <mat-icon class="sidenav-icon" *ngIf="item.header=='Tableau'">add</mat-icon>
+                        <mat-icon class="sidenav-icon" *ngIf="item.header=='Evaluation'">add</mat-icon>
+                        {{ item.header | translate }}
+                    </a>
+
+                    <ul class="nested submenu" [class.expand]="showMenu == item.header">
+
+                        <li *ngFor="let item2 of item.menuList">
+                            <a [routerLinkActive]="'link-active'" routerLink='/dashboard/{{item2.link}}'><span>{{ item2.lable | translate }}</span></a>
+
+                        </li>
+
+                        <li>
+                        </li>
+
+
+                    </ul>
+                    <!-- <ul class="nested submenu" [class.expand]="showMenu == value" *ngIf="value==2 && item.header=='Reports'">
+
+                        <li *ngFor="let item2 of item.menuList">
+
+
+                            <a [routerLinkActive]="'link-active'" routerLink='/dashboard/{{item2.link}}'><span>
+                                    {{ item2.lable | translate }}</span></a>
+
+                        </li>
+
+                        <li>
+                        </li>
+
+
+                    </ul> -->
+                </div>
+            </ng-container>
+
+
+
+        </ng-container>
+        <!-- <a mat-list-item routerLink='/dashboard/raw_data' [routerLinkActive]="'link-active'">
+            <mat-icon class="sidenav-icon">dashboard</mat-icon> {{ 'Raw Data' | translate }}
+        </a> -->
+
+    </mat-nav-list>
+<!--    <a href="http://tradetracker.com.pk/" target="_blank">-->
+<!--        <img class="bottom-fixed" src="assets/images/tt2logo.png">-->
+
+<!--    </a>-->
+</div>

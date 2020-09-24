@@ -1,0 +1,100 @@
+<!-- <ng-container *ngFor="let sec of data"> -->
+<div class="row" style="border-bottom:2px solid black;width: 100%;margin: 5px 0"></div>
+
+<div class="row">
+    <div class="col-md-12 text-center">
+        <h4><u>{{data.sectionTitle}}</u></h4>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-md-6 mb-3">
+        <!--  -->
+        <!-- <ngx-image-zoom [zoomMode]="'hover'" [magnification]="4" [lensWidth]="300" [lensHeight]="300" [enableLens]="true" [circularLens]="true" [thumbImage]="ip+selectedImage?.url" [fullImage]="ip+selectedImage?.url"></ngx-image-zoom> -->
+
+        <img src="{{ip}}{{selectedImage?.url}}" width="400 " height="400" (click)="showChildModal(selectedImage)" class="img-thumbnail img-item">
+        <div class="row justify-content-center" style="word-break: break-word !important">
+            <div for="cat" class="cat" style="word-break: break-word"><strong>Retailer Rem:</strong>{{selectedImage?.retailerRemarks}}</div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="row">
+
+            <ng-container *ngFor="let img of data?.imageList ;let i=index ">
+                <div class="col-md-4 mb-1 card  ml-4" (click)="setSelectedImage(img)" style="padding: 0% !important;cursor:pointer">
+                    <img src="{{ip}}{{img.url}} " width="50 " height="50 " class="img-thumbnail side-image">
+                    <div class="row justify-content-center" style="word-break: break-word !important" (click)="openSurvey(img)">
+                        <div for="date"><strong>Date:</strong>{{img?.visitDate}}</div>
+                        <br>
+                        <div for="time"><strong>Time Spent:</strong>{{img?.time}}</div>
+                        <br>
+                        <div for="shop" style="word-break: break-word"><strong>Remarks:</strong> {{img?.shopRemarks}}</div>
+
+
+                    </div>
+                    <!--  -->
+                </div>
+                <!-- <div class="col-md-3" style="font-size:15px !important" (click)="setSelectedImage(img)"> -->
+
+
+
+                <!-- </div> -->
+
+
+
+            </ng-container>
+        </div>
+        <!-- this.table is moved to home page -->
+        <!-- <div class="row justify-content-center">
+            <ng-container class="mt-5 justify-content-center " *ngIf="data?.tagsList ">
+                <div class="col-md-11 mt-5 ">
+                    <table class="table table-bordered ">
+                        <tr *ngFor="let tab of data.tagsList;let j=index ">
+                            <th style="width:50%;background: lightgray; ">{{tab.heading}}</th>
+                            <td style="width:50%;word-break: break-word ">{{tab.value}}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+            </ng-container>
+        </div> -->
+    </div>
+
+
+</div>
+
+<!-- <div class="row justify-content-center" *ngIf="isEditable">
+    <ng-container class="mt-5 justify-content-center " *ngIf="data?.tagsList ">
+        <div class="col-md-12 mt-5 ">
+            <table class="table table-bordered ">
+                <tr *ngFor="let tab of data.tagsList;let j=index ">
+                    <th style="width:50%;background: lightgray; ">{{tab.heading}}</th>
+                    <td style="width:50%;word-break: break-all ">{{tab.value}}</td>
+                </tr>
+
+            </table>
+
+        </div>
+    </ng-container>
+</div> -->
+
+
+<div bsModal #childModal="bs-modal" class="modal fade " tabindex="-1 " role="dialog " aria-labelledby="dialog-child-name ">
+    <div class="modal-dialog ">
+        <div class="modal-content ">
+            <div class="modal-header ">
+                <h4 id="dialog-child-name " class="modal-title pull-left ">{{selectedShop.title}}</h4>
+                <button type="button " class="close pull-right " aria-label="Close " (click)="hideChildModal() ">
+            <span aria-hidden="true ">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body " style="padding:10px ">
+                <img src="{{ip}}{{selectedShop.url}} " alt=" " srcset=" ">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- </ng-container> -->

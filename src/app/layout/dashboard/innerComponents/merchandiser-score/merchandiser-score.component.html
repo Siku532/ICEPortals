@@ -1,0 +1,156 @@
+
+  <div class="animated slideInLeft">
+    <mat-card class="mb-20" style="padding-top: 1px; padding-bottom: 1px;">
+
+        <mat-card-content>
+            <mat-card-title>
+                {{title| uppercase}} <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loadingData}"></i>
+                <small style="color:lightseagreen !important" class="mtb-5-IMP" *ngIf="loadingReportMessage">Your
+                        file is
+                        being prepared for download</small>
+
+                </mat-card-title>
+            <section class="example-section" *ngIf="!params.surveyorId">
+
+
+                <mat-form-field class="example-full-width mr-10-IMP">
+                    <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker0" [(ngModel)]="startDate" placeholder="Choose a Start Date" (ngModelChange)="getMerchandiserList()" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+                    <mat-datepicker #picker0></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="example-full-width mr-10-IMP">
+                  <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" [(ngModel)]="endDate" (ngModelChange)="getMerchandiserList()" placeholder="Choose a End date" readonly>
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+  
+
+                <mat-form-field class="example-margin mr-10-IMP">
+                  <mat-select placeholder="Zone" name='zone' [(ngModel)]="selectedZone" (ngModelChange)="zoneChange()">
+                      <ng-container *ngFor="let zone of zones">
+                          <mat-option [value]="zone">{{zone.title}}</mat-option>
+                      </ng-container>
+  
+                  </mat-select>
+              </mat-form-field>
+  
+              <mat-form-field *ngIf="regions.length>0" class="example-margin mr-10-IMP">
+                  <mat-select placeholder="Region" name='region' [(ngModel)]="selectedRegion" (ngModelChange)="getMerchandiserList()">
+                      <ng-container *ngFor="let region of regions">
+                          <mat-option [value]="region">{{region.title}}</mat-option>
+  
+                      </ng-container>
+  
+                  </mat-select>
+              </mat-form-field>
+                
+
+            </section>
+
+        </mat-card-content>
+    </mat-card>
+</div>
+<ng-container *ngIf="merchandiserList.length>0">
+    <div class="animated slideInLeft">
+        <mat-card class="mb-20" style="border-top: 1px solid #AFAFAF;">
+
+            <mat-card-content>
+
+                <section class="example-section">
+
+                    <table class="table table-hover">
+
+                        <thead>
+                            <tr>
+                                <th (click)="sortIt('merchandiser_code')" style="cursor: pointer">Merchandiser Code
+                                    <i class="material-icons arrow material-icons-arrow">
+                                        {{getArrowType('merchandiser_code')}}
+                                    </i>
+                                </th>
+                                <th (click)="sortIt('merchandiser_name')" style="cursor: pointer">Merchandiser Name
+                                    <i class="material-icons arrow material-icons-arrow">
+                                        {{getArrowType('merchandiser_code')}}
+                                    </i></th>
+                                <th (click)="sortIt('shop_code')" style="cursor: pointer">Shop code
+                                    <i class="material-icons arrow material-icons-arrow">
+                                        {{getArrowType('shop_code')}}
+                                    </i></th>
+                                <th (click)="sortIt('shop_title')" style="cursor: pointer">Shop Name
+                                    <i class="material-icons arrow material-icons-arrow">
+                                        {{getArrowType('shop_title')}}
+                                    </i></th>
+                                <th (click)="sortIt('address')" style="cursor: pointer">Address
+                                    <i class="material-icons arrow material-icons-arrow">
+                                        {{getArrowType('address')}}
+                                    </i></th>
+                                    <th (click)="sortIt('channel_title')" style="cursor: pointer">Channel
+                                        <i class="material-icons arrow material-icons-arrow">
+                                            {{getArrowType('channel_title')}}
+                                        </i></th>
+                                    <!-- <th (click)="sortIt('distribution')" style="cursor: pointer">Distribution
+                                        <i class="material-icons arrow material-icons-arrow">
+                                            {{getArrowType('distribution')}}
+                                        </i></th> -->
+                                            <th (click)="sortIt('evaluator_name')" style="cursor: pointer">Evaluator
+                                                <i class="material-icons arrow material-icons-arrow">
+                                                    {{getArrowType('evaluator_name')}}
+                                                </i></th>
+                                                <th (click)="sortIt('visit_date')" style="cursor: pointer">Visit Date
+                                                  <i class="material-icons arrow material-icons-arrow">
+                                                      {{getArrowType('visit_date')}}
+                                                  </i></th>
+                                                <th (click)="sortIt('In_Store_Execution')" style="cursor: pointer">Score
+                                                  <i class="material-icons arrow material-icons-arrow">
+                                                      {{getArrowType('In_Store_Execution')}}
+                                                  </i></th>
+                                                  
+                                <!-- <th></th> -->
+
+                            </tr>
+                        </thead>
+
+                        <tbody *ngIf="merchandiserList.length>0">
+                            <!-- | paginate: { itemsPerPage: 15, currentPage: p } -->
+                            <tr *ngFor="let item of merchandiserList | orderBy: sortBy : sortOrder">
+                                <td>{{item?.merchandiser_code}}</td>
+                                <td>{{item?.merchandiser_name}}</td>
+                                <td>{{item?.shop_code}}</td>
+                                <td>{{item?.shop_title}}</td>
+                                <td>{{item?.address}}</td>
+                                <td>{{item?.channel_title}}</td>
+                                <!-- <td>{{item?.distribution}}</td>
+                                <td>{{item?.visit_date}}</td> -->
+                                <td>{{item?.evaluator_name}}</td>
+                                <td>{{item?.visit_date}}</td>
+                                <td (click)="gotoNewPage(item)" style="color:blue;cursor:pointer">{{item?.In_Store_Execution}}</td>
+    
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </section>
+
+
+            </mat-card-content>
+        </mat-card>
+    </div>
+</ng-container>
+<div class="row " *ngIf="loading">
+    <div class="col-md-12 text-center">
+        <div class="img-center">
+            <img src="assets/images/basicloader.gif" alt="" srcset="">
+        </div>
+    </div>
+</div>
+
+<div class="row " *ngIf="!loading && merchandiserList.length==0">
+    <div class="col-md-12 text-center">
+
+        <div class="alert alert-info">
+            <p>No Data Found</p>
+        </div>
+        <!-- <div class="img-center">
+            <img src="assets/images/basicloader.gif" alt="" srcset="">
+        </div> -->
+    </div>
+</div>

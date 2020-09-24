@@ -1,0 +1,71 @@
+.mr-10-IMP {
+    margin-right: 1% !important;
+}
+
+.mr-5-IMP {
+    margin-right: 0.5% !important;
+}
+
+.mtb-5-IMP {
+    margin: 0.5% 1% !important;
+}
+
+mat-card-title {
+    color: #F44336
+}
+
+
+/* Structure */
+
+table {
+    width: 100%;
+}
+
+.fix-width {
+    // background: red;
+    min-width: 120px;
+}
+
+.fix-address {
+    word-wrap: break-word;
+    max-width: 300px
+}
+
+.mat-form-field1 {
+    font-size: 14px;
+    width: 100%;
+}
+
+.a-link {
+    color: blue !important;
+    cursor: pointer;
+    font-weight: 800;
+}
+
+.a-link:hover {
+    color: lightblue
+}
+
+.channel-message {
+    position: relative !important;
+    top: 22px;
+    left: -95px;
+    color: red;
+}
+
+.col-md-2 {
+    -webkit-box-flex: 0;
+    max-width: 13.666667% !important;
+}
+
+.arrow {
+    font-size: 15px;
+    font-weight: 600;
+    color: #F12E2B;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+tr>th {
+    cursor: pointer;
+}

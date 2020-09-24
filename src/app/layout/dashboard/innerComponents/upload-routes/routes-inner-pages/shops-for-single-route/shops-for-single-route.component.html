@@ -1,0 +1,66 @@
+<mat-card class="mb-20">
+
+    <mat-card-content>
+        <mat-card-title>
+            {{title| uppercase}} <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loadingData}"></i>
+            <!-- <small style="color:lightseagreen !important" class="mtb-5-IMP" *ngIf="loadingReportMessage">Your file is being prepared for download</small> -->
+
+        </mat-card-title>
+        <!-- <section class="example-section">
+
+
+
+        <mat-form-field class="example-margin mr-10-IMP">
+            <mat-select placeholder="Region" name='region' [(ngModel)]="selectedRegion" (ngModelChange)="regionChange()">
+
+                <mat-option [value]="region" *ngFor="let region of regions">{{region.title}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+
+
+        <mat-form-field class="example-full-width mr-10-IMP">
+            <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker0" [(ngModel)]="startDate" placeholder="Choose a start date" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+            <mat-datepicker #picker0></mat-datepicker>
+        </mat-form-field>
+
+
+    </section>
+
+    <section class="example-section">
+        <button mat-raised-button color="warn">Upload</button>
+
+
+    </section> -->
+
+    </mat-card-content>
+</mat-card>
+<mat-card>
+    <mat-card-content>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>option 1</th>
+                    <th>option 2</th>
+                    <th>option 3</th>
+                    <th>option 4</th>
+                    <th>action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>data 1</td>
+                    <td>data 2</td>
+                    <td>data 3</td>
+                    <td>data 4</td>
+                    <td>
+                        <a href=''>details</a>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </mat-card-content>
+
+</mat-card>

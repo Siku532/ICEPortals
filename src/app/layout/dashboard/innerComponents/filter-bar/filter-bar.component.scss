@@ -1,0 +1,109 @@
+.mr-10-IMP {
+    margin-right: 1% !important;
+}
+
+.mr-5-IMP {
+    margin-right: 0.5% !important;
+}
+
+.mtb-5-IMP {
+    margin: 0.5% 1% !important;
+}
+
+mat-card-title {
+    color: #F44336
+}
+
+
+/* Structure */
+
+table {
+    width: 100%;
+}
+
+.fix-width {
+    // background: red;
+    min-width: 120px;
+}
+
+.fix-address {
+    word-wrap: break-word;
+    max-width: 300px
+}
+
+.mat-form-field1 {
+    font-size: 14px;
+    width: 100%;
+}
+
+.a-link {
+    color: blue !important;
+    cursor: pointer;
+    font-weight: 800;
+}
+
+.a-link:hover {
+    color: lightblue
+}
+
+.channel-message {
+    position: relative !important;
+    top: 22px;
+    left: -95px;
+    color: red;
+}
+
+.col-md-2 {
+    -webkit-box-flex: 0;
+    max-width: 13.666667% !important;
+}
+
+.arrow {
+    font-size: 15px;
+    font-weight: 600;
+    color: #F12E2B;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+tr>th {
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 420px) {
+    /* styles for browsers larger than 960px; */
+    .mobile-view {
+        display: block !important;
+    }
+    .web-view {
+        display: none !important;
+    }
+    .mobile-view-info-tabs {
+        padding: 4px !important;
+        margin-top: 5px !important;
+    }
+    .mobile-mt-3 {
+        margin-top: 1rem!important;
+    }
+    .isMobileView {
+        display: block !important;
+    }
+    .isWebView {
+        display: none !important;
+    }
+}
+
+@media only screen and (min-width: 420px) {
+    .mobile-view {
+        display: none !important;
+    }
+    .web-view {
+        display: block !important;
+    }
+    .isWebView {
+        display: block !important;
+    }
+    .isMobileView {
+        display: none !important;
+    }
+}

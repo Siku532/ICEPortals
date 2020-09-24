@@ -1,0 +1,25 @@
+<router-outlet></router-outlet>
+<!-- <email-manager></email-manager> -->
+<!-- <button type="button" class="btn btn-primary" (click)="showChildModal()">Open child modal</button> -->
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                <h4 id="dialog-child-name" class="modal-title pull-left">Child modal</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div> -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <img src="{{main_logo}}" height="350">
+
+                    </div>
+                </div>
+
+                <h4 style="color:lightseagreen !important" class="mtb-5-IMP"><i color="warn" [ngClass]="{'fa fa-cog fa-spin ':true}"></i> Your file is being prepared for download</h4>
+            </div>
+        </div>
+    </div>
+</div>

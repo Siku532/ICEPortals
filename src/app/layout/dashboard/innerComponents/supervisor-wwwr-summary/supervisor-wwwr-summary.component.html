@@ -1,0 +1,68 @@
+<div class="animated slideInLeft">
+  <mat-card class="mb-20">
+
+    <mat-card-content>
+        <mat-card-title >
+            {{title| uppercase}} <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loadingData}"></i>
+            <small style="color:lightseagreen !important" class="mtb-5-IMP" *ngIf="loadingReportMessage">Your file is being prepared for download</small>
+        </mat-card-title>
+        <section class="example-section">
+
+
+            <!-- <mat-form-field class="example-margin mr-10-IMP">
+                <mat-select placeholder="Zone" name='zone' [(ngModel)]="selectedZone" (ngModelChange)="zoneChange()">
+                    <ng-container *ngFor="let zone of zoneList">
+                        <mat-option *ngIf="zone.id!==-1" [value]="zone">{{zone.title}}</mat-option>
+                    </ng-container>
+
+                </mat-select>
+            </mat-form-field> -->
+
+            <!-- <mat-form-field *ngIf="regions.length>0" class="example-margin mr-10-IMP">
+                <mat-select placeholder="Region" name='region' [(ngModel)]="selectedRegion">
+                    <ng-container *ngFor="let region of regions">
+                        <mat-option *ngIf="region.id!==-1" [value]="region">{{region.title}}</mat-option>
+
+                    </ng-container>
+
+                </mat-select>
+            </mat-form-field> -->
+
+            <!-- <mat-form-field *ngIf="channels.length>0" class="example-margin mr-10-IMP">
+
+                <mat-select placeholder="Channel" name='channel' [(ngModel)]="selectedChannel" multiple #channelSelect="ngModel" [compareWith]="equals">
+                    <mat-option disabled="disabled" class="filter-option"> <button mat-raised-button class="mat-primary fill text-sm" (click)="selectAll(channelSelect, channels)">
+                        Select All
+                      </button>
+                        <button mat-raised-button color="warn" class="ml-1 mat-accent fill text-sm" (click)="deselectAll(channelSelect)">
+                        Deselect All
+                      </button>
+                    </mat-option>
+
+                    <mat-option [value]="channel" *ngFor="let channel of channels">{{channel.title}}</mat-option>
+                </mat-select>
+            </mat-form-field> -->
+            <mat-form-field class="example-full-width mr-10-IMP">
+                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker0" [(ngModel)]="startDate" placeholder="Start Date" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+                <mat-datepicker #picker0></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="example-full-width mr-10-IMP">
+                <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" [(ngModel)]="endDate" placeholder="End Date" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+
+        </section>
+
+        <section class="example-section">
+            <!-- [disabled]="selectedChannel.length<1" -->
+            <button mat-raised-button color="warn" (click)="getSupervisorWWWRReport()">Download</button>
+            <!-- <span *ngIf="selectedChannel.length<1" class="channel-message"><small>(channel selection is mandatory)</small></span> -->
+
+        </section>
+
+
+    </mat-card-content>
+</mat-card>
+</div>

@@ -1,0 +1,106 @@
+<mat-card class="mb-20">
+
+    <mat-card-content>
+        <mat-card-title>
+            {{title| uppercase}} <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loadingData}"></i>
+            
+
+        </mat-card-title>
+        <section class="example-section">
+            <form (ngSubmit)="onSubmit(form.value)" [formGroup]="form" enctype="multipart/form-data">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <mat-form-field class="example-margin example-full-width mr-10-IMP">
+                            <input [formControl]="number" matInput placeholder="IMEI Number Here" maxlength="15">
+                        </mat-form-field>
+
+
+
+                    </div>
+
+                    <div class="col-md-6 mt-4">
+                        <ng-container class="ml-5">
+                            <label class="mr-5" for="avatar">OR</label>
+                            <input #fileInput (change)="onFileChange($event)" id="avatar" type="file">
+                        </ng-container>
+                    </div>
+                </div>
+
+                <section class="example-section">
+                    <button color="warn" mat-raised-button type="submit">Save</button>
+                </section>
+                <h4 *ngIf="response">Added Successfully..</h4>
+            </form>
+        </section>
+
+
+
+    </mat-card-content>
+
+</mat-card>
+<mat-card>
+    <h4>IMEI List</h4>
+    <mat-card-content>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">IMEI</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let imei of imeis; let i = index">
+                    <th scope="col">{{i+1}}</th>
+                    <td>{{imei.imei}}</td>
+                    <td>{{imei.active}}</td>
+                    <td>
+                        <button title="edit" type="button" class="btn btn-primary" (click)="showChildModal(imei)">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-card-content>
+    <div bsModal #childModal="bs-modal" [config]="{backdrop: 'static',keyboard: false}" class="modal fade" tabindex="-1"
+        role="dialog" aria-labelledby="dialog-child-name">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="dialog-child-name" class="modal-title pull-left">Edit Status of IMEI</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <mat-form-field class="example-margin example-full-width mr-10-IMP">
+                        <input matInput disabled [(ngModel)]="selectedImeiNumber" placeholder="Imei Number">
+                    </mat-form-field>
+                    <br>
+                    <h6>Change Active Status of IMEI</h6>
+                    <span>Status : </span>
+                    <select class="select" placeholder="Transfer Type" name='Transfer Status' [(ngModel)]="imeiStatus">
+                        <option [value]="status.value" *ngFor="let status of statusArray">{{status.title}}</option>
+                    </select>
+                </div>
+
+                <!-- <mat-select placeholder="Transfer Type" name='Transfer Status' class="select-text"  >
+          <mat-option [value]="status" *ngFor="let status of statusArray">{{status}}</mat-option>
+        </mat-select>-->
+
+
+
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" (click)="updateImei()">
+                        Update
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-card>

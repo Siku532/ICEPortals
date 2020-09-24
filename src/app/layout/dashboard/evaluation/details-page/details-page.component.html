@@ -1,0 +1,75 @@
+<div class="container-fluid animated slideInLeft">
+    <div class="container">
+        <mat-card>
+            <mat-card-content>
+                <section class="example-section">
+                    <div class="row">
+                        <div class="col-md-12" style="margin:20% 36%" *ngIf="tableData?.length==0 && loading">
+                            <img src="assets/images/basicloader.gif" alt="" srcset="">
+                        </div>
+                        <div class="col-md-12 animated slideInLeft">
+                            <!-- <div class="row text-center" *ngIf="tableData?.length>10">
+                                <div class="col-md-12">
+                                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+                                </div>
+                            </div> -->
+                            <table class="table" *ngIf="tableData?.length>0">
+                                <thead>
+                                    <!-- <th *ngFor="let item of headingsList">{{item}}</th> -->
+                                    <!-- <th>Shop Id</th> -->
+                                    <th style="
+                                    min-width: 120px;
+                                ">Shop Code</th>
+                                    <th style="
+                                    min-width: 170px;
+                                ">Shop Name</th>
+                                    <th>Address</th>
+
+                                    <th style="
+                                    min-width: 130px;
+                                ">Channel Name</th>
+                                    
+
+                                    <th style="min-width: 130px;">Remarks</th>
+                                    <!-- <th>VO Name</th> -->
+                                    <th>Status</th>
+                                </thead>
+                                <tbody *ngIf="headingsList">
+                                    <!-- | paginate: { itemsPerPage: 10, currentPage: p } -->
+                                    <tr *ngFor="let item of tableData ">
+                                        <!-- <td [ngClass]="{'isEvaluated':item.flag!=1}" (click)="gotoNewPage(item)">{{item?.shop_id}}</td> -->
+                                        <td  class="isEvaluated" (click)="gotoNewPage(item)">
+                                            {{item?.shop_code}}</td>
+                                        <td class="isEvaluated"  (click)="gotoNewPage(item)">
+                                            {{item?.shop_title}}</td>
+                                        <td class="isEvaluated" style="word-break:break-word;"
+                                            (click)="gotoNewPage(item)">
+                                            {{item?.address}}</td>
+
+                                        <td class="isEvaluated"  (click)="gotoNewPage(item)">
+                                            {{item?.channel_title}}</td>
+                                       
+
+                                        <td class="isEvaluated" style="word-break:break-word;"
+                                            (click)="gotoNewPage(item)">
+                                            {{item?.remarks}}</td>
+
+                                        <!-- <td [ngClass]="{'isEvaluated':item.flag!=1}" style="width:100px;" (click)="gotoNewPage(item)">{{item?.vo_code}}</td> -->
+                                        <!-- <td [ngClass]="{'isEvaluated':item.flag!=1}" (click)="gotoNewPage(item)">{{item?.vo_name}}</td> -->
+                                        <td>{{item?.evaluation_status}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </section>
+            </mat-card-content>
+
+
+        </mat-card>
+
+    </div>
+</div>

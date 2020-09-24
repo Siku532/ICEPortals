@@ -1,0 +1,70 @@
+@import '~@angular/material/theming';
+:host /deep/ .mat-card-header-text {
+    width: 100%;
+    text-align: left;
+}
+
+.icon-lg {
+    font-size: 40px;
+}
+
+.mat-card {
+    color: #fff;
+    .mat-card-header {
+        width: 100%;
+    }
+    .mat-card-title {
+        font-size: 30px !important;
+        // margin-right: 35px !important;
+    }
+    .mat-card-subtitle {
+        color: #fff;
+        // margin-right: 5px !important;
+    }
+    .mat-card-actions {
+        a {
+            text-decoration: none;
+            cursor: pointer;
+            color: #fff;
+        }
+    }
+}
+
+.mat-card.danger {
+    background: linear-gradient(60deg, #f8b3b3, #ed6359);
+}
+
+.mat-card.warn {
+    background: linear-gradient(60deg, #ffa726, #fb8c00);
+}
+
+.mat-card.success {
+    background: linear-gradient(60deg, #94e198, #4ee955);
+}
+
+.mat-card.info {
+    background: linear-gradient(60deg, #26c6da, #00acc1);
+}
+
+.mat-card.primary {
+    background: linear-gradient(60deg, #68da26, #abc901);
+}
+
+.mat-card.purple {
+    background: linear-gradient(60deg, #9826da, #7400c1);
+}
+
+mat-card {
+    height: 100px !important;
+    width: 140px;
+    margin: 0 15px;
+}
+
+// .mat-card-title {
+//     font-size: 35px !important;
+//     margin-right: 5px !important;
+// }
+// .mat-card-subtitle {
+//     color: #fff;
+//     // margin-right: 0 !important;
+// }

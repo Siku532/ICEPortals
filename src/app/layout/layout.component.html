@@ -1,0 +1,22 @@
+<!-- <app-nav></app-nav> -->
+
+
+<app-topnav (hideSideBar)="hideBarStatus()"></app-topnav>
+<ng-container *ngIf="!hideSideBar">
+    <app-sidebar></app-sidebar>
+    <div class="main-container">
+
+        <router-outlet></router-outlet>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="hideSideBar">
+    <div class="container-fluid mt-12" *ngIf="url=='/dashboard/productivity-tableau' && url == '/dashboard/dashboard-tableau'; else elseBlock">
+        <router-outlet></router-outlet>
+    </div>
+    <ng-template #elseBlock>
+        <div class="container-fluid mt-6">
+            <router-outlet></router-outlet>
+        </div>
+    </ng-template>
+</ng-container>

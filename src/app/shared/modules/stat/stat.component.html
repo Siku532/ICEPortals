@@ -1,0 +1,20 @@
+<mat-card [ngClass]="bgClass">
+    <ng-container>
+        <mat-card-header style="cursor:pointer" (click)="goToProductivity()">
+            <div mat-card-avatar>
+                <mat-icon class="icon-lg">{{icon}}</mat-icon>
+            </div>
+            <mat-card-title>{{count}}
+                <!-- <span *ngIf="label=='Completion' || label=='Successful'">%</span> -->
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-subtitle>{{label}}</mat-card-subtitle>
+
+        <!-- <mat-card-actions>
+                    <a routerLink="/dashboard/productivity_report" class="float-right card-inverse">
+                        productivity report 
+                    </a>
+                </mat-card-actions> -->
+    </ng-container>
+
+</mat-card>

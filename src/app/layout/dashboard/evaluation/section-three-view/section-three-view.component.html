@@ -1,0 +1,45 @@
+<div class="row" style="border-bottom:2px solid black;width: 100%;margin: 5px 0"></div>
+
+<ng-container class="mt-2 justify-content-center" *ngIf="products.length>0">
+    <div class="row justify-content-center">
+        <h4><u>{{data.sectionTitle}}</u></h4>
+
+    </div>
+    <div class="col-md-12 mt-1">
+        <table class="table table-bordered table-hover" style="min-width:820px !important">
+            <thead style="background:lightgray">
+                <tr>
+                    <th>Brand Title</th>
+                    <th>Product Title</th>
+                    <th>Availability
+                        <!-- <i [ngClass]="{'fa fa-spinner fa-spin': true}"></i> -->
+                    </th>
+                    <th>MSL</th>
+
+                </tr>
+            </thead>
+            <tr *ngFor="let product of products;let j= index">
+                <td>{{product?.category_title}}</td>
+                <td>{{product?.product_title}}</td>
+                <td style="width:150px !important" style="cursor:pointer" [ngStyle]="{'background-color':product.color}" (click)="toggleValue(product)">{{updateString(product?.available_sku)}}
+
+                </td>
+                <td style="width:150px !important" [ngClass]="{'background-color': product?.MSL=='Yes'}">{{product?.MSL}}</td>
+
+
+                <!-- <td (click)="product.available_sku = (!product.available_sku)">{{toggleValue(product?.available_sku)}}</td> -->
+
+            </tr>
+            <tr>
+                <td></td>
+                <th>Availability / Total</th>
+                <td>{{availability}} / {{products.length}}</td>
+                <th>
+                    {{MSLNAvailabilityCount}} / {{MSLCount}}
+                </th>
+            </tr>
+
+        </table>
+
+    </div>
+</ng-container>

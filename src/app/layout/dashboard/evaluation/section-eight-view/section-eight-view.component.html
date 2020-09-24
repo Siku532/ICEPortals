@@ -1,0 +1,257 @@
+<div class="container-fluid">
+    <div class="row" style="border-bottom:2px solid black;width: 100%;margin: 5px 0"></div>
+  
+    <div class="row">
+  
+        <div class="col-md-12 text-center">
+            <h4><u>{{data?.sectionTitle}}  </u><i color="warn" [ngClass]="{'fa fa-cog fa-spin':loading}"></i></h4>
+        </div>
+  
+  
+        <div class="col-5">
+  
+  
+  
+          <div class="row">
+  
+              <div class="col-12" style="
+              max-height: 500px !important;
+          ">
+                  <!--  -->
+                  <!-- <ngx-image-zoom [zoomMode]="'hover'" [magnification]="4" [lensWidth]="300" [lensHeight]="300" [enableLens]="true" [circularLens]="true" [thumbImage]="ip+selectedImage?.url" [fullImage]="ip+selectedImage?.url"></ngx-image-zoom> -->
+                  <!-- <ngx-image-zoom [zoomMode]="'hover'" [magnification]="2" [lensWidth]="250" [lensHeight]="250" [enableLens]="true" [circularLens]="true" [thumbImage]=ip+selectedImage?.url [fullImage]=ip+selectedImage?.url>
+                  </ngx-image-zoom> -->
+  
+                  <label class="title" for="title">{{selectedImage?.title}}</label>
+                  <img src="{{ip}}{{selectedImage?.url}}" class="img-thumbnail" style="        height: 500px;  width: 100%;  " (click)="showChildModal(selectedImage)">
+                  <div class="row justify-content-center" style="word-break: break-word !important">
+                      <div for="cat" class="cat" style="word-break: break-word">{{selectedImage?.shopRemarks}}</div>
+                  </div>
+              </div>
+  
+              <div class="col-12 ml-3 mt-2">
+                  <div class="row">
+  
+                      <ng-container *ngFor="let img of data?.imageList ;let i=index ">
+                          <div class="col-2 mb-1 card  mt-5 mr-2" (click)="setSelectedImage(img)" style="padding: 0% !important;cursor:pointer" [ngClass]="{'bgColor': img?.url==selectedImage.url}">
+                              <img src="{{ip}}{{img?.url}} " width="100" class="img-thumbnail side-image" style="height: 80px !important;width: 120px !important;">
+                              <!-- <div class="row justify-content-center" style="word-break: break-word !important">
+                                  <div for="date"><strong>Date:</strong>{{img?.visitDate}}</div>
+                                  <br/>
+  
+                                  <div for="time"><strong>Time Spent:</strong>{{img?.time}}</div>
+                                  <br/>
+                                  <div for="shop" style="word-break: break-word"><strong>Remarks:</strong> {{img?.shopRemarks}}</div>
+  
+  
+                              </div> -->
+                              <!--  -->
+                          </div>
+                          <!-- <div class="col-md-3" style="font-size:15px !important" (click)="setSelectedImage(img)"> -->
+  
+  
+  
+                          <!-- </div> -->
+  
+  
+  
+                      </ng-container>
+                  </div>
+                  <!-- this.table is moved to home page -->
+                  <!-- <div class="row justify-content-center">
+                  <ng-container class="mt-5 justify-content-center " *ngIf="data?.tagsList ">
+                      <div class="col-md-11 mt-5 ">
+                          <table class="table table-bordered ">
+                              <tr *ngFor="let tab of data.tagsList;let j=index ">
+                                  <th style="width:50%;background: lightgray; ">{{tab.heading}}</th>
+                                  <td style="width:50%;word-break: break-word ">{{tab.value}}</td>
+                              </tr>
+      
+                          </table>
+      
+                      </div>
+                  </ng-container>
+              </div> -->
+              </div>
+  
+  
+          </div>
+      </div>
+  
+  
+        <div class="col-7 tableFixHead" *ngIf="products.length>0">
+            <!-- <table class="table">
+                <thead style="background:lightgray">
+                    <tr>
+                        <th>Brand Title</th>
+                        <th>Product Title</th>
+                        <th>Availability</th>
+                        <th>MSL</th>
+  
+                    </tr>
+                </thead>
+            <!-- </table> -->
+            <!-- <form #myform="ngForm"> -->
+            <table class="table table-bordered table-hover w-100" >
+                <thead style="background:lightgray">
+                    <tr>
+                        <!-- <th>Brand Title</th> -->
+                        <th>Product Title</th>
+                        <!-- <th>D.Depth</th> -->
+                        <th>Stock</th>
+                        <th>A.Depth</th>
+                        <th>Facing</th>
+  
+                    </tr>
+                </thead>
+  
+                <tbody>
+                    <tr *ngFor="let product of products;let j= index">
+                         <!-- <td>{{product?.category_title}}</td> -->
+                        <td style="width:900px !important ">{{product?.product_title}}</td>
+                        <!-- <td style="width:100px !important">
+                            {{product?.desiredDepth}}</td> -->
+                            <ng-container *ngIf="isEditable==false">
+                                <td style="width:100px !important" >
+                                    {{product?.stock}}</td>
+                                    <td style="width:100px !important" >
+                                        {{product.unit_available}}</td>
+                                        <td style="width:100px !important" >
+                                            {{product.face_unit}}</td>
+                            </ng-container>
+                            <ng-container *ngIf="isEditable==true">
+                            <td style="width:100px !important" [ngStyle]="{'background-color':product.color}">    
+                                <input type="number" [(ngModel)]="product.stock"  style="width: 4em" readonly/></td>
+                                <td style="width:100px !important" [ngStyle]="{'background-color':product.color}">    
+                                    <input type="number" [(ngModel)]="product.unit_available" maxlength="3"  style="width: 4em" (blur)="changeAvailability(product)"/></td>
+                                    <td style="width:100px !important" [ngStyle]="{'background-color':product.color}">    
+                                        <input type="number" [(ngModel)]="product.face_unit" maxlength="3"  style="width: 4em" (blur)="changeFacing(product)"/></td>
+                                    </ng-container>
+    
+    
+                    </tr> 
+  
+                                  <tr>
+                                      <!-- <th>Total ({{total}}%)</th> -->
+                                      <td>Total ({{total}})%</td>
+                                      <td>{{stock}}</td>
+                                      <td>{{availableDepth}}</td>
+                                      <td>{{facing}}</td>
+                                  </tr>
+  
+  
+                        <!-- <td (click)="product.available_sku = (!product.available_sku)">{{toggleValue(product?.available_sku)}}</td> -->
+                        <!-- <td></td> -->
+    
+                </tbody>
+  
+            </table>
+        <!-- </form> -->
+        </div>
+
+        <div class="col-7 tableFixHead" *ngIf="visibilityData.length>0">
+         
+            <table class="table table-bordered table-hover w-100" >
+                <thead style="background:lightgray">
+                    <tr>
+                        <!-- <th>Brand Title</th> -->
+                        <th>Product Title</th>
+                        <th>D.Facing</th>
+                        <th>A.Facing</th>
+                       
+    
+                    </tr>
+                </thead>
+    
+                <tbody>
+                    <tr *ngFor="let data of visibilityData;let j= index">
+                        
+                        <ng-container *ngIf="isEditable==false">
+                        <td style="width:700px !important">{{data?.product_title}}</td>
+                        
+                        
+                        <td style="width:100px !important">{{data?.desired_facing}}</td>
+                        <td style="width:100px !important">{{data?.face_unit}}</td>
+                        </ng-container>
+                        <ng-container *ngIf="isEditable==true">
+                            <td style="width:700px !important">{{data?.product_title}}</td>
+                                <td style="width:100px !important">    
+                                    <input type="number" [(ngModel)]="data.desired_facing"  style="width: 4em" readonly/></td>
+                                    <td style="width:100px !important" [ngStyle]="{'background-color':data.color}">    
+                                        <input type="number" [(ngModel)]="data.face_unit" maxlength="3"  style="width: 4em" (blur)="changeHangerFacing(data)"/></td>
+                            </ng-container>
+                      
+                  
+    
+    
+                    </tr>
+    
+                </tbody>
+          
+            </table>
+    
+            
+    
+    
+        </div>
+    </div>
+
+
+
+            <div class="row justify-content-center">
+                <ng-container class="mt-2 justify-content-center " *ngIf="data?.tagsList">
+                    <div class="col-md-11 mt-5 ">
+                        <table class="table table-bordered ">
+                            <tr *ngFor="let tab of data.tagsList;let j=index ">
+                                <th style="width:50%;background: #00A647; ">{{tab.heading}}</th>
+                                <td style="width:50%;word-break: break-all ">{{tab.value}}</td>
+                            </tr>
+            
+                        </table>
+            
+                    </div>
+                </ng-container>
+            </div>
+  
+
+    <!-- <div bsModal #childModal="bs-modal" [config]="{ignoreBackdropClick: true, keyboard: false, backdrop: false}" class="modal fade" tabindex="-1"
+    role="dialog" aria-labelledby="dialog-child-name">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-child-name" class="modal-title pull-left">Edit Chiller Attribute</h4>
+                <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loadingData}"></i>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ng-container *ngIf="flag==1">
+                        <mat-form-field class="example-margin example-full-width mr-10-IMP">
+                            <mat-label>Available Depth</mat-label>
+                            <input matInput [(ngModel)]="selectedProduct.unit_available" placeholder="{{selectedProduct.unit_available}}"/>
+                        </mat-form-field>
+                    </ng-container>
+
+                    <ng-container *ngIf="flag==2">
+                        <mat-form-field class="example-margin example-full-width mr-10-IMP">
+                            <mat-label>Facing</mat-label>
+                            <input matInput [(ngModel)]="selectedProduct.face_unit" placeholder="{{selectedProduct.face_unit}}"/>
+                        </mat-form-field>
+                    </ng-container>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" [disabled]="loading" (click)="toggleValue(selectedProduct,flag )">
+                    <i [ngClass]="{'fa fa-spinner fa-spin': loading}"></i>
+                    Update
+                </button>
+                <button class="btn btn-warning" (click)="hideChildModal()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+  </div>

@@ -1,0 +1,14 @@
+<mat-card style="height:100% !important;width:100% !important">
+    <mat-card-header>
+        <mat-card-title>Productivity & Success Analysis</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+        <div class="chart">
+            <!-- width="400" height="300" style="max-height:300px" -->
+            <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"></canvas>
+        </div>
+
+
+    </mat-card-content>
+</mat-card>

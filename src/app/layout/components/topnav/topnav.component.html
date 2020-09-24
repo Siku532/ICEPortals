@@ -1,0 +1,67 @@
+<mat-toolbar class="fix-nav">
+    <button type="button" mat-icon-button class="visible-md" (click)="toggleSidebar()">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>
+    <div class="nav-brand mt10 ">
+        <button id="navbtn" mat-icon-button>
+        <mat-icon  (click)="hideBar.emit()">reorder</mat-icon>
+        </button>
+        <img src="{{main_logo}}" height="50">
+        
+    </div>
+    <form class="hidden-sm" style="margin-left: 20px; margin-top: 5px">
+        <!-- <mat-icon>account_circle </mat-icon> -->
+        <!-- <mat-icon color="warn">{{userName | uppercase}}</mat-icon> -->
+
+        <!-- <mat-form-field>
+
+            <input matInput [placeholder]="'Search' | translate">
+        </mat-form-field> -->
+    </form>
+    <span class="nav-spacer"></span>
+    <!-- <a href="https://github.com/start-javascript/sb-admin-material/archive/master.zip" class="hidden-sm" mat-raised-button style="margin-right: 10px">
+        <mat-icon>cloud_download</mat-icon> {{ 'Download Now' | translate }}
+    </a> -->
+    <!-- <button class="hidden-sm" mat-icon-button [matMenuTriggerFor]="language">
+        <mat-icon>language</mat-icon>
+    </button> -->
+    <!-- <mat-menu #language="matMenu">
+        <button mat-menu-item (click)="changeLang('en')">
+            <span>{{ 'English' | translate }}</span>
+        </button>
+        <button mat-menu-item (click)="changeLang('fr')">
+            <span>{{ 'French' | translate }}</span>
+        </button>
+        <button mat-menu-item (click)="changeLang('ur')">
+            <span>{{ 'Urdu' | translate }}s</span>
+        </button>
+    </mat-menu> -->
+    <!--  -->
+    <span style="color:#3f51b5;">{{userName}}</span>
+
+        <button *ngIf="userName && showButton" class="hidden-sm" color="primary" mat-icon-button [matMenuTriggerFor]="profile">
+
+        <mat-icon>account_circle</mat-icon><br>
+    </button>
+    <mat-menu #profile="matMenu">
+        <!-- <button mat-menu-item>
+            <mat-icon>person</mat-icon>
+            <span>{{ userName }}</span>
+        </button> -->
+        <!-- <button mat-menu-item>
+            <mat-icon>inbox</mat-icon>
+            <span>{{ 'Inbox' | translate }}</span>
+        </button> -->
+        <button mat-menu-item [routerLink]="['/dashboard/update_password']" routerLinkActive="router-link-active">
+            <mat-icon>lock</mat-icon>
+        <span>Update Password</span>
+    </button>
+        <button *ngIf="showButton" (click)="onLoggedout()" mat-menu-item>
+                <mat-icon>exit_to_app</mat-icon>
+            <span>Logout</span>
+        </button>
+    </mat-menu>
+    <!-- <button *ngIf="showButton" mat-icon-button (click)="onLoggedout()">
+        <mat-icon>exit_to_app</mat-icon>
+    </button> -->
+</mat-toolbar>

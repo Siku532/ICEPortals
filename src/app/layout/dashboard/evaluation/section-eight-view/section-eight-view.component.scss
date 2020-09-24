@@ -1,0 +1,57 @@
+div.ngxImageZoomContainer {
+    height: 500px !important;
+}
+
+.tableFixHead {
+    // overflow-y: auto;
+    // height: 100px;
+    height: 645px;
+    overflow: scroll;
+}
+
+.max-width-150>td {
+    width: 75px !important;
+    word-break: break-all;
+}
+
+input {
+    outline: none !important;
+    outline-style: none !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+  }
+
+// .tableFixHead thead th {
+//     position: sticky;
+//     top: 0;
+// }
+// table {
+//     border-collapse: collapse;
+//     width: 100%;
+// }
+// th,
+// td {
+//     padding: 8px 16px;
+// }
+// th {
+//     background: #eee;
+// }
+.title {
+    background: lightgreen;
+    color: black;
+    margin-bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+table {
+    font-size: 12px !important;
+    line-height: 0px !important
+}
+.cat {
+    background: lightcyan;
+}
+
+.background-color {
+    background-color:  #00A647 !important
+}
