@@ -15,6 +15,7 @@ export class SectionFourViewComponent implements OnInit {
   long: any;
   mapSrc: SafeResourceUrl;
   url: any;
+  locationMap: any;
 
   constructor(public sanitizer: DomSanitizer) { }
 
@@ -22,9 +23,9 @@ export class SectionFourViewComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.data = changes.data.currentValue;
-    this.lat = this.data.mslTable[0].latitude;
-    this.long = this.data.mslTable[0].longitude;
-
+    this.locationMap= this.data.sectionMap;
+    this.lat=this.locationMap.latitude;
+    this.long=this.locationMap.longitude;
     this.url = 'https://maps.google.com/maps?q=' + this.lat + '%2C' + this.long + '&t=&z=13&ie=UTF8&iwloc=&output=embed';
     this.mapSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
   }

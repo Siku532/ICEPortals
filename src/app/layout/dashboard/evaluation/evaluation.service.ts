@@ -43,7 +43,7 @@ export class EvaluationService {
 
   getShopDetails(obj) {
     const urlencoded = this.UrlEncodeMaker(obj);
-    const url = this.ip + 'evaluationShop';
+    const url = this.ip + 'evaluationManager';
     return this.http.post(url, urlencoded, this.httpOptions);
   }
 

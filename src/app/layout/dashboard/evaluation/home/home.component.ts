@@ -64,6 +64,8 @@ export class HomeComponent implements OnInit {
   productivityCount: any;
   reevaluatorRole: any;
   evaluatorRole: any;
+  surveyorId:any;
+  visitDay:any;
 
   constructor(
     private router: Router,
@@ -507,6 +509,17 @@ export class HomeComponent implements OnInit {
     this.loading = true;
     const req = true;
 
+    for (const element of this.data.shopDetails.tagsList) {
+      // tslint:disable-next-line:triple-equals
+      if (element.heading == 'surveyorId') {
+        this.surveyorId = element.value;
+      // tslint:disable-next-line:triple-equals
+      } else if (element.heading == 'Visit Date') {
+        this.visitDay = element.value;
+      }
+    }
+
+
     if (req) {
 
       // tslint:disable-next-line:triple-equals
@@ -515,8 +528,9 @@ export class HomeComponent implements OnInit {
           criteria: this.cloneArray,
           surveyId: this.surveyId,
           evaluatorId: user_id,
+          surveyorId: this.surveyorId,
+          visitDate: this.visitDay,
           evaluationRemark: this.selectedEvaluationRemark,
-          msl: Math.round(this.availabilityCount),
           status: this.checkForSlectedRemarks(this.cloneArray)
         };
 
@@ -550,8 +564,9 @@ export class HomeComponent implements OnInit {
         const obj = {
           criteria: this.cloneArray,
           surveyId: this.surveyId,
+          surveyorId: this.surveyorId,
+          visitDate: this.visitDay,
           evaluatorId: user_id,
-          msl: Math.round(this.availabilityCount),
           status: this.checkForSlectedRemarks(this.cloneArray)
         };
 

@@ -104,10 +104,10 @@
         
         </div>
         </div>
-        <ng-container *ngIf="!p.isEditable && (userType==evaluatorRole || userType==reevaluatorRole)">
-            <div class="col-md-3 " *ngIf="data?.criteria && isFromShop && !isDragging">
+        <ng-container *ngIf="!p.isEditable">
+            <div class="col-md-3 ">
               <div class="card">
-                <div class="row">
+                <div class="row" *ngIf="data?.criteria && isFromShop && !isDragging && (userType==evaluatorRole || userType==reevaluatorRole)">
                   <div class="col-md-12">
                     <table class="table table-bordered sm-table table-hover" style="line-height:1">
                       <thead class="thead-light">
@@ -224,9 +224,9 @@
         </ng-container>
         
         <ng-container *ngIf="p.isEditable">
-            <div class="col-md-3 " *ngIf="data?.criteria && isFromShop && !isDragging">
+            <div class="col-md-3 ">
               <div class="card">
-                <div class="row">
+                <div class="row"  *ngIf="data?.criteria && isFromShop && !isDragging">
                   <div class="col-md-12">
                     <table class="table table-bordered sm-table table-hover" style="line-height:1">
                       <thead class="thead-light">

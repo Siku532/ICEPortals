@@ -1,107 +1,85 @@
-<!-- <ng-container *ngFor="let sec of data.section"> -->
+<div class="container-fluid">
     <div class="row" style="border-bottom:2px solid black;width: 100%;margin: 5px 0"></div>
 
     <div class="row">
-        <div class="col-md-12 text-center" *ngIf="data?.tagsList!=''">
-            <h4><u>{{data.sectionTitle}}</u></h4>
-    
+
+        <div class="col-md-12 text-center">
+            <h4><u>{{data?.sectionTitle }} </u><i color="warn" [ngClass]="{'fa fa-cog fa-spin':loading}"></i></h4>
         </div>
-    </div>
+
+        <div class="col-5">
+
+
+
+            <div class="row">
+
+                <div class="col-12" style="
+                max-height: 500px !important;
+            ">
+                    <!--  -->
+                    <!-- <ngx-image-zoom [zoomMode]="'hover'" [magnification]="4" [lensWidth]="300" [lensHeight]="300" [enableLens]="true" [circularLens]="true" [thumbImage]="ip+selectedImage?.url" [fullImage]="ip+selectedImage?.url"></ngx-image-zoom> -->
+                    <!-- <ngx-image-zoom [zoomMode]="'hover'" [magnification]="2" [lensWidth]="250" [lensHeight]="250" [enableLens]="true" [circularLens]="true" [thumbImage]=ip+selectedImage?.url [fullImage]=ip+selectedImage?.url>
+                    </ngx-image-zoom> -->
+
+                    <label class="title" for="title">{{selectedImage?.title}}</label>
+                    <img src="{{ip}}{{selectedImage?.url}}" class="img-thumbnail" style="        height: 450px;  width: 100%;  " (click)="showChildModal(selectedImage)">
+                    <div class="row justify-content-center" style="word-break: break-word !important">
+                <!-- <div>
+                    <div for="cat" class="cat" style="word-break: break-word"><strong>Remarks: </strong>{{selectedImage?.shopRemarks}}</div>
+                    <div for="cat" class="cat" style="word-break: break-word"><strong>Time Spent: </strong>{{selectedImage?.timeStamp}}</div>
+                </div> -->
+                </div>
+                </div>
+
+                <div class="col-12 ml-3 mt-2">
+                    <div class="row">
     
-    <!-- <div class="row" style="border-bottom:2px solid black;width: 100%;margin: 5px 0"></div> -->
-    <div class="row justify-content-center">
-        <ng-container *ngFor="let img of data?.imageList ;let i=index">
+                        <ng-container *ngFor="let img of data?.imageList ;let i=index ">
+                            <div class="col-2 mb-1 card  mt-5 mr-2" (click)="setSelectedImage(img)" style="padding: 0% !important;cursor:pointer" [ngClass]="{'bgColor': img?.url==selectedImage.url}">
+                                <img src="{{ip}}{{img?.url}} " width="100" class="img-thumbnail side-image" style="height: 80px !important;width: 120px !important;">
+                              
+                            </div>
+                           
     
-            <div class="col-md-4 mb-2 text-center">
-                <label class="title" for="title">{{img.title}}</label>
-                <img src="{{ip}}{{img.url}}" width="400" height="400" (click)="showChildModal(img)" class="img-thumbnail img-item">
+                        </ng-container>
+                    </div>
+                
+                </div>
+    
+    
             </div>
-        </ng-container>
-    
-    </div>
-    
-    <!-- this table is moved to home page -->
-    <div class="row justify-content-center">
-        <ng-container class="mt-1 justify-content-center " *ngIf="data?.tagsList!=''">
-            <div class="col-md-11 mt-2 ">
-                <table class="table table-bordered ">
-                    <tr class="heading">
-                        <th>Question</th>
-                        <th>Answer</th>
-                    </tr>
-                    <tr *ngFor="let tab of data.tagsList;let j=index ">
-                        <th style="width:50%">{{tab.heading}}</th>
-                        <td style="width:50%;word-break: break-all ">{{tab.value}}</td>
-                    </tr>
-    
-                </table>
-    
-            </div>
-        </ng-container>
-    </div>
-    
-    
-    
-    
-    
-    
-    
-    <!-- <ng-container class="mt-5 justify-content-center" *ngIf="data?.tagsList && data?.sectionTitle==='Primary Shelf'">
-        <h3>{{data?.sectionTitle}}</h3>
-        <div class="col-md-12 mt-5">
-            <table class="table table-bordered table-hover" style="min-width:820px !important">
-                <thead>
+        </div>
+      
+        <div class="col-7 tableFixHead">
+          
+            <table class="table table-bordered table-hover w-100" >
+                <thead style="background:lightgray">
                     <tr>
-                        <th>Brand Title</th>
-                        <th>Product Title</th>
-                        <th>Availability
-                            <i [ngClass]="{'fa fa-spinner fa-spin': true}"></i>
+                        <!-- <th>Brand Title</th> -->
+                        <th>Question</th>
+                        <th>Answer
                         </th>
-                        <th>MSL</th>
-    
+
                     </tr>
                 </thead>
-                <tr *ngFor="let product of products;let j= index">
-                    <td>{{product?.category_title}}</td>
-                    <td>{{product?.product_title}}</td>
-                    <td style="width:150px !important" style="cursor:pointer" [ngStyle]="{'background-color':product.color}" (click)="toggleValue(product)">{{updateString(product?.available_sku)}}
-    
-                    </td>
-                    <td style="width:150px !important">{{product?.MSL}}</td>
-    
-    
-                    <td (click)="product.available_sku = (!product.available_sku)">{{toggleValue(product?.available_sku)}}</td>
-    
-                </tr>
-                <tr>
-                    <td></td>
-                    <th>Availability / Total</th>
-                    <td></td>
-                    <th>
-                        {{availability}} / {{products.length}}
-                    </th>
-                </tr>
-    
+
+                <tbody>
+                    <tr *ngFor="let product of products | keyvalue: unsorted">
+                         <!-- <td>{{product?.category_title}}</td> -->
+                         <ng-container *ngIf="product.key!='Image'">
+                        <td style="width:700px !important; word-wrap:break-word;">{{product.key}}</td>
+                        
+
+                        <td style="width:300px !important; word-wrap:break-word;">{{product.value}}</td>
+
+
+
+                    </ng-container>
+                    </tr>
+                </tbody>
+
             </table>
-    
         </div>
-    </ng-container> -->
-    
-    <!-- <ng-container class="mt-5 justify-content-center" *ngIf="data?.tagsList && data?.sectionTitle!=='Primary Shelf'">
-        <div class="col-md-12 mt-5">
-            <table class="table table-bordered" style="min-width:820px !important">
-                <tr *ngFor="let tab of data?.tagsList;let j= index">
-                    <th style="width:50%;background: lightgray;">{{tab.heading}}</th>
-                    <td style="width:50%;word-break: break-all">{{tab.value}}</td>
-                </tr>
-    
-            </table>
-    
-        </div>
-    </ng-container> -->
-    <!-- <div style="border-bottom:2px solid black;width: 100%;margin: 5px 0">
-    
-    </div> -->
-    
-    <!-- </ng-container> -->
-    
+    </div>
+   
+</div>

@@ -14,9 +14,6 @@
         <!-- <ngx-image-zoom [zoomMode]="'hover'" [magnification]="4" [lensWidth]="300" [lensHeight]="300" [enableLens]="true" [circularLens]="true" [thumbImage]="ip+selectedImage?.url" [fullImage]="ip+selectedImage?.url"></ngx-image-zoom> -->
 
         <img src="{{ip}}{{selectedImage?.url}}" width="400 " height="400" (click)="showChildModal(selectedImage)" class="img-thumbnail img-item">
-        <div class="row justify-content-center" style="word-break: break-word !important">
-            <div for="cat" class="cat" style="word-break: break-word"><strong>Retailer Rem:</strong>{{selectedImage?.retailerRemarks}}</div>
-        </div>
     </div>
 
     <div class="col-md-6">

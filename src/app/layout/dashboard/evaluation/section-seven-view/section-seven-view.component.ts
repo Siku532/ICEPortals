@@ -61,7 +61,7 @@ export class SectionSevenViewComponent implements OnInit {
     if (changes.data.currentValue) {
       this.data = changes.data.currentValue;
       this.selectedImage = this.data.imageList[0];
-      this.products = this.data.skuTable || [];
+      this.products = this.data.mslTable || [];
       if (this.products.length > 0) {
       this.availability = this.getAvailabilityCount(this.products);
       this.facing = this.getFacingCount(this.products);
