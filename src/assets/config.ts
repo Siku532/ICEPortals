@@ -1,8 +1,8 @@
 import { environment } from "src/environments/environment";
 
 export const config = {
-    ip: 'http://grooming.concavetech.com/',
-  //  ip: 'http://nflm.rtdtradetracker.com/',
+  ip: "http://ccl.concavetech.com/",
+  // ip: 'http://nflm.rtdtradetracker.com/',
   // ip: "http://localhost:8080/audit/",
   hash: environment.hash,
   main_logo: "assets/images/logo.png",

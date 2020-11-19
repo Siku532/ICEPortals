@@ -1,17 +1,17 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { EvaluationService } from '../evaluation.service';
-import {Location} from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { ModalDirective } from 'ngx-bootstrap';
-import { ToastrService } from 'ngx-toastr';
-import { ResizeEvent } from 'angular-resizable-element';
-import { config } from 'src/assets/config';
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { EvaluationService } from "../evaluation.service";
+import { Location } from "@angular/common";
+import { ActivatedRoute, Router } from "@angular/router";
+import { environment } from "src/environments/environment";
+import { ModalDirective } from "ngx-bootstrap";
+import { ToastrService } from "ngx-toastr";
+import { ResizeEvent } from "angular-resizable-element";
+import { config } from "src/assets/config";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
   data: any = [];
@@ -22,12 +22,10 @@ export class HomeComponent implements OnInit {
   loading = false;
   selectedShop: any = {};
 
-  @ViewChild('childModal') childModal: ModalDirective;
-  @ViewChild('remarksModal') remarksModal: ModalDirective;
-  @ViewChild('sosModal') sosModal: ModalDirective;
-  @ViewChild('evaluationRemarksModal') evaluationRemarksModal: ModalDirective;
-
-
+  @ViewChild("childModal") childModal: ModalDirective;
+  @ViewChild("remarksModal") remarksModal: ModalDirective;
+  @ViewChild("sosModal") sosModal: ModalDirective;
+  @ViewChild("evaluationRemarksModal") evaluationRemarksModal: ModalDirective;
 
   score: any = 0;
   isChecked = 0;
@@ -47,7 +45,7 @@ export class HomeComponent implements OnInit {
   selectedEvaluationRemark = -1;
   j = -1;
   i = 0;
-  p:any={};
+  p: any = {};
   cloneArray: any = [];
   isFromShop = true;
   rotationDegree = 0;
@@ -64,8 +62,8 @@ export class HomeComponent implements OnInit {
   productivityCount: any;
   reevaluatorRole: any;
   evaluatorRole: any;
-  surveyorId:any;
-  visitDay:any;
+  surveyorId: any;
+  visitDay: any;
 
   constructor(
     private router: Router,
@@ -74,21 +72,22 @@ export class HomeComponent implements OnInit {
     private httpService: EvaluationService,
     private evaluationService: EvaluationService,
     private readonly location: Location
-
   ) {
     this.surveyId;
 
-    this.activatedRoutes.queryParams.subscribe(q => {
-      if (q.location) { this.isFromShop = false; }
+    this.activatedRoutes.queryParams.subscribe((q) => {
+      if (q.location) {
+        this.isFromShop = false;
+      }
     });
-    
-    this.activatedRoutes.params.subscribe(params => {
+
+    this.activatedRoutes.params.subscribe((params) => {
       this.p = params;
       this.surveyId = params.id;
 
       const obj = {
         surveyId: this.surveyId,
-        userTypeId: localStorage.getItem('user_type')
+        userTypeId: localStorage.getItem("user_type"),
         // userId:localStorage.getItem('user_id')
       };
 
@@ -98,28 +97,24 @@ export class HomeComponent implements OnInit {
   value = 5;
   options: any = {
     showTicksValues: true,
-    stepsArray: [
-      { value: 1 },
-
-    ]
+    stepsArray: [{ value: 1 }],
   };
 
   createTickForSlider(maxTicks) {
     const result: any = [];
 
-   for (let index = 0; index < maxTicks.score; index++) {
-     result.push({value: index});
-
-   }
+    for (let index = 0; index < maxTicks.score; index++) {
+      result.push({ value: index });
+    }
     this.options.stepsArray = result;
   }
 
   ngOnInit() {
     this.availabilityCount = 0;
-    this.location.replaceState('/details/');
-    this.userType = localStorage.getItem('user_type');
-    this.reevaluatorRole = localStorage.getItem('Reevaluator');
-    this.evaluatorRole= localStorage.getItem('Evaluator');
+    this.location.replaceState("/details/");
+    this.userType = localStorage.getItem("user_type");
+    this.reevaluatorRole = localStorage.getItem("Reevaluator");
+    this.evaluatorRole = localStorage.getItem("Evaluator");
   }
   formatLabel(value: number | null) {
     if (!value) {
@@ -133,12 +128,9 @@ export class HomeComponent implements OnInit {
     return value;
   }
 
-
   showEvaluationRemarksModal() {
-
     this.evaluationRemarksModal.show();
   }
-
 
   onResizeEnd(event: ResizeEvent): void {
     // console.log('Element was resized', event);
@@ -155,60 +147,60 @@ export class HomeComponent implements OnInit {
 
   getData(obj) {
     this.httpService.getShopDetails(obj).subscribe(
-      data => {
+      (data) => {
         if (data) {
           this.data = data;
-         if (this.p.isEditable) {
-          this.isEditable = false;
-          document.title = this.data.section[0].sectionTitle;
-          if (this.data.criteria) {
-            this.evaluationArray = this.data.criteria;
-            this.cloneArray = this.evaluationArray.slice();
-            this.totalAchieveScore = this.getTotalAchieveScore();
+          if (this.p.isEditable) {
+            this.isEditable = false;
+            document.title = this.data.section[0].sectionTitle;
+            if (this.data.criteria) {
+              this.evaluationArray = this.data.criteria;
+              this.cloneArray = this.evaluationArray.slice();
+              this.totalAchieveScore = this.getTotalAchieveScore();
+            }
+
+            // console.log(this.data)
+            this.remarksList = this.data.remarks;
+
+            this.existingRemarks = this.data.ExistingRemarks || [];
+            this.setRemarksForReEvaluation();
+            this.checkEvaluatedRemarks();
+
+            if (this.data.criteria) {
+              this.calculateScore();
+            }
+          } else {
+            document.title = this.data.section[0].sectionTitle;
+            if (this.data.criteria) {
+              this.evaluationArray = this.data.criteria;
+              this.cloneArray = this.evaluationArray.slice();
+              this.totalAchieveScore = this.getTotalAchieveScore();
+            }
+
+            // console.log(this.data)
+            this.remarksList = this.data.remarks;
+            this.productList = this.data.productList;
+
+            this.existingRemarks = this.data.ExistingRemarks || [];
+            this.evaluationRemarks = this.data.EvaluationRemarks || [];
+
+            // tslint:disable-next-line:triple-equals
+            if (this.userType == this.reevaluatorRole) {
+              this.checkEvaluatedRemarks();
+              this.setRemarksForReEvaluation();
+            }
+            if (this.userType == this.evaluatorRole) {
+              this.isEditable = true;
+            }
+            if (this.data.criteria) {
+              this.calculateScore();
+            }
           }
-
-          // console.log(this.data)
-          this.remarksList = this.data.remarks;
-
-          this.existingRemarks = this.data.ExistingRemarks || [];
-         this.setRemarksForReEvaluation();
-         this.checkEvaluatedRemarks();
-
-          if (this.data.criteria) { this.calculateScore(); }
-
-
-         } else {
-          document.title = this.data.section[0].sectionTitle;
-          if (this.data.criteria) {
-            this.evaluationArray = this.data.criteria;
-            this.cloneArray = this.evaluationArray.slice();
-            this.totalAchieveScore = this.getTotalAchieveScore();
-          }
-
-          // console.log(this.data)
-          this.remarksList = this.data.remarks;
-          this.productList = this.data.productList;
-
-          this.existingRemarks = this.data.ExistingRemarks || [];
-          this.evaluationRemarks = this.data.EvaluationRemarks || [];
-
-
-         // tslint:disable-next-line:triple-equals
-         if (this.userType == this.reevaluatorRole) {
-         this.checkEvaluatedRemarks();
-         this.setRemarksForReEvaluation();
-         }
-
-          this.isEditable = true;
-          if (this.data.criteria) { this.calculateScore(); }
-         }
-
         }
       },
-      error => {}
+      (error) => {}
     );
   }
-
 
   setRemarksForReEvaluation() {
     if (this.existingRemarks.length > 0) {
@@ -216,50 +208,48 @@ export class HomeComponent implements OnInit {
         for (const element of this.cloneArray) {
           if (element1.criteriaId === element.id) {
             if (this.cloneArray[this.i].remarkId) {
-            this.cloneArray[this.i].remarkId.push(element1.id);
-            this.i++;
+              this.cloneArray[this.i].remarkId.push(element1.id);
+              this.i++;
             } else {
               this.cloneArray[this.i].remarkId = [];
               this.cloneArray[this.i].remarkId.push(element1.id);
               this.i++;
             }
-        } else {
-        this.i++;
+          } else {
+            this.i++;
+          }
         }
+        this.i = 0;
       }
-      this.i = 0;
     }
   }
-  }
-
 
   checkEvaluatedRemarks() {
     if (this.existingRemarks.length > 0) {
-      this.existingRemarks.forEach(element1 => {
+      this.existingRemarks.forEach((element1) => {
         if (element1.id > 0) {
           const obj = {
             id: element1.id,
             description: element1.description,
             criteriaId: element1.criteriaId,
             remarkType: element1.remarkType,
-            isChecked: element1.isChecked
+            isChecked: element1.isChecked,
           };
-      this.remarksList.forEach(element => {
-        const i = this.remarksList.findIndex(e => e.id === element1.id);
-        if (i !== -1) {
-          this.remarksList.splice(i, 1, obj);
-         }
-  
+          this.remarksList.forEach((element) => {
+            const i = this.remarksList.findIndex((e) => e.id === element1.id);
+            if (i !== -1) {
+              this.remarksList.splice(i, 1, obj);
+            }
+          });
+        }
       });
     }
-    });
-  }
   }
 
   calculateMSLAgain(products) {
     this.msl = this.data.msl;
-    localStorage.setItem('productList', JSON.stringify(products));
-    this.productList = localStorage.getItem('productList');
+    localStorage.setItem("productList", JSON.stringify(products));
+    this.productList = localStorage.getItem("productList");
 
     this.availabilityCount = Math.round(this.getMSLNAvailbilityCount(products)); // Math.round(this.getAvailabilityCount(products));
   }
@@ -267,17 +257,17 @@ export class HomeComponent implements OnInit {
   getMSLNAvailbilityCount(products) {
     const pro = [];
     const msl = [];
-    products.forEach(p => {
+    products.forEach((p) => {
       let obj = {};
-      if (p.MSL === 'Yes' && p.available_sku === 1) {
+      if (p.MSL === "Yes" && p.available_sku === 1) {
         obj = {
           available_sku: p.available_sku,
-          MSL: p.MSL
+          MSL: p.MSL,
         };
         pro.push(obj);
       }
 
-      if (p.MSL === 'Yes') {
+      if (p.MSL === "Yes") {
         msl.push(p);
       }
     });
@@ -288,9 +278,9 @@ export class HomeComponent implements OnInit {
   }
   getAvailabilityCount(products) {
     if (!products) {
-      products = localStorage.getItem('productList');
+      products = localStorage.getItem("productList");
     }
-    const pro = products.map(p => p.available_sku);
+    const pro = products.map((p) => p.available_sku);
     const sum = pro.reduce((a, v) => a + v);
     return (sum / pro.length) * this.msl;
   }
@@ -301,29 +291,30 @@ export class HomeComponent implements OnInit {
       id: criteria.id,
       title: criteria.title,
       score: criteria.score,
+      type: criteria.type,
       criteriaMapId: criteria.criteriaMapId,
       // achievedScore: (criteria.isEditable)? (this.criteriaDesireScore==criteria.score)?0:this.criteriaDesireScore : 0,
 
       achievedScore: criteria.isEditable ? this.criteriaDesireScore : 0,
       isEditable: criteria.isEditable,
-      isChecked: 1
+      isChecked: 1,
     };
-    this.cloneArray.forEach(element => {
-      const i = this.cloneArray.findIndex(e => e.id === criteria.id);
+    this.cloneArray.forEach((element) => {
+      const i = this.cloneArray.findIndex((e) => e.id === criteria.id);
       this.cloneArray.splice(i, 1, obj);
     });
     // this.subtractScore(this.selectedCriteria);
     // this.evaluationArray.push(obj);
-    console.log('evaluation array clone', this.cloneArray);
+    console.log("evaluation array clone", this.cloneArray);
     // this.updateAchieveScore(criteria.id);
     this.hideRemarksModal();
-    this.selectedRemarks = '';
+    this.selectedRemarks = "";
     this.selectedRemarksList = [];
     this.criteriaDesireScore = 0;
   }
 
   checkboxChange(event, id) {
-    console.log('checkbox event', !event.checked, id);
+    console.log("checkbox event", !event.checked, id);
 
     if (!event.checked) {
       this.selectedRemarksList.push(id);
@@ -336,7 +327,7 @@ export class HomeComponent implements OnInit {
     }
     // this.selectedRemarksList.pop(id)
 
-    console.log('remarks list', this.selectedRemarksList);
+    console.log("remarks list", this.selectedRemarksList);
   }
 
   updateAchieveScore(id) {
@@ -345,7 +336,8 @@ export class HomeComponent implements OnInit {
       const aScore = element.achievedScore;
 
       if (element.id === id) {
-        this.cloneArray[index].achievedScore = this.criteriaDesireScore > 0 ? this.criteriaDesireScore : aScore;
+        this.cloneArray[index].achievedScore =
+          this.criteriaDesireScore > 0 ? this.criteriaDesireScore : aScore;
       }
     }
     this.totalAchieveScore = this.getTotalAchieveScore();
@@ -353,16 +345,16 @@ export class HomeComponent implements OnInit {
 
   getTotalAchieveScore() {
     let score = 0;
-    this.cloneArray.forEach(element => {
+    this.cloneArray.forEach((element) => {
       if (element.totalAchievedScore) {
         score = element.totalAchievedScore;
         delete element.totalAchievedScore;
         return score;
       } else {
-      if (element.achievedScore >= 0) {
-        score = score + element.achievedScore;
+        if (element.achievedScore >= 0) {
+          score = score + element.achievedScore;
+        }
       }
-    }
     });
 
     return score;
@@ -371,13 +363,14 @@ export class HomeComponent implements OnInit {
   subtractScore(criteria) {
     this.totalAchieveScore =
       this.criteriaDesireScore > 0
-        ? this.totalAchieveScore - Math.abs(criteria.score - this.criteriaDesireScore)
+        ? this.totalAchieveScore -
+          Math.abs(criteria.score - this.criteriaDesireScore)
         : this.totalAchieveScore - Math.abs(criteria.achievedScore);
   }
 
   isAnyCriteriaCheck() {
     let result = false;
-    this.cloneArray.forEach(element => {
+    this.cloneArray.forEach((element) => {
       if (element.isChecked) {
         result = true;
       }
@@ -387,7 +380,6 @@ export class HomeComponent implements OnInit {
   }
 
   counter(event, criteria, index) {
-
     this.selectedIndex = index;
     // console.dir(event.checked)
     if (event.checked) {
@@ -414,7 +406,8 @@ export class HomeComponent implements OnInit {
       }
       this.showRemarksModal();
     } else {
-      this.totalAchieveScore = this.totalAchieveScore + Math.abs(criteria.score);
+      this.totalAchieveScore =
+        this.totalAchieveScore + Math.abs(criteria.score);
 
       const i = this.indexList.indexOf(index);
       this.indexList.splice(i, 1);
@@ -425,14 +418,18 @@ export class HomeComponent implements OnInit {
           id: criteria.id,
           title: criteria.title,
           score: criteria.score,
+          type: criteria.type,
           criteriaMapId: criteria.criteriaMapId,
-          achievedScore: criteria.score > criteria.achievedScore || criteria.score < 0 ? criteria.score : criteria.achievedScore,
+          achievedScore:
+            criteria.score > criteria.achievedScore || criteria.score < 0
+              ? criteria.score
+              : criteria.achievedScore,
           isEditable: criteria.isEditable,
-          isChecked: 0
+          isChecked: 0,
         };
-        const e = this.evaluationArray.findIndex(i => i.id === criteria.id);
+        const e = this.evaluationArray.findIndex((i) => i.id === criteria.id);
         this.cloneArray.splice(e, 1, obj);
-        console.log('unchecked evaluation array', this.cloneArray);
+        console.log("unchecked evaluation array", this.cloneArray);
         this.selectedRemarksList = [];
         this.updateAchieveScore(criteria.id);
         this.checkForCritical(criteria);
@@ -441,7 +438,7 @@ export class HomeComponent implements OnInit {
   }
 
   cancelCriteriaSelection() {
-    const inputs: any = document.querySelectorAll('.checkbox');
+    const inputs: any = document.querySelectorAll(".checkbox");
     for (let j = 0; j < inputs.length; j++) {
       if (this.selectedCriteria.id === inputs[j].id) {
         inputs[j].checked = false;
@@ -458,14 +455,21 @@ export class HomeComponent implements OnInit {
         id: criteria.id,
         title: criteria.title,
         score: criteria.score,
+        type: criteria.type,
         criteriaMapId: criteria.criteriaMapId,
-        achievedScore: criteria.score > criteria.achievedScore ? criteria.score : criteria.achievedScore,
+        achievedScore:
+          criteria.score > criteria.achievedScore
+            ? criteria.score
+            : criteria.achievedScore,
         isEditable: criteria.isEditable,
-        isChecked: 0
+        isChecked: 0,
       };
-      const e = this.evaluationArray.findIndex(i => i.id === criteria.id);
+      const e = this.evaluationArray.findIndex((i) => i.id === criteria.id);
       this.cloneArray.splice(e, 1, obj);
-      console.log('unchecked evaluation array,using cancel button', this.cloneArray);
+      console.log(
+        "unchecked evaluation array,using cancel button",
+        this.cloneArray
+      );
     }
 
     this.checkForCritical(criteria);
@@ -486,14 +490,14 @@ export class HomeComponent implements OnInit {
   }
   calculateScore() {
     this.score;
-    this.data.criteria.map(c => {
+    this.data.criteria.map((c) => {
       if (c.score > 0) {
         this.score += c.score;
       }
     });
     // this.score=this.score-(this.msl);
 
-    console.log('total score is', this.score);
+    console.log("total score is", this.score);
   }
 
   // makeScoreZero(){
@@ -505,23 +509,21 @@ export class HomeComponent implements OnInit {
   //   });
   // }
   evaluateShop() {
-    const user_id = localStorage.getItem('user_id');
+    const user_id = localStorage.getItem("user_id");
     this.loading = true;
     const req = true;
 
     for (const element of this.data.shopDetails.tagsList) {
       // tslint:disable-next-line:triple-equals
-      if (element.heading == 'surveyorId') {
+      if (element.heading == "surveyorId") {
         this.surveyorId = element.value;
-      // tslint:disable-next-line:triple-equals
-      } else if (element.heading == 'Visit Date') {
+        // tslint:disable-next-line:triple-equals
+      } else if (element.heading == "Visit Date") {
         this.visitDay = element.value;
       }
     }
 
-
     if (req) {
-
       // tslint:disable-next-line:triple-equals
       if (this.userType == this.reevaluatorRole) {
         const obj = {
@@ -531,7 +533,7 @@ export class HomeComponent implements OnInit {
           surveyorId: this.surveyorId,
           visitDate: this.visitDay,
           evaluationRemark: this.selectedEvaluationRemark,
-          status: this.checkForSlectedRemarks(this.cloneArray)
+          status: this.checkForSlectedRemarks(this.cloneArray),
         };
 
         this.evaluationService.evaluateShop(obj).subscribe(
@@ -540,9 +542,9 @@ export class HomeComponent implements OnInit {
             this.loading = false;
 
             // tslint:disable-next-line:triple-equals
-            if (data.success == 'true') {
+            if (data.success == "true") {
               this.hideRemarksModalWithNoChange();
-              this.toastr.success('shop evaluated successfully ');
+              this.toastr.success("shop evaluated successfully ");
               this.evaluationArray = [];
               this.cloneArray = [];
               this.indexList = [];
@@ -550,14 +552,14 @@ export class HomeComponent implements OnInit {
                 window.close();
               }, 2000);
             } else {
-              this.toastr.error(data.errorMessage, 'Error');
+              this.toastr.error(data.errorMessage, "Error");
             }
           },
-          error => {
+          (error) => {
             // console.log('evaluated shop error',error)
             // window.close()
             this.loading = false;
-            this.toastr.error(error.message, 'Error');
+            this.toastr.error(error.message, "Error");
           }
         );
       } else {
@@ -567,7 +569,7 @@ export class HomeComponent implements OnInit {
           surveyorId: this.surveyorId,
           visitDate: this.visitDay,
           evaluatorId: user_id,
-          status: this.checkForSlectedRemarks(this.cloneArray)
+          status: this.checkForSlectedRemarks(this.cloneArray),
         };
 
         this.evaluationService.evaluateShop(obj).subscribe(
@@ -575,8 +577,8 @@ export class HomeComponent implements OnInit {
             // console.log('evaluated shop data',data);
             this.loading = false;
             // tslint:disable-next-line:triple-equals
-            if (data.success == 'true') {
-              this.toastr.success('shop evaluated successfully ');
+            if (data.success == "true") {
+              this.toastr.success("shop evaluated successfully ");
               this.evaluationArray = [];
               this.cloneArray = [];
               this.indexList = [];
@@ -584,63 +586,55 @@ export class HomeComponent implements OnInit {
                 window.close();
               }, 2000);
             } else {
-              this.toastr.error(data.errorMessage, 'Error');
+              this.toastr.error(data.errorMessage, "Error");
             }
           },
-          error => {
+          (error) => {
             // console.log('evaluated shop error',error)
             // window.close()
             this.loading = false;
-            this.toastr.error(error.message, 'Error');
+            this.toastr.error(error.message, "Error");
           }
         );
-
       }
-
-      }
+    }
   }
-
-
 
   checkForSlectedRemarks(list) {
     let result = 1;
-    list.forEach(element => {
+    list.forEach((element) => {
       if (element.remarkId && element.remarkId.length > 0) {
-      result = 2;
+        result = 2;
       }
-
     });
 
-
     return result;
-
   }
   updateSoS() {
-
     if (this.selectedSoS.total_com_height <= 0) {
-    this.toastr.warning('Height must be greater than zero.');
+      this.toastr.warning("Height must be greater than zero.");
     } else {
-    this.hideSoSModal();
+      this.hideSoSModal();
     }
-
 
     const obj = {
-      userId: parseInt(localStorage.getItem('user_id')),
+      userId: parseInt(localStorage.getItem("user_id")),
       width: parseInt(this.selectedSoS.total_width),
       com_width: parseInt(this.selectedSoS.total_com_width),
-      merchandiserId: parseInt(this.selectedSoS.merchandiser_survey_id)
+      merchandiserId: parseInt(this.selectedSoS.merchandiser_survey_id),
     };
 
-    console.log('final SoS object', obj  );
-    this.httpService.updateSOS(obj).subscribe((data: any) => {
-      if (data.success) {
-        this.toastr.info('SOS width is updated');
-
+    console.log("final SoS object", obj);
+    this.httpService.updateSOS(obj).subscribe(
+      (data: any) => {
+        if (data.success) {
+          this.toastr.info("SOS width is updated");
+        }
+        // alert(data)
+      },
+      (error) => {
+        // alert(error)
       }
-// alert(data)
-    }, error => {
-      // alert(error)
-    }
     );
   }
 
@@ -655,8 +649,8 @@ export class HomeComponent implements OnInit {
   }
 
   showSoSModal(item): void {
-  console.log('output item', item);
-  this.selectedSoS = item;
+    console.log("output item", item);
+    this.selectedSoS = item;
     this.sosModal.show();
   }
 
@@ -668,11 +662,11 @@ export class HomeComponent implements OnInit {
     this.criteriaDesireScore = 0;
 
     if (this.existingRemarks.length > 0) {
-      this.existingRemarks.forEach(element => {
-              if (element.id > 0 && element.criteriaId === this.selectedCriteria.id) {
-                this.selectedRemarksList.push(element.id);
-              }
-            });
+      this.existingRemarks.forEach((element) => {
+        if (element.id > 0 && element.criteriaId === this.selectedCriteria.id) {
+          this.selectedRemarksList.push(element.id);
+        }
+      });
     }
 
     this.remarksModal.show();

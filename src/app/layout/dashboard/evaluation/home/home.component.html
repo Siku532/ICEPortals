@@ -1,14 +1,26 @@
-<div >
-    <div class="row">
-        <div class="col-md-12" style="margin:20% 40%" *ngIf="!data.section">
-            <img src="assets/images/basicloader.gif" alt="" srcset="">
-        </div>
+<div>
+  <div class="row">
+    <div class="col-md-12" style="margin: 20% 40%" *ngIf="!data.section">
+      <img src="assets/images/basicloader.gif" alt="" srcset="" />
     </div>
+  </div>
 
-    <div class="row animated slideInLeft" *ngIf="data?.section">
-
-        <div id="style-2" class="col" [ngClass]="{'col-12': this.isDragging}" style="overflow-y:scroll !important;overflow-x:hidden !important;height:90vh ;width:100% !important" mwlResizable [enableGhostResize]="true" [resizeEdges]="{bottom: true, right: true, top: true, left: true}">
-            <!-- <div class="row">
+  <div class="row animated slideInLeft" *ngIf="data?.section">
+    <div
+      id="style-2"
+      class="col"
+      [ngClass]="{ 'col-12': this.isDragging }"
+      style="
+        overflow-y: scroll !important;
+        overflow-x: hidden !important;
+        height: 90vh;
+        width: 100% !important;
+      "
+      mwlResizable
+      [enableGhostResize]="true"
+      [resizeEdges]="{ bottom: true, right: true, top: true, left: true }"
+    >
+      <!-- <div class="row">
                 <div class="col-11"></div>
                 <div class="col-1" style="text-align: end;">
                     <button type="button" class="btn btn-primary" (click)="this.isDragging = !this.isDragging">
@@ -22,495 +34,690 @@
                                 </button>
                 </div>
             </div> -->
-            <div class="icon-bar">
-                <button type="button" class="btn btn-primary" (click)="this.isDragging = !this.isDragging">
-                    <span *ngIf="!this.isDragging" title="expand view">
-                        <i class="fa fa-arrow-right"></i>
-                    </span>
-                    <span *ngIf="this.isDragging" title="colapse view">
-                        <i class="fa fa-arrow-left"></i>
-                    </span>
+      <div class="icon-bar">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="this.isDragging = !this.isDragging"
+        >
+          <span *ngIf="!this.isDragging" title="expand view">
+            <i class="fa fa-arrow-right"></i>
+          </span>
+          <span *ngIf="this.isDragging" title="colapse view">
+            <i class="fa fa-arrow-left"></i>
+          </span>
+        </button>
+      </div>
+      <div class="content">
+        <div class="row justify-content-center-between">
+          <!-- mwlResizable (resizeEnd)="onResizeEnd($event)" [enableGhostResize]="true" [resizeEdges]="{bottom: true, right: true, top: true, left: true}" -->
 
-                </button> 
-                
-              </div>
-              <div class="content">
-            <div class="row justify-content-center-between ">
-                
-                <!-- mwlResizable (resizeEnd)="onResizeEnd($event)" [enableGhostResize]="true" [resizeEdges]="{bottom: true, right: true, top: true, left: true}" -->
+          <ng-container *ngFor="let sec of data?.section">
+            <ng-container *ngIf="sec?.imageViewType === 1">
+              <section-two-view
+                class="width-100"
+                [data]="sec"
+                [isEditable]="isEditable"
+                (showModal)="showChildModal($event)"
+              ></section-two-view>
+            </ng-container>
+            <ng-container *ngIf="sec?.imageViewType === 2">
+              <section-one-view
+                class="width-100"
+                [data]="sec"
+                (showModal)="showChildModal($event)"
+              >
+              </section-one-view>
+            </ng-container>
 
+            <ng-container #sectionSeven *ngIf="sec?.imageViewType === 7">
+              <section-seven-view
+                [data]="sec"
+                class="width-100"
+                [isEditable]="isEditable"
+                (productList)="calculateMSLAgain($event)"
+                (showModal)="showChildModal($event)"
+              ></section-seven-view>
+            </ng-container>
 
+            <!-- [productList]="productList" [isEditable]="isEditable" (productList)="calculateMSLAgain($event)" -->
+            <ng-container *ngIf="sec?.imageViewType === 3">
+              <section-three-view
+                class="width-100"
+                [data]="sec"
+                [isEditable]="isEditable"
+                (productList)="calculateMSLAgain($event)"
+                (showModal)="showChildModal($event)"
+              >
+              </section-three-view>
+            </ng-container>
+            <ng-container *ngIf="sec?.imageViewType === 5">
+              <section-five
+                class="width-100"
+                [data]="sec"
+                [isEditable]="isEditable"
+                (productList)="calculateMSLAgain($event)"
+                (showModal)="showChildModal($event)"
+              >
+              </section-five>
+            </ng-container>
 
-                <ng-container *ngFor="let sec of data?.section">
+            <ng-container *ngIf="sec?.imageViewType === 9">
+              <section-nine-view
+                class="width-100"
+                [data]="sec"
+                (showModal)="showChildModal($event)"
+              >
+              </section-nine-view>
+            </ng-container>
 
+            <!--  -->
+            <ng-container *ngIf="sec?.imageViewType === 6">
+              <section-six
+                class="width-100"
+                [data]="sec"
+                (showModal)="showSoSModal($event)"
+              >
+              </section-six>
+            </ng-container>
 
-                    <ng-container *ngIf="sec?.imageViewType===1">
-                        <section-two-view class="width-100" [data]="sec" [isEditable]="isEditable" (showModal)="showChildModal($event)"></section-two-view>
+            <ng-container *ngIf="sec?.imageViewType === 4">
+              <!-- (productList)="calculateMSLAgain($event)" -->
+              <section-four-view class="width-100" [data]="sec">
+              </section-four-view>
+            </ng-container>
 
-                    </ng-container>
-                    <ng-container *ngIf="sec?.imageViewType===2">
-                        <section-one-view class="width-100" [data]="sec" (showModal)="showChildModal($event)">
-                        </section-one-view>
-                    </ng-container>
+            <ng-container *ngIf="sec?.imageViewType === 8">
+              <section-eight-view
+                class="width-100"
+                [data]="sec"
+                [isEditable]="isEditable"
+                (showModal)="showChildModal($event)"
+              >
+              </section-eight-view>
+            </ng-container>
 
-                    <ng-container #sectionSeven *ngIf="sec?.imageViewType===7">
-                        <section-seven-view [data]="sec" class="width-100" [isEditable]="isEditable" (productList)="calculateMSLAgain($event)" (showModal)="showChildModal($event)"></section-seven-view>
-
-                    </ng-container>
-
-                    <!-- [productList]="productList" [isEditable]="isEditable" (productList)="calculateMSLAgain($event)" -->
-                    <ng-container *ngIf="sec?.imageViewType===3">
-                        <section-three-view class="width-100" [data]="sec" [isEditable]="isEditable" (productList)="calculateMSLAgain($event)" (showModal)="showChildModal($event)">
-                        </section-three-view>
-                    </ng-container>
-                    <ng-container *ngIf="sec?.imageViewType===5">
-                        <section-five class="width-100" [data]="sec" [isEditable]="isEditable" (productList)="calculateMSLAgain($event)" (showModal)="showChildModal($event)">
-                        </section-five>
-                    </ng-container>
-
-
-                    <ng-container *ngIf="sec?.imageViewType===9">
-                        <section-nine-view class="width-100" [data]="sec" (showModal)="showChildModal($event)">
-                        </section-nine-view>
-                    </ng-container>
-
-
-                    <!--  -->
-                    <ng-container *ngIf="sec?.imageViewType===6">
-                        <section-six class="width-100" [data]="sec" (showModal)="showSoSModal($event)">
-                        </section-six>
-                    </ng-container>
-
-                    <ng-container *ngIf="sec?.imageViewType===4">
-                        <!-- (productList)="calculateMSLAgain($event)" -->
-                        <section-four-view class="width-100" [data]="sec">
-                        </section-four-view>
-                    </ng-container>
-
-                    <ng-container *ngIf="sec?.imageViewType===8">
-                        <section-eight-view class="width-100" [data]="sec" [isEditable]="isEditable" (showModal)="showChildModal($event)">
-                        </section-eight-view>
-                    </ng-container>
-
-                    <ng-container *ngIf="sec?.imageViewType===10">
-                        <section-ten-view class="width-100" [data]="sec" (showModal)="showChildModal($event)">
-                        </section-ten-view>
-                        
-                    </ng-container>
-
-
-                </ng-container>
-            </div>
-        
+            <ng-container *ngIf="sec?.imageViewType === 10">
+              <section-ten-view
+                class="width-100"
+                [data]="sec"
+                (showModal)="showChildModal($event)"
+              >
+              </section-ten-view>
+            </ng-container>
+          </ng-container>
         </div>
-        </div>
-        <ng-container *ngIf="!p.isEditable">
-            <div class="col-md-3 ">
-              <div class="card">
-                <div class="row" *ngIf="data?.criteria && isFromShop && !isDragging && (userType==evaluatorRole || userType==reevaluatorRole)">
-                  <div class="col-md-12">
-                    <table class="table table-bordered sm-table table-hover" style="line-height:1">
-                      <thead class="thead-light">
-                        <tr style="  text-align: center; ">
-                          <th>Title</th>
-                          <th>Score</th>
-                          <th>Achieved</th>
-                        </tr>
-                      </thead>
-                      <!-- {{cloneArray[0] | json }} -->
-                      <tbody>
-                        <tr *ngFor="let item of cloneArray;let i=index" style="  text-align: center; ">
-                          <td>
-                            <label class="container" style="margin-bottom: 8px;">
-                              <p style="padding-top: 5px; margin-bottom: 5px ">{{item?.title}}</p>
-                              <ng-container *ngIf=" item?.id!=9 && isCritical">
-                                <input class="checkbox" type="checkbox"
-                                    name="{{item?.title}}" [checked]=item?.isChecked id="{{item?.id}}"
-                                    (click)="counter(checked,item,i);createTickForSlider(item)" #checked>
-                                <span class="checkmark"></span>
-                            </ng-container>
-                            <ng-container *ngIf=" item?.id==9 && !isNoNCritical">
-                                <input class="checkbox" type="checkbox"
-                                    name="{{item?.title}}" [checked]=item?.isChecked id="{{item?.id}}"
-                                    (click)="counter(checked,item,i)" #checked>
-                                <span class="checkmark"></span>
-                            </ng-container>
-        
-                            </label>
-                          </td>
-                          <td>
-                            <label class="container" for="score" style=" margin-top: 5px;  margin-bottom: 2px;">
-                              {{item?.score}}
-                            </label>
-                          </td>
-        
-                          <td>                
-                            <label class="container" for="achievedScore" style=" margin-top: 5px; margin-bottom: 2px; ">
-                              <span>
-                                {{item?.achievedScore}}
-                              </span>
-                      
-        
-        
-                            </label>
-                          </td>
-                        </tr>
-                        <!-- <hr> -->
-                        <tr style="font-weight:700;text-align:center">
-                          <td>
-                            <label class="container" for="">Total Score:</label>
-        
-                          </td>
-                          <td>
-                            <label class="container" for="score">
-                              {{score.toFixed()}}
-                            </label>
-                          </td>
-                          <td>
-                            <label class="container" for="totalAchieveScore">
-                              {{totalAchieveScore.toFixed()}}
-                            </label>
-        
-                          </td>
-                        </tr>
-                      
-                        <!-- <hr> -->
-                      </tbody>
-        
-                    </table>
-                    <div class="row" *ngIf="userType==evaluatorRole">
-                      <div class="col-md-12" style="text-align: end; padding: 0 20px 5px 0; ">
-                          <button [disabled]="loading" class="btn btn-primary" (click)="evaluateShop()">
-                              <i [ngClass]="{'fa fa-spinner fa-spin': loading}"></i>
-                              Evaluate</button>
-                      </div>
-                  </div>
-                    <div class="row" *ngIf="userType==reevaluatorRole">
-                      <div class="col-md-12" style="text-align: end; padding: 0 20px 5px 0; ">
-                          <button [disabled]="loading" class="btn btn-primary" (click)="showEvaluationRemarksModal()">
-                              <i [ngClass]="{'fa fa-spinner fa-spin': loading}"></i>
-                              Evaluate</button>
-                      </div>
-                  </div>
-        
-                  </div>
-        
-            
-                </div>
-        
-                <hr>
-        
-        
-        
-        
-                <div class="row justify-content-center">
-                  <ng-container class="mt-2 justify-content-center " *ngIf="data?.shopDetails?.tagsList">
-                    <div class="col-md-11 mt-1 ">
-                      <table class="table table-bordered sm-table">
-                        <tr *ngFor="let tab of data?.shopDetails?.tagsList;let j=index ">
-                          <th style="background: lightgray; ">{{tab.heading}}</th>
-                          <td style="word-break: break-word ">{{tab.value}}</td>
-                        </tr>
-        
-                      </table>
-        
-                    </div>
-                  </ng-container>
-                </div>
-        
-              </div>
-            </div>
-        
-        </ng-container>
-        
-        <ng-container *ngIf="p.isEditable">
-            <div class="col-md-3 ">
-              <div class="card">
-                <div class="row"  *ngIf="data?.criteria && isFromShop && !isDragging">
-                  <div class="col-md-12">
-                    <table class="table table-bordered sm-table table-hover" style="line-height:1">
-                      <thead class="thead-light">
-                        <tr style="  text-align: center; ">
-                          <th>Title</th>
-                          <th>Score</th>
-                          <th>Achieved</th>
-                        </tr>
-                      </thead>
-                      <!-- {{cloneArray[0] | json }} -->
-                      <tbody>
-                        
-                        <tr *ngFor="let item of cloneArray;let i=index" style="  text-align: center; ">
-                          <ng-container *ngIf="!item.remarkId">
-                          <td>
-                            <label class="container" style="margin-bottom: 8px;">
-                              <p style="padding-top: 5px; margin-bottom: 5px ">{{item?.title}}</p>
-        
-                            </label>
-                          </td>
-                          <td>
-                            <label class="container" for="score" style=" margin-top: 5px;  margin-bottom: 2px;">
-                              {{item?.score}}
-                            </label>
-                          </td>
-        
-                          <td>                
-                            <label class="container" for="achievedScore" style=" margin-top: 5px; margin-bottom: 2px; ">
-                              <span>
-                                {{item?.achievedScore}}
-                              </span>
-                      
-                            </label>
-                          </td>
-                      </ng-container>
-                      <ng-container *ngIf="item.remarkId">
-                       <td>
-                          <mat-accordion>
-                              <mat-expansion-panel (opened)="panelOpenState = true"
-                          (closed)="panelOpenState = false" >
-                          <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
-                            <label class="container" style="margin-bottom: 8px;">
-                              <p style="padding-top: 5px; margin-bottom: 5px ">{{item?.title}}</p>
-        
-                            </label>
-                       
-                          <mat-panel-description>
-                          </mat-panel-description>
-                          </mat-expansion-panel-header>
-                          <ng-container *ngFor="let remark of remarksList">
-                  
-                            <li *ngIf="remark.criteriaId==item.id && remark.isChecked==1" >
-                              <span style="font-size: 80%; color : red;"> {{remark.description}} </span>
-                            </li>
-              
+      </div>
+    </div>
+    <ng-container *ngIf="!p.isEditable">
+      <div class="col-md-3">
+        <div class="card">
+          <div
+            class="row"
+            *ngIf="
+              data?.criteria &&
+              isFromShop &&
+              !isDragging &&
+              (userType == evaluatorRole || userType == reevaluatorRole)
+            "
+          >
+            <div class="col-md-12">
+              <table
+                class="table table-bordered sm-table table-hover"
+                style="line-height: 1"
+              >
+                <thead class="thead-light">
+                  <tr style="text-align: center">
+                    <th>Title</th>
+                    <th>Score</th>
+                    <th>Achieved</th>
+                  </tr>
+                </thead>
+                <!-- {{cloneArray[0] | json }} -->
+                <tbody>
+                  <tr
+                    *ngFor="let item of cloneArray; let i = index"
+                    style="text-align: center"
+                  >
+                    <td>
+                      <label class="container" style="margin-bottom: 8px">
+                        <p style="padding-top: 5px; margin-bottom: 5px">
+                          {{ item?.title }}
+                        </p>
+                        <ng-container
+                          *ngIf="item?.type != 'CRITICAL_CASE' && isCritical"
+                        >
+                          <input
+                            class="checkbox"
+                            type="checkbox"
+                            name="{{ item?.title }}"
+                            [checked]="item?.isChecked"
+                            id="{{ item?.id }}"
+                            (click)="
+                              counter(checked, item, i);
+                              createTickForSlider(item)
+                            "
+                            #checked
+                          />
+                          <span class="checkmark"></span>
                         </ng-container>
+                        <ng-container
+                          *ngIf="item?.id == 'CRITICAL_CASE' && !isNoNCritical"
+                        >
+                          <input
+                            class="checkbox"
+                            type="checkbox"
+                            name="{{ item?.title }}"
+                            [checked]="item?.isChecked"
+                            id="{{ item?.id }}"
+                            (click)="counter(checked, item, i)"
+                            #checked
+                          />
+                          <span class="checkmark"></span>
+                        </ng-container>
+                      </label>
+                    </td>
+                    <td>
+                      <label
+                        class="container"
+                        for="score"
+                        style="margin-top: 5px; margin-bottom: 2px"
+                      >
+                        {{ item?.score }}
+                      </label>
+                    </td>
+
+                    <td>
+                      <label
+                        class="container"
+                        for="achievedScore"
+                        style="margin-top: 5px; margin-bottom: 2px"
+                      >
+                        <span>
+                          {{ item?.achievedScore }}
+                        </span>
+                      </label>
+                    </td>
+                  </tr>
+                  <!-- <hr> -->
+                  <tr style="font-weight: 700; text-align: center">
+                    <td>
+                      <label class="container" for="">Total Score:</label>
+                    </td>
+                    <td>
+                      <label class="container" for="score">
+                        {{ score.toFixed() }}
+                      </label>
+                    </td>
+                    <td>
+                      <label class="container" for="totalAchieveScore">
+                        {{ totalAchieveScore.toFixed() }}
+                      </label>
+                    </td>
+                  </tr>
+
+                  <!-- <hr> -->
+                </tbody>
+              </table>
+              <div class="row" *ngIf="userType == evaluatorRole">
+                <div
+                  class="col-md-12"
+                  style="text-align: end; padding: 0 20px 5px 0"
+                >
+                  <button
+                    [disabled]="loading"
+                    class="btn btn-primary"
+                    (click)="evaluateShop()"
+                  >
+                    <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
+                    Evaluate
+                  </button>
+                </div>
+              </div>
+              <div class="row" *ngIf="userType == reevaluatorRole">
+                <div
+                  class="col-md-12"
+                  style="text-align: end; padding: 0 20px 5px 0"
+                >
+                  <button
+                    [disabled]="loading"
+                    class="btn btn-primary"
+                    (click)="showEvaluationRemarksModal()"
+                  >
+                    <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
+                    Evaluate
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="row justify-content-center" *ngIf="!isDragging">
+            <ng-container
+              class="mt-2 justify-content-center"
+              *ngIf="data?.shopDetails?.tagsList"
+            >
+              <div class="col-md-11 mt-1">
+                <table class="table table-bordered sm-table">
+                  <tr
+                    *ngFor="
+                      let tab of data?.shopDetails?.tagsList;
+                      let j = index
+                    "
+                  >
+                    <th style="background: lightgray">{{ tab.heading }}</th>
+                    <td style="word-break: break-word">{{ tab.value }}</td>
+                  </tr>
+                </table>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="p.isEditable">
+      <div class="col-md-3">
+        <div class="card">
+          <div class="row" *ngIf="data?.criteria && isFromShop && !isDragging">
+            <div class="col-md-12">
+              <table
+                class="table table-bordered sm-table table-hover"
+                style="line-height: 1"
+              >
+                <thead class="thead-light">
+                  <tr style="text-align: center">
+                    <th>Title</th>
+                    <th>Score</th>
+                    <th>Achieved</th>
+                  </tr>
+                </thead>
+                <!-- {{cloneArray[0] | json }} -->
+                <tbody>
+                  <tr
+                    *ngFor="let item of cloneArray; let i = index"
+                    style="text-align: center"
+                  >
+                    <ng-container *ngIf="!item.remarkId">
+                      <td>
+                        <label class="container" style="margin-bottom: 8px">
+                          <p style="padding-top: 5px; margin-bottom: 5px">
+                            {{ item?.title }}
+                          </p>
+                        </label>
+                      </td>
+                      <td>
+                        <label
+                          class="container"
+                          for="score"
+                          style="margin-top: 5px; margin-bottom: 2px"
+                        >
+                          {{ item?.score }}
+                        </label>
+                      </td>
+
+                      <td>
+                        <label
+                          class="container"
+                          for="achievedScore"
+                          style="margin-top: 5px; margin-bottom: 2px"
+                        >
+                          <span>
+                            {{ item?.achievedScore }}
+                          </span>
+                        </label>
+                      </td>
+                    </ng-container>
+                    <ng-container *ngIf="item.remarkId">
+                      <td>
+                        <mat-accordion>
+                          <mat-expansion-panel
+                            (opened)="panelOpenState = true"
+                            (closed)="panelOpenState = false"
+                          >
+                            <mat-expansion-panel-header
+                              [collapsedHeight]="'40px'"
+                              [expandedHeight]="'40px'"
+                            >
+                              <label
+                                class="container"
+                                style="margin-bottom: 8px"
+                              >
+                                <p style="padding-top: 5px; margin-bottom: 5px">
+                                  {{ item?.title }}
+                                </p>
+                              </label>
+
+                              <mat-panel-description> </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <ng-container *ngFor="let remark of remarksList">
+                              <li
+                                *ngIf="
+                                  remark.criteriaId == item.id &&
+                                  remark.isChecked == 1
+                                "
+                              >
+                                <span style="font-size: 80%; color: red">
+                                  {{ remark.description }}
+                                </span>
+                              </li>
+                            </ng-container>
                           </mat-expansion-panel>
-                          </mat-accordion>
-                        </td>
-                        <td>
-                          <label class="container" for="score" style=" margin-top: 5px;  margin-bottom: 2px;">
-                            {{item?.score}}
-                          </label>
-                        </td>
-        
-                        <td>                
-                          <label class="container" for="achievedScore" style=" margin-top: 5px; margin-bottom: 2px; ">
-                            <span>
-                              {{item?.achievedScore}}
-                            </span>
-                    
-                          </label>
-        
-                        </td>
-                      </ng-container>
-                      
-                      
-                        </tr>
-                        <!-- <hr> -->
-        
-                      
-                        <!-- <hr> -->
-                      </tbody>
-        
-                    </table>
-                    <!-- <ng-container *ngIf="userType!=15">
+                        </mat-accordion>
+                      </td>
+                      <td>
+                        <label
+                          class="container"
+                          for="score"
+                          style="margin-top: 5px; margin-bottom: 2px"
+                        >
+                          {{ item?.score }}
+                        </label>
+                      </td>
+
+                      <td>
+                        <label
+                          class="container"
+                          for="achievedScore"
+                          style="margin-top: 5px; margin-bottom: 2px"
+                        >
+                          <span>
+                            {{ item?.achievedScore }}
+                          </span>
+                        </label>
+                      </td>
+                    </ng-container>
+                  </tr>
+                  <!-- <hr> -->
+
+                  <!-- <hr> -->
+                </tbody>
+              </table>
+              <!-- <ng-container *ngIf="userType!=15">
                       <div class="col-md-12" style="text-align: end; padding: 0 20px 5px 0; ">
                           <button [disabled]="loading" class="btn btn-primary" (click)="showEmailModal()">
                               <i [ngClass]="{'fa fa-spinner fa-spin': loading}"></i>
                               Send Email</button>
                       </div>
                     </ng-container> -->
-                  </div>
-        
-            
-                </div>
-        
-                <hr>
-        
-        
-        
-        
-                <div class="row justify-content-center">
-                  <ng-container class="mt-2 justify-content-center " *ngIf="data?.shopDetails?.tagsList">
-                    <div class="col-md-11 mt-1 ">
-                      <table class="table table-bordered sm-table">
-                        <tr *ngFor="let tab of data?.shopDetails?.tagsList;let j=index ">
-                          <th style="background: lightgray; ">{{tab.heading}}</th>
-                          <td style="word-break: break-word ">{{tab.value}}</td>
-                        </tr>
-        
-                      </table>
-        
-                    </div>
-                  </ng-container>
-                </div>
-        
-              </div>
             </div>
-          </ng-container>
           </div>
-        
+
+          <hr />
+
+          <div class="row justify-content-center" *ngIf="!isDragging">
+            <ng-container
+              class="mt-2 justify-content-center"
+              *ngIf="data?.shopDetails?.tagsList"
+            >
+              <div class="col-md-11 mt-1">
+                <table class="table table-bordered sm-table">
+                  <tr
+                    *ngFor="
+                      let tab of data?.shopDetails?.tagsList;
+                      let j = index
+                    "
+                  >
+                    <th style="background: lightgray">{{ tab.heading }}</th>
+                    <td style="word-break: break-word">{{ tab.value }}</td>
+                  </tr>
+                </table>
+              </div>
+            </ng-container>
+          </div>
         </div>
-        
-        
-        <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
-          <div class="modal-dialog-cat ">
-            <div class="modal-content" (click)="rotateImage()" style="cursor:pointer" title="click to rotate Image"
-              [ngClass]="{'rotated-image-0': rotationDegree==0, 'rotated-image-90': rotationDegree==90, 'rotated-image-180': rotationDegree==180, 'rotated-image-270': rotationDegree==270, 'rotated-image-360': rotationDegree==360}">
-              <!-- {{rotationDegree}} -->
-        
-              <!-- <div class="modal-header">
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<div
+  bsModal
+  #childModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog-cat">
+    <div
+      class="modal-content"
+      (click)="rotateImage()"
+      style="cursor: pointer"
+      title="click to rotate Image"
+      [ngClass]="{
+        'rotated-image-0': rotationDegree == 0,
+        'rotated-image-90': rotationDegree == 90,
+        'rotated-image-180': rotationDegree == 180,
+        'rotated-image-270': rotationDegree == 270,
+        'rotated-image-360': rotationDegree == 360
+      }"
+    >
+      <!-- {{rotationDegree}} -->
+
+      <!-- <div class="modal-header">
                         <h4 id="dialog-child-name" class="modal-title pull-left">{{selectedShop.title}}</h4>
                         <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
                   <span aria-hidden="true">&times;</span>
                 </button>
                     </div> -->
-              <div class="modal-body" style="padding:10px">
-                <!--  -->
-                <ngx-image-zoom [zoomMode]="'hover'" [magnification]="2" [lensWidth]="250" [lensHeight]="250"
-                  [enableLens]="true" [circularLens]="true" [thumbImage]=ip+selectedShop?.url [fullImage]=ip+selectedShop?.url>
-                </ngx-image-zoom>
-        
-                <!-- <img src="{{ip}}{{selectedShop?.url}}" alt="" srcset=""> -->
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- remarks modal -->
-        <div bsModal #remarksModal="bs-modal" [config]="{backdrop: 'static',keyboard:false}" class="modal fade" tabindex="-1"
-          role="dialog" aria-labelledby="dialog-child-name">
-          <div class="modal-dialog ">
-            <div class="modal-content">
-              <!-- <div class="modal-header">
+      <div class="modal-body" style="padding: 10px">
+        <!--  -->
+        <ngx-image-zoom
+          [zoomMode]="'hover'"
+          [magnification]="2"
+          [lensWidth]="250"
+          [lensHeight]="250"
+          [enableLens]="true"
+          [circularLens]="true"
+          [thumbImage]="ip + selectedShop?.url"
+          [fullImage]="ip + selectedShop?.url"
+        >
+        </ngx-image-zoom>
+
+        <!-- <img src="{{ip}}{{selectedShop?.url}}" alt="" srcset=""> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- remarks modal -->
+<div
+  bsModal
+  #remarksModal="bs-modal"
+  [config]="{ backdrop: 'static', keyboard: false }"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- <div class="modal-header">
                         <h4 id="dialog-child-name" class="modal-title pull-left">Remarks</h4>
                         <button type="button" class="close pull-right" aria-label="Close" (click)="hideRemarksModal()">
                       <span aria-hidden="true">&times;</span>
                     </button>
                     </div> -->
-              <div class="modal-body" style="padding:10px">
-        
-        
-                <label id="example-radio-group-label">Pick your remarks for ({{selectedCriteria?.title}})</label>
-                <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
-                  [(ngModel)]="selectedRemarks">
-        
-                  <ng-container *ngFor="let remark of remarksList">
-        
-        
-                    <section class="example-section">
-        
-                      <mat-checkbox *ngIf="remark.criteriaId==selectedCriteria.id"
-                        (click)="checkboxChange(checkStatus,remark.id)" [checked]=remark?.isChecked #checkStatus class="example-margin">
-                        {{remark.description}}
-                      </mat-checkbox>
-        
-                    </section>
-        
-        
-                    <!-- <mat-radio-button *ngIf="remark.criteriaId==selectedCriteria.id" class="example-radio-button" [value]="remark.id">
+      <div class="modal-body" style="padding: 10px">
+        <label id="example-radio-group-label"
+          >Pick your remarks for ({{ selectedCriteria?.title }})</label
+        >
+        <mat-radio-group
+          aria-labelledby="example-radio-group-label"
+          class="example-radio-group"
+          [(ngModel)]="selectedRemarks"
+        >
+          <ng-container *ngFor="let remark of remarksList">
+            <section class="example-section">
+              <mat-checkbox
+                *ngIf="remark.criteriaId == selectedCriteria.id"
+                (click)="checkboxChange(checkStatus, remark.id)"
+                [checked]="remark?.isChecked"
+                #checkStatus
+                class="example-margin"
+              >
+                {{ remark.description }}
+              </mat-checkbox>
+            </section>
+
+            <!-- <mat-radio-button *ngIf="remark.criteriaId==selectedCriteria.id" class="example-radio-button" [value]="remark.id">
                                     {{remark.description}}
                                 </mat-radio-button> -->
-                  </ng-container>
-        
-                </mat-radio-group>
-        
-        
-                <div class="row" style="width:300px">
-                  <!-- <div class="col-md-8" >
+          </ng-container>
+        </mat-radio-group>
+
+        <div class="row" style="width: 300px">
+          <!-- <div class="col-md-8" >
                                 <label for="criteriaDesireScore">Min Score:0,Max Score: {{selectedCriteria?.score}}, Current
                                     Score:{{criteriaDesireScore}}</label>
                                 <mat-slider [(ngModel)]="criteriaDesireScore" thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="0" max="{{selectedCriteria?.score}}"></mat-slider>
         
                             </div> -->
-                  <div class="col-md-12">
-                    <ng-container *ngIf="!!selectedCriteria?.isEditable">
-                      <label for="criteriaDesireScore">Min Score:0,Max Score: {{selectedCriteria?.score}}, Current
-                        Score:{{criteriaDesireScore}}</label>
-        
-                      <ng5-slider [(value)]="value" [options]="options" [(ngModel)]="criteriaDesireScore"
-                        name="criteriaDesireScore"></ng5-slider>
-        
-                    </ng-container>
-                  </div>
-                </div>
-                <div class="col-md" style="text-align: end; padding: 0 20px 5px 0; ">
-                  <button class="btn btn-default mr-2 btn-sm" (click)="cancelCriteriaSelection()">Cancel</button>
-                  <button [disabled]="(criteriaDesireScore==0  && selectedRemarksList?.length==0)"
-                    class="btn btn-primary btn-sm"
-                    (click)="getCriteriaWithRemarks(selectedRemarksList,selectedCriteria)">Submit</button>
-        
-                </div>
-              </div>
-            </div>
+          <div class="col-md-12">
+            <ng-container *ngIf="!!selectedCriteria?.isEditable">
+              <label for="criteriaDesireScore"
+                >Min Score:0,Max Score: {{ selectedCriteria?.score }}, Current
+                Score:{{ criteriaDesireScore }}</label
+              >
+
+              <ng5-slider
+                [(value)]="value"
+                [options]="options"
+                [(ngModel)]="criteriaDesireScore"
+                name="criteriaDesireScore"
+              ></ng5-slider>
+            </ng-container>
           </div>
         </div>
-        
-        <!-- sos modal -->
-        <div bsModal #sosModal="bs-modal" [config]="{backdrop: 'static',keyboard:false}" class="modal fade" tabindex="-1"
-          role="dialog" aria-labelledby="dialog-child-name">
-          <div class="modal-dialog ">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 id="dialog-child-name" class="modal-title pull-left">Edit SOS Width</h4>
-                <button type="button" class="close pull-right" aria-label="Close" (click)="hideSoSModal()">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" style="padding:10px">
-                <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Enter Width" name="width" [(ngModel)]="selectedSoS.total_width">
-                </mat-form-field>
-        
-        
-              </div>
-              <div class="modal-footer">
-                <button class="btn btn-primary" (click)="updateSoS()">
-                  update
-                </button>
-              </div>
-            </div>
-          </div>
+        <div class="col-md" style="text-align: end; padding: 0 20px 5px 0">
+          <button
+            class="btn btn-default mr-2 btn-sm"
+            (click)="cancelCriteriaSelection()"
+          >
+            Cancel
+          </button>
+          <button
+            [disabled]="
+              criteriaDesireScore == 0 && selectedRemarksList?.length == 0
+            "
+            class="btn btn-primary btn-sm"
+            (click)="
+              getCriteriaWithRemarks(selectedRemarksList, selectedCriteria)
+            "
+          >
+            Submit
+          </button>
         </div>
-        
-        
-        
-        <div bsModal #evaluationRemarksModal="bs-modal" [config]="{backdrop: 'static',keyboard:false}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
-          <div class="modal-dialog ">
-              <div class="modal-content">
-                  <div class="modal-body" style="padding:10px">
-                  <ng-container *ngIf="evaluationRemarks.length>0">
-        
-                      <label id="example-radio-group-label">Pick your remarks for this Evaluation</label>
-                      <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedRemarks">
-        
-                          <ng-container *ngFor="let remark of evaluationRemarks; let i = index">
-        
-        
-                              <section class="example-section">
-                                  <mat-checkbox [checked]="j === i" (change)="j = i" class="example-margin" (click)="singleCheckboxChange(remark.id)">
-                                      {{remark.description}}
-                                  </mat-checkbox>
-        
-                              </section>
-        
-                          </ng-container>
-        
-                      </mat-radio-group>
-        
-                      <div class="col-md" style="text-align: end; padding: 0 20px 5px 0; ">
-                          <button class="btn btn-default mr-2 btn-sm" (click)="hideRemarksModalWithNoChange()">Cancel</button>
-                          <button [disabled]="selectedEvaluationRemark==-1 || loading" class="btn btn-primary" (click)="evaluateShop()">
-                              <i [ngClass]="{'fa fa-spinner fa-spin': loading}"></i>
-                              Evaluate</button>
-                      </div>
-                  </ng-container>
-                  
-                  </div>
-              </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- sos modal -->
+<div
+  bsModal
+  #sosModal="bs-modal"
+  [config]="{ backdrop: 'static', keyboard: false }"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">
+          Edit SOS Width
+        </h4>
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="hideSoSModal()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 10px">
+        <mat-form-field class="example-full-width">
+          <input
+            matInput
+            placeholder="Enter Width"
+            name="width"
+            [(ngModel)]="selectedSoS.total_width"
+          />
+        </mat-form-field>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" (click)="updateSoS()">update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  bsModal
+  #evaluationRemarksModal="bs-modal"
+  [config]="{ backdrop: 'static', keyboard: false }"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body" style="padding: 10px">
+        <ng-container *ngIf="evaluationRemarks.length > 0">
+          <label id="example-radio-group-label"
+            >Pick your remarks for this Evaluation</label
+          >
+          <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            class="example-radio-group"
+            [(ngModel)]="selectedRemarks"
+          >
+            <ng-container
+              *ngFor="let remark of evaluationRemarks; let i = index"
+            >
+              <section class="example-section">
+                <mat-checkbox
+                  [checked]="j === i"
+                  (change)="j = i"
+                  class="example-margin"
+                  (click)="singleCheckboxChange(remark.id)"
+                >
+                  {{ remark.description }}
+                </mat-checkbox>
+              </section>
+            </ng-container>
+          </mat-radio-group>
+
+          <div class="col-md" style="text-align: end; padding: 0 20px 5px 0">
+            <button
+              class="btn btn-default mr-2 btn-sm"
+              (click)="hideRemarksModalWithNoChange()"
+            >
+              Cancel
+            </button>
+            <button
+              [disabled]="selectedEvaluationRemark == -1 || loading"
+              class="btn btn-primary"
+              (click)="evaluateShop()"
+            >
+              <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
+              Evaluate
+            </button>
           </div>
-        </div>
-        
-        <!-- <div bsModal #emailFormModal="bs-modal" class="modal fade" id="emailFormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div bsModal #emailFormModal="bs-modal" class="modal fade" id="emailFormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
           aria-hidden="true">
           <form #f="ngForm" class="email-form">
           <div class="modal-dialog" role="document">
