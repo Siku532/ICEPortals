@@ -58,6 +58,7 @@ import { SkuDashboardComponent } from './Tableau/sku-dashboard/sku-dashboard.com
 import { VoErrorReportComponent } from './innerComponents/vo-error-report/vo-error-report.component';
 import { MerchandiserScoreComponent } from './innerComponents/merchandiser-score/merchandiser-score.component';
 import { MerchandiserWiseScoreComponent } from './innerComponents/merchandiser-wise-score/merchandiser-wise-score.component';
+import { ComplienceReportComponent } from './innerComponents/complience-report/complience-report.component';
 @NgModule({
     imports: [
         FormsModule,
@@ -100,6 +101,6 @@ ReactiveFormsModule
           UpdatePasswordComponent, RawDataComponent, MatTableComponent,
           DataAvailabilityComponent, MerchandiserListComponent,
           AbnormalityComponent, TimeAnalysisReportComponent, MerchandiserAttendanceComponent, DailyEvaluationReportComponent, EmailManagerComponent, MessageStatusListComponent, AddNewMessageComponent, UploadRoutesComponent, SingleRouteDetailComponent, ShopsForSingleRouteComponent, AddEditGroupComponent, AddDeviceComponent, SupervisorWwwrSummaryComponent, ShopListReportComponent, UploadRoutesNewComponent,
-          MerchandiserPlannedCallsComponent, TableauHelperComponent, DashboardTableauComponent, ProductivityTableauComponent, SkuDashboardComponent, VoErrorReportComponent, MerchandiserScoreComponent, MerchandiserWiseScoreComponent]
+          MerchandiserPlannedCallsComponent, TableauHelperComponent, DashboardTableauComponent, ProductivityTableauComponent, SkuDashboardComponent, VoErrorReportComponent, MerchandiserScoreComponent, MerchandiserWiseScoreComponent, ComplienceReportComponent]
 })
 export class DashboardModule {}

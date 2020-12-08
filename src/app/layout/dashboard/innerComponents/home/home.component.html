@@ -1,129 +1,195 @@
-<div class="container-fluid web-view">
+<ng-container *ngIf="userType != evaluatorRole && userType != reevaluatorRole">
+  <div class="container-fluid web-view">
     <!-- <p>web view</p> -->
-    <div *ngIf="!loading" class="mb-20 animated  slideInLeft" fxLayout="row" fxLayout.lt-md="column" fxFlex fxLayoutGap="10px">
-      
-        <div class="row">
-            <div class="col-md-12">
-                
-                <mat-card>
-                    <mat-form-field *ngIf="regions.length>0" class="example-margin mr-10-IMP">
-                        <mat-select placeholder="Region" name='region' [(ngModel)]="selectedRegion" (ngModelChange)="getData()">
-                            <mat-option [value]="region" *ngFor="let region of regions">{{region.title}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-card-header style="justify-content: flex-end;">
-                        <mat-card-title>
-                            <i class="material-icons refresh-btn" matTooltip="Refresh Stats" (click)="getData()">
-                                            cached
-                                            </i>
-                        </mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <div>
-                                    <app-stat [bgClass]="'info'" [icon]="'assignment'" [count]="tabsData?.planned" [label]="'Planned'">
-                                    </app-stat>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div>
-                                    <app-stat [bgClass]="'warn'" [icon]="'check_circle'" [count]="tabsData?.completed" [label]="'Visited'">
-                                    </app-stat>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div>
-                                    <app-stat [bgClass]="'success'" [icon]="'thumb_up'" [count]="tabsData?.successful" [label]="'Productive'"></app-stat>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
+    <div
+      *ngIf="!loading"
+      class="mb-20 animated slideInLeft"
+      fxLayout="row"
+      fxLayout.lt-md="column"
+      fxFlex
+      fxLayoutGap="10px"
+    >
+      <div class="row">
+        <div class="col-md-12">
+          <mat-card>
+            <mat-form-field class="example-margin mr-10-IMP">
+              <mat-select
+                placeholder="Zone"
+                name="zone"
+                [(ngModel)]="selectedZone"
+                (ngModelChange)="zoneChange()"
+              >
+                <ng-container *ngFor="let zone of zones">
+                  <mat-option [value]="zone">{{ zone.title }}</mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field
+              *ngIf="regions.length > 0"
+              class="example-margin mr-10-IMP"
+            >
+              <mat-select
+                placeholder="Region"
+                name="region"
+                [(ngModel)]="selectedRegion"
+                (ngModelChange)="getData()"
+              >
+                <mat-option [value]="region" *ngFor="let region of regions">{{
+                  region.title
+                }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-card-header style="justify-content: flex-end">
+              <mat-card-title>
+                <i
+                  class="material-icons refresh-btn"
+                  matTooltip="Refresh Stats"
+                  (click)="getData()"
+                >
+                  cached
+                </i>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="row">
+                <div class="col-md-2">
+                  <div>
+                    <app-stat
+                      [bgClass]="'info'"
+                      [icon]="'assignment'"
+                      [count]="tabsData?.planned"
+                      [label]="'Planned'"
+                    >
+                    </app-stat>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div>
+                    <app-stat
+                      [bgClass]="'warn'"
+                      [icon]="'check_circle'"
+                      [count]="tabsData?.completed"
+                      [label]="'Visited'"
+                    >
+                    </app-stat>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div>
+                    <app-stat
+                      [bgClass]="'success'"
+                      [icon]="'thumb_up'"
+                      [count]="tabsData?.successful"
+                      [label]="'Successful'"
+                    ></app-stat>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div>
+                    <app-stat
+                      [bgClass]="'danger'"
+                      [icon]="'thumb_down'"
+                      [count]="tabsData?.unsuccessful"
+                      [label]="'Un-Successful'"
+                    ></app-stat>
+                  </div>
+                </div>
 
-                                <div>
-                                    <app-stat [bgClass]="'danger'" [icon]="'thumb_down'" [count]="tabsData?.unsuccessful" [label]="'Un-Successful'"></app-stat>
-                                </div>
-                            </div>
+                <div class="col-md-2">
+                  <div>
+                    <app-stat
+                      [bgClass]="'danger'"
+                      [icon]="'contact_support'"
+                      [count]="tabsData?.unvisited"
+                      [label]="'Unvisited'"
+                    >
+                    </app-stat>
+                  </div>
+                </div>
 
-                            <div class="col-md-2">
-                                <div>
-                                    <app-stat [bgClass]="'danger'" [icon]="'contact_support'" [count]="tabsData?.unvisited" [label]="'Unvisited'">
-                                    </app-stat>
-                                </div>
-                            </div>
+                <div class="col-md-2">
+                  <div>
+                    <app-stat
+                      [bgClass]="'purple'"
+                      [icon]="'check_circle'"
+                      [count]="tabsData?.completedPercent"
+                      [label]="'Productivity %'"
+                    ></app-stat>
+                  </div>
+                </div>
 
-                            <div class="col-md-2">
-                                <div>
-                                    <app-stat [bgClass]="'purple'" [icon]="'check_circle'" [count]="tabsData?.completedPercent" [label]="'Productivity %'"></app-stat>
-                                </div>
-                            </div>
-
-                            <div class="col-md-2">
-
-                                <div>
-                                    <app-stat [bgClass]="'primary'" [icon]="'thumb_up'" [count]="tabsData?.successfulPercent" [label]="'Successful %'"></app-stat>
-                                </div>
-                            </div>
-
-
-
-
-                        </div>
-                    </mat-card-content>
-                </mat-card>
-            </div>
+                <div class="col-md-2">
+                  <div>
+                    <app-stat
+                      [bgClass]="'primary'"
+                      [icon]="'thumb_up'"
+                      [count]="tabsData?.successfulPercent"
+                      [label]="'Successful %'"
+                    ></app-stat>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
         </div>
+      </div>
     </div>
 
-
-
     <div class="row" *ngIf="!loading">
-        <div class="col-md-4">
+      <div class="col-md-4">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>MSL & OOS</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="chart">
+              <canvas
+                baseChart
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType"
+                [options]="pieChartOptions"
+                [colors]="pieChartColors"
+                [legend]="pieChartLegend"
+                (chartClick)="chartClicked($event)"
+              >
+              </canvas>
+            </div>
+          </mat-card-content>
+        </mat-card>
 
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>MSL & OOS</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <div class="chart">
-                        <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [colors]="pieChartColors" [legend]="pieChartLegend" (chartClick)="chartClicked($event)">
-                                            </canvas>
-                    </div>
-                </mat-card-content>
-            </mat-card>
+        <mat-card style="margin-top: 15px">
+          <mat-card-header>
+            <mat-card-title>SOS</mat-card-title>
+          </mat-card-header>
 
-
-
-            <mat-card style="margin-top:15px">
-                <mat-card-header>
-                    <mat-card-title>SOS</mat-card-title>
-                </mat-card-header>
-
-                <mat-card-content>
-                    <!-- <div class="chart">
+          <mat-card-content>
+            <!-- <div class="chart">
                                         <canvas baseChart [data]="pieChartData2" [labels]="pieChartLabels2" [chartType]="pieChartType" [options]="pieChartOptions" [colors]="pieChartColors2" [legend]="pieChartLegend">
                                                                     </canvas>
                                     </div> -->
 
-                    <div style="display: block">
-                        <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType" [options]="doughnutChartOptions" [colors]="pieChartColors2 ">
-                                            </canvas>
-                    </div>
-                </mat-card-content>
-            </mat-card>
+            <div style="display: block">
+              <canvas
+                baseChart
+                [data]="doughnutChartData"
+                [labels]="doughnutChartLabels"
+                [chartType]="doughnutChartType"
+                [options]="doughnutChartOptions"
+                [colors]="pieChartColors2"
+              >
+              </canvas>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
 
-
-        </div>
-
-        <div class="col-md-8">
-            <line-chart></line-chart>
-        </div>
-
-
+      <div class="col-md-8">
+        <line-chart></line-chart>
+      </div>
     </div>
 
-    <div class="row" *ngIf="!loading">
-
-    </div>
+    <div class="row" *ngIf="!loading"></div>
     <!-- <div class="row mt-3">
         <div class="col-md-12">
             <mat-card>
@@ -134,134 +200,168 @@
         </div>
     </div> -->
 
-
-    <div *ngIf="loading " class="mb-20 " flFlex flexLayout="row " flexLayout.lt-md="column ">
-        <div fxFlex class="img-center ">
-            <img src="assets/images/basicloader.gif " alt=" " srcset=" ">
-        </div>
+    <div
+      *ngIf="loading"
+      class="mb-20"
+      flFlex
+      flexLayout="row "
+      flexLayout.lt-md="column "
+    >
+      <div fxFlex class="img-center">
+        <img src="assets/images/basicloader.gif " alt=" " srcset="" />
+      </div>
     </div>
-</div>
+  </div>
 
-<div class="container-fluid mobile-view">
+  <div class="container-fluid mobile-view">
     <!-- <p>mobile view</p> -->
 
-    <div *ngIf="!loading" class="mb-20 animated  slideInLeft" fxLayout="row" fxLayout.lt-md="column" fxFlex fxLayoutGap="10px">
-        <div class="row">
-            <div class="col-md-12">
-                <mat-card>
-                    <mat-card-header style="justify-content: flex-end;">
-                        <mat-card-title>
-                            <i class="material-icons refresh-btn" matTooltip="Refresh Stats" (click)="getData()">
-                                            cached
-                                            </i>
-                        </mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <div class="row">
-                            <div class="col-6 mobile-view-info-tabs">
-                                <div>
-                                    <app-stat [bgClass]="'info'" [icon]="'assignment'" [count]="tabsData?.planned" [label]="'Planned'">
-                                    </app-stat>
-                                </div>
-                            </div>
-                            <div class="col-6 mobile-view-info-tabs">
-                                <div>
-                                    <app-stat [bgClass]="'warn'" [icon]="'check_circle'" [count]="tabsData?.completed" [label]="'Productive'">
-                                    </app-stat>
-                                </div>
-                            </div>
-                            <div class="col-6 mobile-view-info-tabs">
-                                <div>
-                                    <app-stat [bgClass]="'success'" [icon]="'thumb_up'" [count]="tabsData?.successful" [label]="'Successful'"></app-stat>
-                                </div>
-                            </div>
-                            <div class="col-6 mobile-view-info-tabs">
+    <div
+      *ngIf="!loading"
+      class="mb-20 animated slideInLeft"
+      fxLayout="row"
+      fxLayout.lt-md="column"
+      fxFlex
+      fxLayoutGap="10px"
+    >
+      <div class="row">
+        <div class="col-md-12">
+          <mat-card>
+            <mat-card-header style="justify-content: flex-end">
+              <mat-card-title>
+                <i
+                  class="material-icons refresh-btn"
+                  matTooltip="Refresh Stats"
+                  (click)="getData()"
+                >
+                  cached
+                </i>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="row">
+                <div class="col-6 mobile-view-info-tabs">
+                  <div>
+                    <app-stat
+                      [bgClass]="'info'"
+                      [icon]="'assignment'"
+                      [count]="tabsData?.planned"
+                      [label]="'Planned'"
+                    >
+                    </app-stat>
+                  </div>
+                </div>
+                <div class="col-6 mobile-view-info-tabs">
+                  <div>
+                    <app-stat
+                      [bgClass]="'warn'"
+                      [icon]="'check_circle'"
+                      [count]="tabsData?.completed"
+                      [label]="'Successful'"
+                    >
+                    </app-stat>
+                  </div>
+                </div>
 
-                                <div>
-                                    <app-stat [bgClass]="'danger'" [icon]="'thumb_down'" [count]="tabsData?.unsuccessful" [label]="'Un-Successful'"></app-stat>
-                                </div>
-                            </div>
+                <div class="col-6 mobile-view-info-tabs">
+                  <div>
+                    <app-stat
+                      [bgClass]="'danger'"
+                      [icon]="'thumb_down'"
+                      [count]="tabsData?.unsuccessful"
+                      [label]="'Un-Successful'"
+                    ></app-stat>
+                  </div>
+                </div>
 
-                            <div class="col-6 mobile-view-info-tabs">
-                                <div>
-                                    <app-stat [bgClass]="'danger'" [icon]="'contact_support'" [count]="tabsData?.unvisited" [label]="'Unvisited'">
-                                    </app-stat>
-                                </div>
-                            </div>
+                <div class="col-6 mobile-view-info-tabs">
+                  <div>
+                    <app-stat
+                      [bgClass]="'danger'"
+                      [icon]="'contact_support'"
+                      [count]="tabsData?.unvisited"
+                      [label]="'Unvisited'"
+                    >
+                    </app-stat>
+                  </div>
+                </div>
 
-                            <div class="col-6 mobile-view-info-tabs">
-                                <div>
-                                    <app-stat [bgClass]="'purple'" [icon]="'check_circle'" [count]="tabsData?.completedPercent" [label]="'Productivity %'"></app-stat>
-                                </div>
-                            </div>
+                <div class="col-6 mobile-view-info-tabs">
+                  <div>
+                    <app-stat
+                      [bgClass]="'purple'"
+                      [icon]="'check_circle'"
+                      [count]="tabsData?.completedPercent"
+                      [label]="'Productivity %'"
+                    ></app-stat>
+                  </div>
+                </div>
 
-                            <div class="col-6 mobile-view-info-tabs">
-
-                                <div>
-                                    <app-stat [bgClass]="'primary'" [icon]="'thumb_up'" [count]="tabsData?.successfulPercent" [label]="'Successful %'"></app-stat>
-                                </div>
-                            </div>
-
-
-
-
-                        </div>
-                    </mat-card-content>
-                </mat-card>
-            </div>
+                <div class="col-6 mobile-view-info-tabs">
+                  <div>
+                    <app-stat
+                      [bgClass]="'primary'"
+                      [icon]="'thumb_up'"
+                      [count]="tabsData?.successfulPercent"
+                      [label]="'Successful %'"
+                    ></app-stat>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
         </div>
+      </div>
     </div>
 
-
-
     <div class="row" *ngIf="!loading">
-        <div class="col-md-4">
+      <div class="col-md-4">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>MSL & OOS</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="chart">
+              <canvas
+                baseChart
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType"
+                [options]="pieChartOptions"
+                [colors]="pieChartColors"
+                [legend]="pieChartLegend"
+                (chartClick)="chartClicked($event)"
+              >
+              </canvas>
+            </div>
+          </mat-card-content>
+        </mat-card>
 
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>MSL & OOS</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <div class="chart">
-                        <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [colors]="pieChartColors" [legend]="pieChartLegend" (chartClick)="chartClicked($event)">
-                                            </canvas>
-                    </div>
-                </mat-card-content>
-            </mat-card>
-
-
-
-            <!-- <mat-card style="margin-top:15px">
+        <!-- <mat-card style="margin-top:15px">
                 <mat-card-header>
                     <mat-card-title>SOS</mat-card-title>
                 </mat-card-header>
 
                 <mat-card-content> -->
-                    <!-- <div class="chart">
+        <!-- <div class="chart">
                                         <canvas baseChart [data]="pieChartData2" [labels]="pieChartLabels2" [chartType]="pieChartType" [options]="pieChartOptions" [colors]="pieChartColors2" [legend]="pieChartLegend">
                                                                     </canvas>
                                     </div> -->
 
-                    <!-- <div style="display: block">
+        <!-- <div style="display: block">
                         <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType" [options]="doughnutChartOptions" [colors]="pieChartColors2 ">
                                             </canvas>
                     </div>
                 </mat-card-content>
             </mat-card> -->
+      </div>
 
-
-        </div>
-
-        <div class="col-md-8 mobile-mt-3">
-            <line-chart></line-chart>
-        </div>
-
-
+      <div class="col-md-8 mobile-mt-3">
+        <line-chart></line-chart>
+      </div>
     </div>
 
-    <div class="row" *ngIf="!loading">
-
-    </div>
+    <div class="row" *ngIf="!loading"></div>
     <!-- <div class="row mt-3">
         <div class="col-md-12">
             <mat-card>
@@ -272,10 +372,16 @@
         </div>
     </div> -->
 
-
-    <div *ngIf="loading " class="mb-20 " flFlex flexLayout="row " flexLayout.lt-md="column ">
-        <div fxFlex class="img-center ">
-            <img src="assets/images/basicloader.gif " alt=" " srcset=" ">
-        </div>
+    <div
+      *ngIf="loading"
+      class="mb-20"
+      flFlex
+      flexLayout="row "
+      flexLayout.lt-md="column "
+    >
+      <div fxFlex class="img-center">
+        <img src="assets/images/basicloader.gif " alt=" " srcset="" />
+      </div>
     </div>
-</div>
+  </div>
+</ng-container>

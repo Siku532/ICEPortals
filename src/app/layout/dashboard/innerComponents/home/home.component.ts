@@ -1,171 +1,175 @@
-import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
-import { DashboardService } from '../../dashboard.service';
-import { ToastrService } from 'ngx-toastr';
-import { ChartType, ChartOptions } from 'chart.js';
-import * as moment from 'moment';
+import { Component, OnInit } from "@angular/core";
+import { MatTableDataSource } from "@angular/material";
+import { DashboardService } from "../../dashboard.service";
+import { ToastrService } from "ngx-toastr";
+import { ChartType, ChartOptions } from "chart.js";
+import * as moment from "moment";
 declare const google: any;
 // tslint:disable-next-line: import-blacklist
-import { Observable, interval } from 'rxjs';
+import { Observable, interval } from "rxjs";
 
-import { Router } from '@angular/router';
-import { checkAndUpdateTextDynamic } from '@angular/core/src/view/text';
-import { positionElements } from 'ngx-bootstrap';
+import { Router } from "@angular/router";
+import { checkAndUpdateTextDynamic } from "@angular/core/src/view/text";
+import { positionElements } from "ngx-bootstrap";
 // import { Label } from 'ng2-charts';
 // import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"],
 })
-
-
 export class HomeComponent implements OnInit {
-
-
-  constructor(private httpService: DashboardService, private router: Router,private toastr: ToastrService) { }
+  constructor(
+    private httpService: DashboardService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   tabsData: any = [];
   loading = true;
   date = Date();
-  regions:any=[];
-  selectedRegion:any={};
+  regions: any = [];
+  selectedRegion: any = {};
+  userType: any;
+  evaluatorRole: any;
+  reevaluatorRole: any;
+  zones: any = [];
+  selectedZone: any = {};
 
-
-
-
-// doughnut chart
-public doughnutChartLabels: any[] = [localStorage.getItem('projectType'), 'Competition', ];
-  public doughnutChartData: any = [
-    [350, 450]
+  // doughnut chart
+  public doughnutChartLabels: any[] = [
+    localStorage.getItem("projectType"),
+    "Competition",
   ];
-  public doughnutChartType: ChartType = 'doughnut';
+  public doughnutChartData: any = [[350, 450]];
+  public doughnutChartType: ChartType = "doughnut";
 
   public doughnutChartOptions: any = {
-    type: 'doughnut',
+    type: "doughnut",
     legend: {
-      position: 'right',
+      position: "right",
     },
     tooltips: {
       callbacks: {
-        afterLabel: function(tooltipItem, data) {
-          const dataset = data['datasets'][0];
-          const percent = Math.round((dataset['data'][tooltipItem['index']]));
-          return '(' + percent + '%)';
-        }
-      }
-    }
+        afterLabel: function (tooltipItem, data) {
+          const dataset = data["datasets"][0];
+          const percent = Math.round(dataset["data"][tooltipItem["index"]]);
+          return "(" + percent + "%)";
+        },
+      },
+    },
   };
-// doughnut chart end
-// pi cahrt
-public pieChartOptions: ChartOptions = {
-  responsive: true,
-  legend: {
-    position: 'right',
-  },
+  // doughnut chart end
+  // pi cahrt
+  public pieChartOptions: ChartOptions = {
+    responsive: true,
+    legend: {
+      position: "right",
+    },
 
-  tooltips: {
-    callbacks: {
-      // title: function(tooltipItem, data) {
-      //   return data['labels'][tooltipItem[0]['index']];
-      // },
-      // label: function(tooltipItem, data) {
-      //   return data['datasets'][0]['data'][tooltipItem['index']];
-      // },
-      // afterLabel: function(tooltipItem, data) {
-      //   const dataset = data['datasets'][0];
-      //   const percent = Math.round((dataset['data'][tooltipItem['index']]));
-      //   return '(' + percent + '%)';
-      // }
-    }
-  },
-  // plugins: {
-  //   datalabels: {
-  //     formatter: (value, ctx) => {
-  //       const label = ctx.chart.data.labels[ctx.dataIndex];
-  //       return label;
-  //     },
-  //   },
-  // }
-};
-public pieChartLabels: any[] = [['MSL'], ['OOS']];
-public pieChartData: number[] = [67, 100];
-// public pieChartLabels2: any[] = [['CBL'], ['Competition']];
-// public pieChartData2: number[] = [45,100];
-public pieChartType: ChartType = 'pie';
-public pieChartLegend = true;
-// public pieChartPlugins = [pluginDataLabels];
-public pieChartColors = [
-  {
-    //
-    backgroundColor: ['#AFFCAF', '#FCAFAF'],
-  },
-];
-public pieChartColors2 = [
-  {
-    backgroundColor: [ '#FFA726', '#00B8F0'],
-  },
-];
+    tooltips: {
+      callbacks: {
+        // title: function(tooltipItem, data) {
+        //   return data['labels'][tooltipItem[0]['index']];
+        // },
+        // label: function(tooltipItem, data) {
+        //   return data['datasets'][0]['data'][tooltipItem['index']];
+        // },
+        // afterLabel: function(tooltipItem, data) {
+        //   const dataset = data['datasets'][0];
+        //   const percent = Math.round((dataset['data'][tooltipItem['index']]));
+        //   return '(' + percent + '%)';
+        // }
+      },
+    },
+    // plugins: {
+    //   datalabels: {
+    //     formatter: (value, ctx) => {
+    //       const label = ctx.chart.data.labels[ctx.dataIndex];
+    //       return label;
+    //     },
+    //   },
+    // }
+  };
+  public pieChartLabels: any[] = [["MSL"], ["OOS"]];
+  public pieChartData: number[] = [67, 100];
+  // public pieChartLabels2: any[] = [['CBL'], ['Competition']];
+  // public pieChartData2: number[] = [45,100];
+  public pieChartType: ChartType = "pie";
+  public pieChartLegend = true;
+  // public pieChartPlugins = [pluginDataLabels];
+  public pieChartColors = [
+    {
+      //
+      backgroundColor: ["#AFFCAF", "#FCAFAF"],
+    },
+  ];
+  public pieChartColors2 = [
+    {
+      backgroundColor: ["#FFA726", "#00B8F0"],
+    },
+  ];
 
   ngOnInit() {
-    this.getData();
-    this.getAllRegions();
-    interval(300000).subscribe(i => {this.getData(); });
-    this.httpService.checkDate();
-    // this.initMap()
-    const userType = JSON.parse(localStorage.getItem('user_type'));
-
-    if (userType === 16) {
-      this.router.navigate(['/dashboard/merchandiser_List']);
+    this.userType = localStorage.getItem("user_type");
+    this.reevaluatorRole = localStorage.getItem("Reevaluator");
+    this.evaluatorRole = localStorage.getItem("Evaluator");
+    if (
+      this.userType != this.evaluatorRole &&
+      this.userType != this.reevaluatorRole
+    ) {
+      this.loadZone();
+      this.getData();
+      interval(300000).subscribe((i) => {
+        this.getData();
+      });
+      this.httpService.checkDate();
+      // this.initMap()
     }
-   
   }
-public chartClicked( e: any ): void {
-  if (e.active.length > 0) {
-    const chart = e.active[0]._chart;
-    const activePoints = chart.getElementAtEvent(e.event);
-      if ( activePoints.length > 0) {
+  public chartClicked(e: any): void {
+    if (e.active.length > 0) {
+      const chart = e.active[0]._chart;
+      const activePoints = chart.getElementAtEvent(e.event);
+      if (activePoints.length > 0) {
         // get the internal index of slice in pie chart
         const clickedElementIndex = activePoints[0]._index;
         const label = chart.data.labels[clickedElementIndex];
         // get value by index
         const value = chart.data.datasets[0].data[clickedElementIndex];
         // console.log(clickedElementIndex, label, value)
-        this.router.navigate(['/dashboard/msl_dashboard']);
+        this.router.navigate(["/dashboard/msl_dashboard"]);
       }
-     }
-}
-// pie chart end
-
-
-
+    }
+  }
+  // pie chart end
 
   getData() {
     this.tabsData = [];
     this.loading = true;
     const d = Date();
     const obj: any = {
-      typeId: localStorage.getItem('user_type'),
-      startDate: moment(d).format('YYYY-MM-DD'),
-      regionId: this.selectedRegion.id || localStorage.getItem('regionId'),
-      zoneId: localStorage.getItem('zoneId'),
-      endDate: moment(d).format('YYYY-MM-DD'),
-      userId: localStorage.getItem('user_id'),
+      typeId: localStorage.getItem("user_type"),
+      startDate: moment(d).format("YYYY-MM-DD"),
+      regionId: this.selectedRegion.id || localStorage.getItem("regionId"),
+      zoneId: this.selectedZone.id || localStorage.getItem("zoneId"),
+      endDate: moment(d).format("YYYY-MM-DD"),
+      userId: localStorage.getItem("user_id"),
     };
-    this.httpService.getDashboardData(obj).subscribe(data => {
-      console.log(data, 'home data');
-      this.tabsData = data;
-      this.loading = false;
+    this.httpService.getDashboardData(obj).subscribe(
+      (data) => {
+        console.log(data, "home data");
+        this.tabsData = data;
+        this.loading = false;
 
-      this.pieChartData = [this.tabsData.msl, 100 - this.tabsData.msl];
-      this.doughnutChartData = [this.tabsData.sos, 100 - this.tabsData.sos];
-
-    }, error => {
-      console.log(error, 'home error');
-
-    });
-
+        this.pieChartData = [this.tabsData.msl, 100 - this.tabsData.msl];
+        this.doughnutChartData = [this.tabsData.sos, 100 - this.tabsData.sos];
+      },
+      (error) => {
+        console.log(error, "home error");
+      }
+    );
   }
 
   // initMap() {
@@ -211,15 +215,12 @@ public chartClicked( e: any ): void {
   //       });
   //     }
 
-
   //     google.maps.event.addListener(marker, 'click', (function(marker, i) {
   //       return function() {
   //         infowindow.setContent(locations[i][0]);
   //         infowindow.open(map, marker);
   //       }
   //     })(marker, i));
-
-
 
   //     // marker.Circle.bindTo(new google.maps.LatLng(locations[i][1], locations[i][2]), marker, new google.maps.LatLng(locations[i][1], locations[i][2]));
   //   }
@@ -236,25 +237,75 @@ public chartClicked( e: any ): void {
   getAllRegions() {
     this.loading = true;
     this.httpService.getRegions().subscribe(
-      data => {
+      (data) => {
         const res: any = data;
         if (res.regionList) {
           this.regions = res.regionList;
           // localStorage.setItem('regionList', JSON.stringify(res.regionList));
         }
         if (!res.regionList) {
-          this.toastr.info('No data Found', 'Info');
+          this.toastr.info("No data Found", "Info");
         }
         this.loading = false;
-
-
       },
-      error => {
-       this.loading=false;
-        error.status === 0 ? this.toastr.error('Please check Internet Connection', 'Error') : this.toastr.error(error.description, 'Error');
+      (error) => {
+        this.loading = false;
+        error.status === 0
+          ? this.toastr.error("Please check Internet Connection", "Error")
+          : this.toastr.error(error.description, "Error");
       }
     );
+  }
 
+  zoneChange() {
+    this.loading = true;
+    this.httpService.getRegion(this.selectedZone.id).subscribe(
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.regions = res;
+        } else {
+          this.loading = false;
 
+          this.toastr.info(
+            "Something went wrong,Please retry",
+            "Connectivity Message"
+          );
+        }
+
+        setTimeout(() => {
+          this.loading = false;
+        }, 500);
+      },
+      (error) => {
+        this.loading = false;
+      }
+    );
+  }
+
+  loadZone() {
+    this.loading = true;
+    this.httpService.getZone().subscribe(
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.zones = res.zoneList;
+        } else {
+          this.loading = false;
+
+          this.toastr.info(
+            "Something went wrong,Please retry",
+            "Connectivity Message"
+          );
+        }
+
+        setTimeout(() => {
+          this.loading = false;
+        }, 500);
+      },
+      (error) => {
+        this.loading = false;
+      }
+    );
   }
 }

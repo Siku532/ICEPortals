@@ -1578,7 +1578,7 @@
   <mat-card-content>
     <mat-card-title>
       {{ title | uppercase }}
-      <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+      <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
       <small
         style="color: lightseagreen !important"
         class="mtb-5-IMP"
@@ -1647,7 +1647,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field
+      <!-- <mat-form-field
         *ngIf="storeType.length > 0"
         class="example-margin mr-10-IMP"
       >
@@ -1661,7 +1661,7 @@
             store
           }}</mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
 
       <mat-form-field class="example-full-width mr-10-IMP">
         <input
@@ -1750,7 +1750,7 @@
                   [bgClass]="'success'"
                   [icon]="'thumb_up'"
                   [count]="tabsData?.successful"
-                  [label]="'Productive'"
+                  [label]="'Successful'"
                 ></app-stat>
               </div>
             </div>
@@ -1839,7 +1839,7 @@
                   [bgClass]="'success'"
                   [icon]="'thumb_up'"
                   [count]="tabsData?.successful"
-                  [label]="'Productive'"
+                  [label]="'Successful'"
                 ></app-stat>
               </div>
             </div>
@@ -1992,8 +1992,16 @@
           >
             <tr>
               <td scope="row">{{ item.merchandiser_code }}</td>
-              <td>
-                {{ item.merchandiser_name }}
+              <td class="a-namelink" title="Merchandiser Name">
+                <a
+                  class="a-namelink"
+                  target="_blank"
+                  title="view shop details"
+                  [routerLink]="['/dashboard/shop_detail', item.id]"
+                  [queryParams]="{ id: item.id, remark_id: -1 }"
+                  queryParamsHandling="merge"
+                  >{{ item.merchandiser_name }}</a
+                >
               </td>
 
               <td>{{ item.planned }}</td>
@@ -2834,3 +2842,86 @@
     </div>
   </div>
 </div>
+
+<mat-card class="mb-20" *ngIf="router.url === '/dashboard/compliance-report'">
+  <mat-card-content>
+    <mat-card-title>
+      {{ title | uppercase }}
+      <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+      <small
+        style="color: lightseagreen !important"
+        class="mtb-5-IMP"
+        *ngIf="loadingReportMessage"
+        >Your file is being prepared for download</small
+      >
+    </mat-card-title>
+    <section class="example-section">
+      <mat-form-field class="example-margin mr-10-IMP">
+        <mat-select
+          placeholder="Zone"
+          name="zone"
+          [(ngModel)]="selectedZone"
+          (ngModelChange)="zoneChange()"
+        >
+          <ng-container *ngFor="let zone of zones">
+            <mat-option [value]="zone">{{ zone.title }}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field
+        *ngIf="regions.length > 0"
+        class="example-margin mr-10-IMP"
+      >
+        <mat-select
+          placeholder="Region"
+          name="region"
+          [(ngModel)]="selectedRegion"
+        >
+          <ng-container *ngFor="let region of regions">
+            <mat-option [value]="region">{{ region.title }}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width mr-10-IMP">
+        <input
+          matInput
+          [min]="minDate"
+          [max]="maxDate"
+          [matDatepicker]="picker0"
+          [(ngModel)]="startDate"
+          placeholder="Choose a start date"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker0"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker0></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="example-full-width mr-10-IMP">
+        <input
+          matInput
+          [min]="minDate"
+          [max]="maxDate"
+          [matDatepicker]="picker1"
+          [(ngModel)]="endDate"
+          placeholder="Choose a end date"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </section>
+
+    <section class="example-section">
+      <button mat-raised-button color="warn" (click)="complienceReport()">
+        Download
+      </button>
+    </section>
+  </mat-card-content>
+</mat-card>

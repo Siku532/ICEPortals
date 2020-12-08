@@ -201,52 +201,56 @@ export class SectionSevenViewComponent implements OnInit {
     if (this.isEditable) {
       this.changeColor = true;
       this.updatingMSL = true;
+      if (value !== null) {
+        this.colorUpdateList.push(value.id);
+        const obj = {
+          msdId: value.id,
+          facing: value.face_unit,
+          unitAvailable: -1,
+          surveyId: this.surveyId,
+          evaluatorId: this.evaluatorId,
+        };
 
-      this.colorUpdateList.push(value.id);
-      const obj = {
-        msdId: value.id,
-        facing: value.face_unit,
-        unitAvailable: -1,
-        surveyId: this.surveyId,
-        evaluatorId: this.evaluatorId,
-      };
+        // return value?'YES':'NO';
 
-      // return value?'YES':'NO';
+        this.httpService.updateMSLStatus(obj).subscribe((data: any) => {
+          if (data.success) {
+            this.loading = false;
+            this.toastr.success("Data Updated Successfully");
+            // this.products=data.productList;
+            const key = data.msdId;
+            this.products.forEach((e) => {
+              // for (const key of this.colorUpdateList) {
+              if (key === e.id) {
+                const i = this.products.findIndex((p) => p.id === key);
+                const obj = {
+                  id: e.id,
+                  available_sku: e.available_sku,
+                  MSL: e.MSL,
+                  product_title: e.product_title,
+                  face_unit: e.face_unit,
+                  desired_facing: e.desired_facing,
+                  category_title: e.category_title,
+                  color: "red",
+                };
 
-      this.httpService.updateMSLStatus(obj).subscribe((data: any) => {
-        if (data.success) {
-          this.loading = false;
-          this.toastr.success("Data Updated Successfully");
-          // this.products=data.productList;
-          const key = data.msdId;
-          this.products.forEach((e) => {
-            // for (const key of this.colorUpdateList) {
-            if (key === e.id) {
-              const i = this.products.findIndex((p) => p.id === key);
-              const obj = {
-                id: e.id,
-                available_sku: e.available_sku,
-                MSL: e.MSL,
-                product_title: e.product_title,
-                face_unit: e.face_unit,
-                desired_facing: e.desired_facing,
-                category_title: e.category_title,
-                color: "red",
-              };
+                this.products.splice(i, 1, obj);
 
-              this.products.splice(i, 1, obj);
+                // console.log(this.products[i])
+              }
 
-              // console.log(this.products[i])
-            }
+              // }
 
-            // }
-
-            this.facing = this.getFacingCount(this.products);
-          });
-        } else {
-          this.toastr.error(data.message, "Update Data");
-        }
-      });
+              this.facing = this.getFacingCount(this.products);
+            });
+          } else {
+            this.toastr.error(data.message, "Update Data");
+          }
+        });
+      } else {
+        this.toastr.error("Facing Value is Incorrect");
+        this.loading = false;
+      }
     }
   }
 

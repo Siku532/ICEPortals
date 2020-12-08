@@ -202,7 +202,9 @@
                           <span class="checkmark"></span>
                         </ng-container>
                         <ng-container
-                          *ngIf="item?.id == 'CRITICAL_CASE' && !isNoNCritical"
+                          *ngIf="
+                            item?.type == 'CRITICAL_CASE' && !isNoNCritical
+                          "
                         >
                           <input
                             class="checkbox"
