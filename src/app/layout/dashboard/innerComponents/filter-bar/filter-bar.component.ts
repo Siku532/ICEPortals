@@ -728,6 +728,7 @@ export class FilterBarComponent implements OnInit {
         endDate: moment(this.endDate).format("YYYY-MM-DD"),
         zoneId: this.selectedZone.id || -1,
         regionId: this.selectedRegion.id || -1,
+        environment: environment.hash,
         // channelId: this.arrayMaker(this.selectedChannel),
       };
 
