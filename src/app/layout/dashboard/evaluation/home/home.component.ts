@@ -111,7 +111,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.availabilityCount = 0;
-    this.location.replaceState("/details/");
+    this.location.replaceState("/details");
     this.userType = localStorage.getItem("user_type");
     this.reevaluatorRole = localStorage.getItem("Reevaluator");
     this.evaluatorRole = localStorage.getItem("Evaluator");
@@ -150,7 +150,7 @@ export class HomeComponent implements OnInit {
       (data) => {
         if (data) {
           this.data = data;
-          if (this.p.isEditable) {
+          if (this.p.notEditable) {
             this.isEditable = false;
             document.title = this.data.section[0].sectionTitle;
             if (this.data.criteria) {
@@ -386,20 +386,12 @@ export class HomeComponent implements OnInit {
     this.selectedIndex = index;
     // console.dir(event.checked)
     if (event.checked) {
-      if (criteria.id === 9) {
+      if (criteria.type === "CRITICAL_CASE") {
         this.isCritical = false;
       } else {
         this.isNoNCritical = true;
         this.isCritical = true;
       }
-      // this.score=this.score-Math.abs(criteria.score);
-      // this.updateAchieveScore(criteria.id);
-      // this.totalAchieveScore=this.getTotalAchieveScore()
-
-      // this.totalAchieveScore =
-      //   this.criteriaDesireScore > 0
-      //     ? this.totalAchieveScore - Math.abs(this.criteriaDesireScore)
-      //     : this.totalAchieveScore - Math.abs(criteria.achievedScore);
       this.indexList.push(index);
       this.updateAchieveScore(criteria.id);
 
@@ -480,7 +472,7 @@ export class HomeComponent implements OnInit {
     this.hideRemarkModalForCancelOption();
   }
   checkForCritical(criteria) {
-    if (criteria.id === 14) {
+    if (criteria.type == "CRITICAL_CASE") {
       this.isCritical = true;
       this.isNoNCritical = false;
     } else {

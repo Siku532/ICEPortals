@@ -149,7 +149,7 @@
         </div>
       </div>
     </div>
-    <ng-container *ngIf="!p.isEditable">
+    <ng-container *ngIf="!p.notEditable">
       <div class="col-md-3">
         <div class="card">
           <div
@@ -320,7 +320,7 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="p.isEditable">
+    <ng-container *ngIf="p.notEditable">
       <div class="col-md-3">
         <div class="card">
           <div class="row" *ngIf="data?.criteria && isFromShop && !isDragging">
