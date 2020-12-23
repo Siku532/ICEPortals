@@ -116,7 +116,7 @@ export class SectionSevenViewComponent implements OnInit {
     const msl = [];
     products.forEach((p) => {
       let obj = {};
-      if (p.MSL === "Yes" && p.available_sku === 1) {
+      if (p.MSL === "Yes" && p.available_sku >= 1) {
         obj = {
           available_sku: p.available_sku,
           MSL: p.MSL,

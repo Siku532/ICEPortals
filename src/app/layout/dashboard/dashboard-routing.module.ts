@@ -39,6 +39,8 @@ import { VoErrorReportComponent } from "./innerComponents/vo-error-report/vo-err
 import { MerchandiserWiseScoreComponent } from "./innerComponents/merchandiser-wise-score/merchandiser-wise-score.component";
 import { ComplienceReportComponent } from "./innerComponents/complience-report/complience-report.component";
 import { TableauHelperComponent } from "./Tableau/tableau-helper/tableau-helper.component";
+import { UniqueBasedProductivityReportComponent } from "./innerComponents/unique-based-productivity-report/unique-based-productivity-report.component";
+
 const routes: Routes = [
   {
     path: "",
@@ -101,6 +103,7 @@ const routes: Routes = [
       { path: "availability-dashboard", component: SkuDashboardComponent },
       { path: "merchandiser_score", component: MerchandiserScoreComponent },
       { path: "vo_error_report", component: VoErrorReportComponent },
+      { path: "raw_data/:reportId", component: RawDataComponent },
       {
         path: "merchandiser_wise_score",
         component: MerchandiserWiseScoreComponent,
@@ -112,6 +115,10 @@ const routes: Routes = [
 
       { path: "compliance-report", component: ComplienceReportComponent },
       { path: "tableau/:key", component: TableauHelperComponent },
+      {
+        path: "capturedAbnormalUnvisited",
+        component: UniqueBasedProductivityReportComponent,
+      },
     ],
   },
   // { path: 'shop_detail/:id', component: ShopDetailComponent },

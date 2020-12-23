@@ -131,6 +131,7 @@
               <section-eight-view
                 class="width-100"
                 [data]="sec"
+                [projectType]="projectType"
                 [isEditable]="isEditable"
                 (showModal)="showChildModal($event)"
               >
@@ -144,6 +145,14 @@
                 (showModal)="showChildModal($event)"
               >
               </section-ten-view>
+            </ng-container>
+            <ng-container *ngIf="sec?.imageViewType === 11">
+              <section-eleven-view
+                class="width-100"
+                [data]="sec"
+                [isEditable]="isEditable"
+                (showModal)="showChildModal($event)"
+              ></section-eleven-view>
             </ng-container>
           </ng-container>
         </div>

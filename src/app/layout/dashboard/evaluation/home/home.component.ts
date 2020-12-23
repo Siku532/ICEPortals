@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
   score: any = 0;
   isChecked = 0;
 
+  projectType: any;
   indexList: any = [];
   surveyId: any = 0;
   remarksList: any = [];
@@ -113,6 +114,7 @@ export class HomeComponent implements OnInit {
     this.availabilityCount = 0;
     this.location.replaceState("/details");
     this.userType = localStorage.getItem("user_type");
+    this.projectType = localStorage.getItem("projectType");
     this.reevaluatorRole = localStorage.getItem("Reevaluator");
     this.evaluatorRole = localStorage.getItem("Evaluator");
   }

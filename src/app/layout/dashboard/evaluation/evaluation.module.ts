@@ -28,11 +28,12 @@ import { SectionSevenViewComponent } from './section-seven-view/section-seven-vi
 import { SectionNineViewComponent } from './section-nine-view/section-nine-view.component';
 import { SectionEightViewComponent } from './section-eight-view/section-eight-view.component';
 import { SectionTenViewComponent } from './section-ten-view/section-ten-view.component';
+import { SectionElevenViewComponent } from './section-eleven-view/section-eleven-view.component';
 @NgModule({
   declarations: [HomeComponent, DetailsPageComponent, MainPageComponent,
     SectionOneViewComponent, SectionTwoViewComponent,
      SectionThreeViewComponent, SectionFourViewComponent,
-     SectionFiveComponent, SectionSixComponent, SectionSevenViewComponent, SectionNineViewComponent, SectionEightViewComponent, SectionTenViewComponent],
+     SectionFiveComponent, SectionSixComponent, SectionSevenViewComponent, SectionNineViewComponent, SectionEightViewComponent, SectionTenViewComponent, SectionElevenViewComponent],
   imports: [
     CommonModule,
     EvaluationRoutingModule,

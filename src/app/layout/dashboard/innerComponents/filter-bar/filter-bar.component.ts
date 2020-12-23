@@ -32,6 +32,8 @@ import { config } from "src/assets/config";
 export class FilterBarComponent implements OnInit {
   //#endregion
 
+  zonePlaceholder = "";
+  regionPlaceholder = "";
   constructor(
     private toastr: ToastrService,
     private httpService: DashboardService,
@@ -42,22 +44,21 @@ export class FilterBarComponent implements OnInit {
     this.zones = JSON.parse(localStorage.getItem("zoneList"));
     this.categoryList = JSON.parse(localStorage.getItem("assetList"));
     this.channels = JSON.parse(localStorage.getItem("channelList"));
-    // this.regions = JSON.parse(localStorage.getItem('regionList'));
-    this.form = formBuilder.group({
-      selectedRegionUp: this.selectedRegionUp,
-      selectedOption: this.selectedOption,
-      // date : this.date,
-      avatar: null,
-    });
-
-    console.log(this.categoryList);
+    this.projectType = localStorage.getItem("projectType");
     this.sortIt("completed");
+    if (this.projectType == "NFL") {
+      this.zonePlaceholder = "Region";
+      this.regionPlaceholder = "Zone";
+    } else {
+      this.zonePlaceholder = "Zone";
+      this.regionPlaceholder = "Region";
+    }
   }
   tableData: any = [];
   // ip = environment.ip;
   configFile = config;
-  @ViewChild("errorModal") errorModal: ModalDirective;
   ip: any = this.configFile.ip;
+  projectType: any;
 
   distributionList: any = [];
   selectedDistribution: any = {};
@@ -105,12 +106,6 @@ export class FilterBarComponent implements OnInit {
   queryList: any = [];
   selectedQuery: any = {};
 
-  selectedRegionUp: any = new FormControl({}, [Validators.required]);
-  // date = new FormControl(new Date());
-  selectedFile = new FormControl(null, [Validators.required]);
-  selectedOption = new FormControl("", [Validators.required]);
-  form: FormGroup;
-
   loadingReportMessage = false;
   tabsData: any = [];
   loading = true;
@@ -122,12 +117,6 @@ export class FilterBarComponent implements OnInit {
   isRegionFilterEnabled = false;
 
   errorDetail: any;
-  // @ViewChild('remarksModal') remarksModal: ModalDirective;
-  // showRemarksModal(){this.remarksModal.show(); }
-  // hideRemarksModal(){
-  //   // removePlanedCall(item)
-  //   this.remarksModal.hide();
-  //     }
 
   applyFilter(filterValue: string) {
     this.tableData = this.tableData.filter((f) => f.shop_title);
@@ -166,10 +155,6 @@ export class FilterBarComponent implements OnInit {
     this.mustHave = this.dataService.getYesNo();
     this.mustHaveAll = this.dataService.getYesNoAll();
     this.impactTypeList = this.dataService.getImpactType();
-    if (this.router.url !== "/dashboard/raw_data") {
-      this.getZone();
-    }
-
     if (
       this.router.url === "/dashboard/productivity_report" ||
       this.router.url === "/dashboard/merchandiser_attendance"
@@ -184,57 +169,9 @@ export class FilterBarComponent implements OnInit {
     if (this.router.url === "/dashboard/pivot_based_data") {
       this.getReportTypes();
     }
-
-    if (this.router.url === "/dashboard/upload_routes_new") {
-      this.getAllRegions();
+    if (!this.zones) {
+      this.getZone();
     }
-  }
-
-  showCount(action) {
-    this.loadingData = true;
-    if (this.regionId !== -1) {
-      const obj = {
-        regionId: this.regionId,
-        action: action,
-      };
-      this.httpService.displayRouteStatus(obj).subscribe(
-        (data) => {
-          if (data) {
-            this.shopWiseCount = data;
-          }
-          this.clearLoading();
-        },
-        (error) => {
-          error.status === 0
-            ? this.toastr.error("Please check Internet Connection", "Error")
-            : this.toastr.error(error.description, "Error");
-          this.clearLoading();
-        }
-      );
-    }
-  }
-
-  deleteRoutes(surveyorId, action) {
-    this.loadingData = true;
-    const obj = {
-      surveyorId: surveyorId,
-      action: action,
-    };
-    this.httpService.updateRouteStatus(obj).subscribe(
-      (data) => {
-        if (data) {
-          this.toastr.success("Routes Deactivated Successfully ");
-          this.showCount("show");
-        }
-        this.clearLoading();
-      },
-      (error) => {
-        error.status === 0
-          ? this.toastr.error("Please check Internet Connection", "Error")
-          : this.toastr.error(error.description, "Error");
-        this.clearLoading();
-      }
-    );
   }
 
   getReportTypes() {
@@ -254,7 +191,7 @@ export class FilterBarComponent implements OnInit {
   }
 
   getQueryTypeList() {
-    this.httpService.getQueryTypeList().subscribe(
+    this.httpService.getQueryTypeList(-1).subscribe(
       (data) => {
         console.log("qurry list", data);
         if (data) {
@@ -370,38 +307,6 @@ export class FilterBarComponent implements OnInit {
     }
   }
 
-  uploadData(post) {
-    const formData = new FormData();
-    formData.append("cityId", post.selectedRegionUp);
-    formData.append("newSurveyor", post.selectedOption);
-    // formData.append('startDate', post.date);
-    formData.append("filePath", this.form.get("avatar").value);
-
-    if (
-      post.selectedRegionUp !== {} &&
-      post.selectedOption !== "" &&
-      this.form.get("avatar").value !== null
-    ) {
-      this.loadingData = true;
-      this.httpService.uploadRoutes(formData).subscribe((data) => {
-        if (data) {
-          this.response = data;
-          if (this.response.length > 0) {
-            this.showCount("show");
-            this.showErrorModal();
-            this.loadingData = false;
-            this.toastr.info(this.response, "Info");
-          }
-        } else {
-          this.loadingData = false;
-          this.toastr.error("There is an error in ur file!!");
-        }
-      });
-    } else {
-      this.loadingData = false;
-      this.toastr.error("Plz fill all the required details");
-    }
-  }
   getDashboardData() {
     if (this.endDate >= this.startDate) {
       this.loadingData = true;
@@ -465,6 +370,9 @@ export class FilterBarComponent implements OnInit {
           localStorage.setItem("zoneList", JSON.stringify(res.zoneList));
           localStorage.setItem("assetList", JSON.stringify(res.assetList));
           localStorage.setItem("channelList", JSON.stringify(res.channelList));
+          this.zones = res.zoneList;
+          this.categoryList = res.assetList;
+          this.channels = res.channelList;
         }
       },
       (error) => {
@@ -1447,12 +1355,6 @@ export class FilterBarComponent implements OnInit {
       return objOne.id === objTwo.id;
     }
   }
-  onFileChange(event) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.form.get("avatar").setValue(file);
-    }
-  }
 
   VOErrorReport() {
     if (this.endDate >= this.startDate) {
@@ -1511,10 +1413,46 @@ export class FilterBarComponent implements OnInit {
     }
   }
 
-  showErrorModal(): void {
-    this.errorModal.show();
-  }
-  hideErrorModal(): void {
-    this.errorModal.hide();
+  uniqueBasedReport() {
+    if (this.endDate >= this.startDate) {
+      this.loadingData = true;
+      this.loadingReportMessage = true;
+      const obj = {
+        startDate: moment(this.startDate).format("YYYY-MM-DD"),
+        endDate: moment(this.endDate).format("YYYY-MM-DD"),
+        zoneId: this.selectedZone.id || -1,
+        regionId: this.selectedRegion.id || -1,
+      };
+
+      const url = "capturedAbnormalUnvisited";
+      const body = this.httpService.UrlEncodeMaker(obj);
+      this.httpService.getKeyForProductivityReport(body, url).subscribe(
+        (data) => {
+          const res: any = data;
+
+          if (res) {
+            const obj2 = {
+              key: res.key,
+              fileType: "json.fileType",
+            };
+            const url = "downloadReport";
+            this.getproductivityDownload(obj2, url);
+          } else {
+            this.clearLoading();
+
+            this.toastr.info(
+              "Something went wrong,Please retry",
+              "Connectivity Message"
+            );
+          }
+        },
+        (error) => {
+          this.clearLoading();
+        }
+      );
+    } else {
+      this.clearLoading();
+      this.toastr.info("Plz Enter a Valid Date and Type", "Required Fields");
+    }
   }
 }

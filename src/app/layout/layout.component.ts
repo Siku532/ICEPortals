@@ -29,7 +29,7 @@ export class LayoutComponent implements OnInit {
     // For Shop Detail Page, Tableau , Hide Side Bar
     let url: any = new Array();
     url = this.router.url.split(/[?/]/);
-    const t: any = url.find((d) => d === "merchandiserAttendanceDetail");
+    const t: any = url.find((d) => d === "shop_detail");
     const r: any = url.find((d) => d === "details");
     if (t || r) {
       this.hideSideBar = true;

@@ -21,6 +21,7 @@ import { ModalDirective } from "ngx-bootstrap";
 })
 export class SectionEightViewComponent implements OnInit {
   @Input("data") data;
+  @Input("projectType") projectType;
   @ViewChild("childModal") childModal: ModalDirective;
   @Output("showModal") showModal: any = new EventEmitter<any>();
   @Input("isEditable") isEditable: any;

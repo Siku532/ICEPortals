@@ -1,17 +1,17 @@
 div.ngxImageZoomContainer {
-    height: 500px !important;
+  height: 500px !important;
 }
 
 .tableFixHead {
-    // overflow-y: auto;
-    // height: 100px;
-    height: 645px;
-    overflow: scroll;
+  // overflow-y: auto;
+  // height: 100px;
+  height: 645px;
+  overflow: scroll;
 }
 
-.max-width-150>td {
-    width: 75px !important;
-    word-break: break-all;
+.max-width-150 > td {
+  width: 75px !important;
+  word-break: break-all;
 }
 
 // .tableFixHead thead th {
@@ -30,21 +30,21 @@ div.ngxImageZoomContainer {
 //     background: #eee;
 // }
 .title {
-    background: lightgreen;
-    color: black;
-    margin-bottom: 0;
-    width: 100%;
-    text-align: center;
+  background: lightgreen;
+  color: black;
+  margin-bottom: 0;
+  width: 100%;
+  text-align: center;
 }
 .cat {
-    background: lightcyan;
+  background: lightcyan;
 }
 
 table {
-    font-size: 15px !important;
-    line-height: 0px !important
+  font-size: 15px !important;
+  line-height: 0px !important;
 }
 
 .background-color {
-    background-color: lightblue !important
+  background-color: lightblue !important;
 }

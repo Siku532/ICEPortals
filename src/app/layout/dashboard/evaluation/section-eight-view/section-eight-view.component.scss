@@ -5,7 +5,7 @@ div.ngxImageZoomContainer {
 .tableFixHead {
   // overflow-y: auto;
   // height: 100px;
-  height: 645px;
+  max-height: 645px;
   overflow: scroll;
 }
 
