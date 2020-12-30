@@ -1,0 +1,193 @@
+<div class="container-fluid">
+  <div
+    class="row"
+    style="border-bottom: 2px solid black; width: 100%; margin: 5px 0"
+  ></div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-12 text-center">
+      <h4>
+        <u>{{ data?.sectionTitle }} </u
+        ><i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i>
+      </h4>
+    </div>
+
+    <ng-container *ngIf="data?.imageList.length > 0">
+      <div
+        *ngIf="selectedImage?.url"
+        [ngClass]="{
+          'col-md-5': products?.length > 0,
+          'col-md-4': products?.length == 0
+        }"
+      >
+        <div class="row">
+          <div class="col-12" style="max-height: 500px !important">
+            <label class="title" for="title">{{ selectedImage?.title }}</label>
+
+            <img
+              src="{{ ip }}{{ selectedImage?.url }}"
+              class="img-thumbnail"
+              style="height: 450px; width: 100%"
+              (click)="showChildModal(selectedImage)"
+            />
+
+            <div
+              class="row justify-content-center"
+              style="word-break: break-word !important"
+            >
+              <div>
+                <div
+                  *ngIf="selectedImage?.shopRemarks != null"
+                  for="cat"
+                  class="cat"
+                  style="word-break: break-word"
+                >
+                  <strong>Remarks: </strong>{{ selectedImage?.shopRemarks }}
+                </div>
+                <div
+                  *ngIf="selectedImage?.timeStamp != null"
+                  for="cat"
+                  class="cat"
+                  style="word-break: break-word"
+                >
+                  <strong>Time Spent: </strong>{{ selectedImage?.timeStamp }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 ml-3 mt-2">
+            <div class="row">
+              <ng-container *ngFor="let img of data?.imageList; let i = index">
+                <ng-container *ngIf="img?.url != '' && img.isSosImage == 'N'">
+                  <div
+                    class="col-2 mb-1 card mt-5 mr-2"
+                    (click)="setSelectedImage(img)"
+                    style="padding: 0% !important; cursor: pointer"
+                    [ngClass]="{ bgColor: img?.url == selectedImage.url }"
+                  >
+                    <img
+                      src="{{ ip }}{{ img?.url }} "
+                      width="100"
+                      class="img-thumbnail side-image"
+                      style="height: 80px !important; width: 120px !important"
+                    />
+                  </div>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="products.length > 0">
+      <div
+        class="tableFixHead"
+        [ngClass]="{
+          'col-md-7': data?.imageList?.length > 0 && selectedImage?.url,
+          'col-md-10':
+            data?.imageList?.length == 0 ||
+            (data?.imageList?.length > 0 && !selectedImage?.url)
+        }"
+      >
+        <table class="table table-bordered table-hover w-100">
+          <thead style="background: lightgray">
+            <tr>
+              <th>Product Title</th>
+              <th>Availability</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let product of products; let j = index">
+              <td style="width: 700px !important">
+                {{ product?.product_title }}
+              </td>
+              <ng-container *ngIf="isEditable == false">
+                <td
+                  style="width: 200px !important"
+                  [ngClass]="{ 'background-color': product?.MSL == 'Yes' }"
+                >
+                  {{ updateString(product?.available_sku) }}
+                </td>
+              </ng-container>
+
+              <ng-container *ngIf="isEditable == true">
+                <td
+                  style="cursor: pointer"
+                  (click)="changeSku(product)"
+                  [ngClass]="{ 'background-color': product?.MSL == 'Yes' }"
+                >
+                  {{ updateString(product?.available_sku) }}
+                </td>
+              </ng-container>
+            </tr>
+            <tr>
+              <th>Availability / Total</th>
+              <td>{{ availability }} / {{ products.length }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="row justify-content-center">
+    <ng-container class="justify-content-center" *ngIf="data?.tagsList">
+      <div class="col-md-11 mt-3">
+        <table class="table table-bordered">
+          <tr *ngFor="let tab of data.tagsList; let j = index">
+            <ng-container *ngIf="tab.isSosTag == 'N'">
+              <th style="width: 50%; background: lightgray">
+                {{ tab.heading }}
+              </th>
+              <td style="width: 50%; word-break: break-all">{{ tab.value }}</td>
+            </ng-container>
+          </tr>
+        </table>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<ng-container *ngIf="isSosDataAvailable">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h4><u>Share Of Shelf</u></h4>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <ng-container *ngFor="let img of data?.imageList; let i = index">
+      <ng-container *ngIf="img.isSosImage == 'Y'">
+        <div class="col-md-4 text-center">
+          <label class="title" for="title">{{ img.title }}</label>
+          <img
+            src="{{ ip }}{{ img.url }}"
+            width="400"
+            height="400"
+            (click)="showChildModal(img)"
+            class="img-thumbnail img-item"
+          />
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <div class="row justify-content-center">
+    <ng-container class="justify-content-center" *ngIf="data?.tagsList">
+      <div class="col-md-11 mt-3">
+        <table class="table table-bordered">
+          <tr *ngFor="let tab of data.tagsList; let j = index">
+            <ng-container *ngIf="tab.isSosTag == 'Y'">
+              <th style="width: 50%; background: lightgray">
+                {{ tab.heading }}
+              </th>
+              <td style="width: 50%; word-break: break-all">{{ tab.value }}</td>
+            </ng-container>
+          </tr>
+        </table>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>
