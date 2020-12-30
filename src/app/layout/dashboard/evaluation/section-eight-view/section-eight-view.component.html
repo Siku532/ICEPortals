@@ -128,7 +128,7 @@
                   {{ product?.stock }}
                 </td>
                 <td style="width: 100px !important">
-                  {{ product.unit_available }}
+                  {{ product.stock }}
                 </td>
                 <td style="width: 100px !important">
                   {{ product.face_unit }}
@@ -181,7 +181,7 @@
                 {{ recommendedScore }}
               </td>
               <td *ngIf="projectType != 'NFL'">{{ stock }}</td>
-              <td>{{ availableDepth }}</td>
+              <td>{{ stock }}</td>
               <td>{{ facing }}</td>
             </tr>
 

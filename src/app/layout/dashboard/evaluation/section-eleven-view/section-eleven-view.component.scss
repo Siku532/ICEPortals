@@ -1,0 +1,42 @@
+div.ngxImageZoomContainer {
+  height: 500px !important;
+}
+
+.tableFixHead {
+  // overflow-y: auto;
+  // height: 100px;
+  max-height: 645px;
+  overflow: scroll;
+}
+
+.max-width-150 > td {
+  width: 75px !important;
+  word-break: break-all;
+}
+
+.title {
+  background: lightgreen;
+  color: black;
+  margin-bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+.cat {
+  background: lightcyan;
+}
+
+table {
+  font-size: 15px !important;
+  line-height: 0px !important;
+}
+
+.background-color {
+  background-color: lightblue !important;
+}
+
+input {
+  outline: none !important;
+  outline-style: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}

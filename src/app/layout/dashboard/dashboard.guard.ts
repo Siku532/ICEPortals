@@ -18,7 +18,8 @@ export class DashboardGuard implements CanActivate {
     // tslint:disable-next-line:triple-equals
     if (
       localStorage.getItem("isLoggedin") ||
-      this.location.path().indexOf("/details/") > -1
+      this.location.path().indexOf("/details/") > -1 ||
+      this.location.path().indexOf("/brand_sku_oos_gt/") > -1
     ) {
       return true;
     }

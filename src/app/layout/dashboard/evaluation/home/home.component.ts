@@ -297,6 +297,7 @@ export class HomeComponent implements OnInit {
       title: criteria.title,
       score: criteria.score,
       type: criteria.type,
+      parentId: criteria.parentId,
       criteriaMapId: criteria.criteriaMapId,
       // achievedScore: (criteria.isEditable)? (this.criteriaDesireScore==criteria.score)?0:this.criteriaDesireScore : 0,
 
@@ -416,6 +417,7 @@ export class HomeComponent implements OnInit {
           title: criteria.title,
           score: criteria.score,
           type: criteria.type,
+          parentId: criteria.parentId,
           criteriaMapId: criteria.criteriaMapId,
           achievedScore:
             criteria.score > criteria.achievedScore || criteria.score < 0
@@ -453,6 +455,7 @@ export class HomeComponent implements OnInit {
         title: criteria.title,
         score: criteria.score,
         type: criteria.type,
+        parentId: criteria.parentId,
         criteriaMapId: criteria.criteriaMapId,
         achievedScore:
           criteria.score > criteria.achievedScore

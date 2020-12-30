@@ -20,20 +20,6 @@
       [enableGhostResize]="true"
       [resizeEdges]="{ bottom: true, right: true, top: true, left: true }"
     >
-      <!-- <div class="row">
-                <div class="col-11"></div>
-                <div class="col-1" style="text-align: end;">
-                    <button type="button" class="btn btn-primary" (click)="this.isDragging = !this.isDragging">
-                                    <span *ngIf="!this.isDragging" title="expand view">
-                                        <i class="fa fa-arrow-right"></i>
-                                    </span>
-                                    <span *ngIf="this.isDragging" title="colapse view">
-                                        <i class="fa fa-arrow-left"></i>
-                                    </span>
-                
-                                </button>
-                </div>
-            </div> -->
       <div class="icon-bar">
         <button
           type="button"
@@ -158,265 +144,468 @@
         </div>
       </div>
     </div>
-    <ng-container *ngIf="!p.notEditable">
-      <div class="col-md-3">
-        <div class="card">
-          <div
-            class="row"
-            *ngIf="
-              data?.criteria &&
-              isFromShop &&
-              !isDragging &&
-              (userType == evaluatorRole || userType == reevaluatorRole)
-            "
-          >
-            <div class="col-md-12">
-              <table
-                class="table table-bordered sm-table table-hover"
-                style="line-height: 1"
-              >
-                <thead class="thead-light">
-                  <tr style="text-align: center">
-                    <th>Title</th>
-                    <th>Score</th>
-                    <th>Achieved</th>
-                  </tr>
-                </thead>
-                <!-- {{cloneArray[0] | json }} -->
-                <tbody>
-                  <tr
-                    *ngFor="let item of cloneArray; let i = index"
-                    style="text-align: center"
-                  >
-                    <td>
-                      <label class="container" style="margin-bottom: 8px">
-                        <p style="padding-top: 5px; margin-bottom: 5px">
-                          {{ item?.title }}
-                        </p>
-                        <ng-container
-                          *ngIf="item?.type != 'CRITICAL_CASE' && isCritical"
-                        >
-                          <input
-                            class="checkbox"
-                            type="checkbox"
-                            name="{{ item?.title }}"
-                            [checked]="item?.isChecked"
-                            id="{{ item?.id }}"
-                            (click)="
-                              counter(checked, item, i);
-                              createTickForSlider(item)
-                            "
-                            #checked
-                          />
-                          <span class="checkmark"></span>
-                        </ng-container>
-                        <ng-container
-                          *ngIf="
-                            item?.type == 'CRITICAL_CASE' && !isNoNCritical
-                          "
-                        >
-                          <input
-                            class="checkbox"
-                            type="checkbox"
-                            name="{{ item?.title }}"
-                            [checked]="item?.isChecked"
-                            id="{{ item?.id }}"
-                            (click)="counter(checked, item, i)"
-                            #checked
-                          />
-                          <span class="checkmark"></span>
-                        </ng-container>
-                      </label>
-                    </td>
-                    <td>
-                      <label
-                        class="container"
-                        for="score"
-                        style="margin-top: 5px; margin-bottom: 2px"
-                      >
-                        {{ item?.score }}
-                      </label>
-                    </td>
-
-                    <td>
-                      <label
-                        class="container"
-                        for="achievedScore"
-                        style="margin-top: 5px; margin-bottom: 2px"
-                      >
-                        <span>
-                          {{ item?.achievedScore }}
-                        </span>
-                      </label>
-                    </td>
-                  </tr>
-                  <!-- <hr> -->
-                  <tr style="font-weight: 700; text-align: center">
-                    <td>
-                      <label class="container" for="">Total Score:</label>
-                    </td>
-                    <td>
-                      <label class="container" for="score">
-                        {{ score.toFixed() }}
-                      </label>
-                    </td>
-                    <td>
-                      <label class="container" for="totalAchieveScore">
-                        {{ totalAchieveScore.toFixed() }}
-                      </label>
-                    </td>
-                  </tr>
-
-                  <!-- <hr> -->
-                </tbody>
-              </table>
-              <div class="row" *ngIf="userType == evaluatorRole">
-                <div
-                  class="col-md-12"
-                  style="text-align: end; padding: 0 20px 5px 0"
+    <ng-container *ngIf="projectType == 'NFL'; else simpleCriteriaView">
+      <ng-container *ngIf="!p.notEditable">
+        <div
+          class="col-md-3"
+          *ngIf="data?.criteria && isFromShop && !isDragging"
+        >
+          <div class="card">
+            <div class="row">
+              <div class="col-md-12">
+                <table
+                  class="table table-bordered sm-table table-hover"
+                  style="line-height: 1"
                 >
-                  <button
-                    [disabled]="loading"
-                    class="btn btn-primary"
-                    (click)="evaluateShop()"
+                  <thead class="thead-light">
+                    <tr style="text-align: center">
+                      <th>Criteria</th>
+                    </tr>
+                  </thead>
+                  <!-- {{cloneArray[0] | json }} -->
+                  <tbody>
+                    <tr
+                      *ngFor="let item of cloneArray; let i = index"
+                      style="text-align: center"
+                    >
+                      <ng-container *ngIf="item.parentId == -1">
+                        <td>
+                          <mat-accordion>
+                            <mat-expansion-panel
+                              (opened)="panelOpenState = true"
+                              (closed)="panelOpenState = false"
+                            >
+                              <mat-expansion-panel-header
+                                [collapsedHeight]="'40px'"
+                              >
+                                <label
+                                  class="container"
+                                  style="margin-bottom: 8px"
+                                >
+                                  <p
+                                    style="padding-top: 5px; margin-bottom: 5px"
+                                  >
+                                    {{ item?.title }}
+                                  </p>
+                                </label>
+
+                                <mat-panel-description> </mat-panel-description>
+                              </mat-expansion-panel-header>
+                              <table
+                                class="table table-bordered sm-table table-hover"
+                                style="line-height: 1"
+                              >
+                                <thead class="thead-light">
+                                  <tr style="text-align: center">
+                                    <th>Title</th>
+                                    <th>Score</th>
+                                    <th>Achieved</th>
+                                  </tr>
+                                </thead>
+
+                                <tbody>
+                                  <tr
+                                    *ngFor="
+                                      let item2 of cloneArray;
+                                      let i = index
+                                    "
+                                    style="text-align: center"
+                                  >
+                                    <ng-container
+                                      *ngIf="item2.parentId == item.id"
+                                    >
+                                      <td>
+                                        <label
+                                          class="container"
+                                          style="margin-bottom: 8px"
+                                        >
+                                          <ng-container
+                                            *ngIf="
+                                              item?.type != 'CRITICAL_CASE' &&
+                                              isCritical
+                                            "
+                                          >
+                                            <input
+                                              class="checkbox"
+                                              type="checkbox"
+                                              name="{{ item2?.title }}"
+                                              [checked]="item2?.isChecked"
+                                              id="{{ item2?.id }}"
+                                              (click)="
+                                                counter(checked, item2, i);
+                                                createTickForSlider(item2)
+                                              "
+                                              #checked
+                                            />
+                                            <span class="checkmark"></span>
+                                            <p
+                                              style="
+                                                padding-top: 5px;
+                                                margin-bottom: 5px;
+                                              "
+                                            >
+                                              {{ item2?.title }}
+                                            </p>
+                                          </ng-container>
+                                          <ng-container
+                                            *ngIf="
+                                              item?.type == 'CRITICAL_CASE' &&
+                                              !isNoNCritical
+                                            "
+                                          >
+                                            <input
+                                              name="{{ item2?.title }}"
+                                              id="{{ item2?.id }}"
+                                            />
+                                            <p
+                                              style="
+                                                padding-top: 5px;
+                                                margin-bottom: 5px;
+                                              "
+                                            >
+                                              {{ item2?.title }}
+                                            </p>
+                                          </ng-container>
+                                        </label>
+                                      </td>
+                                      <td>
+                                        <label
+                                          class="container"
+                                          for="score"
+                                          style="
+                                            margin-top: 5px;
+                                            margin-bottom: 2px;
+                                          "
+                                        >
+                                          {{ item2?.score }}
+                                        </label>
+                                      </td>
+
+                                      <td>
+                                        <label
+                                          class="container"
+                                          for="achievedScore"
+                                          style="
+                                            margin-top: 5px;
+                                            margin-bottom: 2px;
+                                          "
+                                        >
+                                          <span>
+                                            {{ item2?.achievedScore }}
+                                          </span>
+                                        </label>
+                                      </td>
+                                    </ng-container>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </mat-expansion-panel>
+                          </mat-accordion>
+                        </td>
+                      </ng-container>
+                    </tr>
+                    <!-- <hr> -->
+                    <tr style="font-weight: 700; text-align: center">
+                      <td>
+                        <label class="container" for=""
+                          >Total Score: {{ totalAchieveScore.toFixed() }}/{{
+                            score.toFixed()
+                          }}</label
+                        >
+                      </td>
+                    </tr>
+
+                    <!-- <hr> -->
+                  </tbody>
+                </table>
+                <div class="row" *ngIf="userType != reevaluatorRole">
+                  <div
+                    class="col-md-12"
+                    style="text-align: end; padding: 0 20px 5px 0"
                   >
-                    <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
-                    Evaluate
-                  </button>
+                    <button
+                      [disabled]="loading"
+                      class="btn btn-primary"
+                      (click)="evaluateShop()"
+                    >
+                      <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
+                      Evaluate
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div class="row" *ngIf="userType == reevaluatorRole">
-                <div
-                  class="col-md-12"
-                  style="text-align: end; padding: 0 20px 5px 0"
-                >
-                  <button
-                    [disabled]="loading"
-                    class="btn btn-primary"
-                    (click)="showEvaluationRemarksModal()"
+                <div class="row" *ngIf="userType == reevaluatorRole">
+                  <div
+                    class="col-md-12"
+                    style="text-align: end; padding: 0 20px 5px 0"
                   >
-                    <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
-                    Evaluate
-                  </button>
+                    <button
+                      [disabled]="loading"
+                      class="btn btn-primary"
+                      (click)="showEvaluationRemarksModal()"
+                    >
+                      <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
+                      Evaluate
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <hr />
+            <hr />
 
-          <div class="row justify-content-center" *ngIf="!isDragging">
-            <ng-container
-              class="mt-2 justify-content-center"
-              *ngIf="data?.shopDetails?.tagsList"
-            >
-              <div class="col-md-11 mt-1">
-                <table class="table table-bordered sm-table">
-                  <tr
-                    *ngFor="
-                      let tab of data?.shopDetails?.tagsList;
-                      let j = index
-                    "
-                  >
-                    <th style="background: lightgray">{{ tab.heading }}</th>
-                    <td style="word-break: break-word">{{ tab.value }}</td>
-                  </tr>
-                </table>
-              </div>
-            </ng-container>
+            <div class="row justify-content-center">
+              <ng-container
+                class="mt-2 justify-content-center"
+                *ngIf="data?.shopDetails?.tagsList"
+              >
+                <div class="col-md-11 mt-1">
+                  <table class="table table-bordered sm-table">
+                    <tr
+                      *ngFor="
+                        let tab of data?.shopDetails?.tagsList;
+                        let j = index
+                      "
+                    >
+                      <th style="background: lightgray">{{ tab.heading }}</th>
+                      <td style="word-break: break-word">{{ tab.value }}</td>
+                    </tr>
+                  </table>
+                </div>
+              </ng-container>
+            </div>
           </div>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
 
-    <ng-container *ngIf="p.notEditable">
-      <div class="col-md-3">
-        <div class="card">
-          <div class="row" *ngIf="data?.criteria && isFromShop && !isDragging">
-            <div class="col-md-12">
-              <table
-                class="table table-bordered sm-table table-hover"
-                style="line-height: 1"
+      <ng-container *ngIf="p.notEditable">
+        <div
+          class="col-md-3"
+          *ngIf="data?.criteria && isFromShop && !isDragging"
+        >
+          <div class="card">
+            <div class="row">
+              <div class="col-md-12">
+                <table
+                  class="table table-bordered sm-table table-hover"
+                  style="line-height: 1"
+                >
+                  <thead class="thead-light">
+                    <tr style="text-align: center">
+                      <th>Title</th>
+                      <th>Score</th>
+                      <th>Achieved</th>
+                    </tr>
+                  </thead>
+                  <!-- {{cloneArray[0] | json }} -->
+                  <tbody>
+                    <tr
+                      *ngFor="let item of cloneArray; let i = index"
+                      style="text-align: center"
+                    >
+                      <ng-container *ngIf="item.parentId != -1">
+                        <ng-container *ngIf="!item.remarkId">
+                          <td>
+                            <label class="container" style="margin-bottom: 8px">
+                              <p style="padding-top: 5px; margin-bottom: 5px">
+                                {{ item?.title }}
+                              </p>
+                            </label>
+                          </td>
+                          <td>
+                            <label
+                              class="container"
+                              for="score"
+                              style="margin-top: 5px; margin-bottom: 2px"
+                            >
+                              {{ item?.score }}
+                            </label>
+                          </td>
+
+                          <td>
+                            <label
+                              class="container"
+                              for="achievedScore"
+                              style="margin-top: 5px; margin-bottom: 2px"
+                            >
+                              <span>
+                                {{ item?.achievedScore }}
+                              </span>
+                            </label>
+                          </td>
+                        </ng-container>
+                        <ng-container *ngIf="item.remarkId">
+                          <td>
+                            <mat-accordion>
+                              <mat-expansion-panel
+                                (opened)="panelOpenState = true"
+                                (closed)="panelOpenState = false"
+                              >
+                                <mat-expansion-panel-header
+                                  [collapsedHeight]="'40px'"
+                                  [expandedHeight]="'40px'"
+                                >
+                                  <label
+                                    class="container"
+                                    style="margin-bottom: 8px"
+                                  >
+                                    <p
+                                      style="
+                                        padding-top: 5px;
+                                        margin-bottom: 5px;
+                                      "
+                                    >
+                                      {{ item?.title }}
+                                    </p>
+                                  </label>
+
+                                  <mat-panel-description>
+                                  </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <ng-container
+                                  *ngFor="let remark of remarksList"
+                                >
+                                  <li
+                                    *ngIf="
+                                      remark.criteriaId == item.id &&
+                                      remark.isChecked == 1
+                                    "
+                                  >
+                                    <span style="font-size: 80%; color: red">
+                                      {{ remark.description }}
+                                    </span>
+                                  </li>
+                                </ng-container>
+                              </mat-expansion-panel>
+                            </mat-accordion>
+                          </td>
+                          <td>
+                            <label
+                              class="container"
+                              for="score"
+                              style="margin-top: 5px; margin-bottom: 2px"
+                            >
+                              {{ item?.score }}
+                            </label>
+                          </td>
+
+                          <td>
+                            <label
+                              class="container"
+                              for="achievedScore"
+                              style="margin-top: 5px; margin-bottom: 2px"
+                            >
+                              <span>
+                                {{ item?.achievedScore }}
+                              </span>
+                            </label>
+                          </td>
+                        </ng-container>
+                      </ng-container>
+                    </tr>
+                    <!-- <hr> -->
+
+                    <!-- <hr> -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <hr />
+
+            <div class="row justify-content-center">
+              <ng-container
+                class="mt-2 justify-content-center"
+                *ngIf="data?.shopDetails?.tagsList"
               >
-                <thead class="thead-light">
-                  <tr style="text-align: center">
-                    <th>Title</th>
-                    <th>Score</th>
-                    <th>Achieved</th>
-                  </tr>
-                </thead>
-                <!-- {{cloneArray[0] | json }} -->
-                <tbody>
-                  <tr
-                    *ngFor="let item of cloneArray; let i = index"
-                    style="text-align: center"
-                  >
-                    <ng-container *ngIf="!item.remarkId">
+                <div class="col-md-11 mt-1">
+                  <table class="table table-bordered sm-table">
+                    <tr
+                      *ngFor="
+                        let tab of data?.shopDetails?.tagsList;
+                        let j = index
+                      "
+                    >
+                      <th style="background: lightgray">{{ tab.heading }}</th>
+                      <td style="word-break: break-word">{{ tab.value }}</td>
+                    </tr>
+                  </table>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+    <ng-template #simpleCriteriaView>
+      <ng-container *ngIf="!p.notEditable">
+        <div class="col-md-3">
+          <div class="card">
+            <div
+              class="row"
+              *ngIf="
+                data?.criteria &&
+                isFromShop &&
+                !isDragging &&
+                (userType == evaluatorRole || userType == reevaluatorRole)
+              "
+            >
+              <div class="col-md-12">
+                <table
+                  class="table table-bordered sm-table table-hover"
+                  style="line-height: 1"
+                >
+                  <thead class="thead-light">
+                    <tr style="text-align: center">
+                      <th>Title</th>
+                      <th>Score</th>
+                      <th>Achieved</th>
+                    </tr>
+                  </thead>
+                  <!-- {{cloneArray[0] | json }} -->
+                  <tbody>
+                    <tr
+                      *ngFor="let item of cloneArray; let i = index"
+                      style="text-align: center"
+                    >
                       <td>
                         <label class="container" style="margin-bottom: 8px">
                           <p style="padding-top: 5px; margin-bottom: 5px">
                             {{ item?.title }}
                           </p>
-                        </label>
-                      </td>
-                      <td>
-                        <label
-                          class="container"
-                          for="score"
-                          style="margin-top: 5px; margin-bottom: 2px"
-                        >
-                          {{ item?.score }}
-                        </label>
-                      </td>
-
-                      <td>
-                        <label
-                          class="container"
-                          for="achievedScore"
-                          style="margin-top: 5px; margin-bottom: 2px"
-                        >
-                          <span>
-                            {{ item?.achievedScore }}
-                          </span>
-                        </label>
-                      </td>
-                    </ng-container>
-                    <ng-container *ngIf="item.remarkId">
-                      <td>
-                        <mat-accordion>
-                          <mat-expansion-panel
-                            (opened)="panelOpenState = true"
-                            (closed)="panelOpenState = false"
+                          <ng-container
+                            *ngIf="item?.type != 'CRITICAL_CASE' && isCritical"
                           >
-                            <mat-expansion-panel-header
-                              [collapsedHeight]="'40px'"
-                              [expandedHeight]="'40px'"
-                            >
-                              <label
-                                class="container"
-                                style="margin-bottom: 8px"
-                              >
-                                <p style="padding-top: 5px; margin-bottom: 5px">
-                                  {{ item?.title }}
-                                </p>
-                              </label>
-
-                              <mat-panel-description> </mat-panel-description>
-                            </mat-expansion-panel-header>
-                            <ng-container *ngFor="let remark of remarksList">
-                              <li
-                                *ngIf="
-                                  remark.criteriaId == item.id &&
-                                  remark.isChecked == 1
-                                "
-                              >
-                                <span style="font-size: 80%; color: red">
-                                  {{ remark.description }}
-                                </span>
-                              </li>
-                            </ng-container>
-                          </mat-expansion-panel>
-                        </mat-accordion>
+                            <input
+                              class="checkbox"
+                              type="checkbox"
+                              name="{{ item?.title }}"
+                              [checked]="item?.isChecked"
+                              id="{{ item?.id }}"
+                              (click)="
+                                counter(checked, item, i);
+                                createTickForSlider(item)
+                              "
+                              #checked
+                            />
+                            <span class="checkmark"></span>
+                          </ng-container>
+                          <ng-container
+                            *ngIf="
+                              item?.type == 'CRITICAL_CASE' && !isNoNCritical
+                            "
+                          >
+                            <input
+                              class="checkbox"
+                              type="checkbox"
+                              name="{{ item?.title }}"
+                              [checked]="item?.isChecked"
+                              id="{{ item?.id }}"
+                              (click)="counter(checked, item, i)"
+                              #checked
+                            />
+                            <span class="checkmark"></span>
+                          </ng-container>
+                        </label>
                       </td>
                       <td>
                         <label
@@ -439,48 +628,244 @@
                           </span>
                         </label>
                       </td>
-                    </ng-container>
-                  </tr>
-                  <!-- <hr> -->
+                    </tr>
+                    <!-- <hr> -->
+                    <tr style="font-weight: 700; text-align: center">
+                      <td>
+                        <label class="container" for="">Total Score:</label>
+                      </td>
+                      <td>
+                        <label class="container" for="score">
+                          {{ score.toFixed() }}
+                        </label>
+                      </td>
+                      <td>
+                        <label class="container" for="totalAchieveScore">
+                          {{ totalAchieveScore.toFixed() }}
+                        </label>
+                      </td>
+                    </tr>
 
-                  <!-- <hr> -->
-                </tbody>
-              </table>
-              <!-- <ng-container *ngIf="userType!=15">
+                    <!-- <hr> -->
+                  </tbody>
+                </table>
+                <div class="row" *ngIf="userType == evaluatorRole">
+                  <div
+                    class="col-md-12"
+                    style="text-align: end; padding: 0 20px 5px 0"
+                  >
+                    <button
+                      [disabled]="loading"
+                      class="btn btn-primary"
+                      (click)="evaluateShop()"
+                    >
+                      <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
+                      Evaluate
+                    </button>
+                  </div>
+                </div>
+                <div class="row" *ngIf="userType == reevaluatorRole">
+                  <div
+                    class="col-md-12"
+                    style="text-align: end; padding: 0 20px 5px 0"
+                  >
+                    <button
+                      [disabled]="loading"
+                      class="btn btn-primary"
+                      (click)="showEvaluationRemarksModal()"
+                    >
+                      <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
+                      Evaluate
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr />
+
+            <div class="row justify-content-center" *ngIf="!isDragging">
+              <ng-container
+                class="mt-2 justify-content-center"
+                *ngIf="data?.shopDetails?.tagsList"
+              >
+                <div class="col-md-11 mt-1">
+                  <table class="table table-bordered sm-table">
+                    <tr
+                      *ngFor="
+                        let tab of data?.shopDetails?.tagsList;
+                        let j = index
+                      "
+                    >
+                      <th style="background: lightgray">{{ tab.heading }}</th>
+                      <td style="word-break: break-word">{{ tab.value }}</td>
+                    </tr>
+                  </table>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="p.notEditable">
+        <div class="col-md-3">
+          <div class="card">
+            <div
+              class="row"
+              *ngIf="data?.criteria && isFromShop && !isDragging"
+            >
+              <div class="col-md-12">
+                <table
+                  class="table table-bordered sm-table table-hover"
+                  style="line-height: 1"
+                >
+                  <thead class="thead-light">
+                    <tr style="text-align: center">
+                      <th>Title</th>
+                      <th>Score</th>
+                      <th>Achieved</th>
+                    </tr>
+                  </thead>
+                  <!-- {{cloneArray[0] | json }} -->
+                  <tbody>
+                    <tr
+                      *ngFor="let item of cloneArray; let i = index"
+                      style="text-align: center"
+                    >
+                      <ng-container *ngIf="!item.remarkId">
+                        <td>
+                          <label class="container" style="margin-bottom: 8px">
+                            <p style="padding-top: 5px; margin-bottom: 5px">
+                              {{ item?.title }}
+                            </p>
+                          </label>
+                        </td>
+                        <td>
+                          <label
+                            class="container"
+                            for="score"
+                            style="margin-top: 5px; margin-bottom: 2px"
+                          >
+                            {{ item?.score }}
+                          </label>
+                        </td>
+
+                        <td>
+                          <label
+                            class="container"
+                            for="achievedScore"
+                            style="margin-top: 5px; margin-bottom: 2px"
+                          >
+                            <span>
+                              {{ item?.achievedScore }}
+                            </span>
+                          </label>
+                        </td>
+                      </ng-container>
+                      <ng-container *ngIf="item.remarkId">
+                        <td>
+                          <mat-accordion>
+                            <mat-expansion-panel
+                              (opened)="panelOpenState = true"
+                              (closed)="panelOpenState = false"
+                            >
+                              <mat-expansion-panel-header
+                                [collapsedHeight]="'40px'"
+                                [expandedHeight]="'40px'"
+                              >
+                                <label
+                                  class="container"
+                                  style="margin-bottom: 8px"
+                                >
+                                  <p
+                                    style="padding-top: 5px; margin-bottom: 5px"
+                                  >
+                                    {{ item?.title }}
+                                  </p>
+                                </label>
+
+                                <mat-panel-description> </mat-panel-description>
+                              </mat-expansion-panel-header>
+                              <ng-container *ngFor="let remark of remarksList">
+                                <li
+                                  *ngIf="
+                                    remark.criteriaId == item.id &&
+                                    remark.isChecked == 1
+                                  "
+                                >
+                                  <span style="font-size: 80%; color: red">
+                                    {{ remark.description }}
+                                  </span>
+                                </li>
+                              </ng-container>
+                            </mat-expansion-panel>
+                          </mat-accordion>
+                        </td>
+                        <td>
+                          <label
+                            class="container"
+                            for="score"
+                            style="margin-top: 5px; margin-bottom: 2px"
+                          >
+                            {{ item?.score }}
+                          </label>
+                        </td>
+
+                        <td>
+                          <label
+                            class="container"
+                            for="achievedScore"
+                            style="margin-top: 5px; margin-bottom: 2px"
+                          >
+                            <span>
+                              {{ item?.achievedScore }}
+                            </span>
+                          </label>
+                        </td>
+                      </ng-container>
+                    </tr>
+                    <!-- <hr> -->
+
+                    <!-- <hr> -->
+                  </tbody>
+                </table>
+                <!-- <ng-container *ngIf="userType!=15">
                       <div class="col-md-12" style="text-align: end; padding: 0 20px 5px 0; ">
                           <button [disabled]="loading" class="btn btn-primary" (click)="showEmailModal()">
                               <i [ngClass]="{'fa fa-spinner fa-spin': loading}"></i>
                               Send Email</button>
                       </div>
                     </ng-container> -->
+              </div>
+            </div>
+
+            <hr />
+
+            <div class="row justify-content-center" *ngIf="!isDragging">
+              <ng-container
+                class="mt-2 justify-content-center"
+                *ngIf="data?.shopDetails?.tagsList"
+              >
+                <div class="col-md-11 mt-1">
+                  <table class="table table-bordered sm-table">
+                    <tr
+                      *ngFor="
+                        let tab of data?.shopDetails?.tagsList;
+                        let j = index
+                      "
+                    >
+                      <th style="background: lightgray">{{ tab.heading }}</th>
+                      <td style="word-break: break-word">{{ tab.value }}</td>
+                    </tr>
+                  </table>
+                </div>
+              </ng-container>
             </div>
           </div>
-
-          <hr />
-
-          <div class="row justify-content-center" *ngIf="!isDragging">
-            <ng-container
-              class="mt-2 justify-content-center"
-              *ngIf="data?.shopDetails?.tagsList"
-            >
-              <div class="col-md-11 mt-1">
-                <table class="table table-bordered sm-table">
-                  <tr
-                    *ngFor="
-                      let tab of data?.shopDetails?.tagsList;
-                      let j = index
-                    "
-                  >
-                    <th style="background: lightgray">{{ tab.heading }}</th>
-                    <td style="word-break: break-word">{{ tab.value }}</td>
-                  </tr>
-                </table>
-              </div>
-            </ng-container>
-          </div>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
+    </ng-template>
   </div>
 </div>
 

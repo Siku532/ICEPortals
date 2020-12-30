@@ -40,7 +40,7 @@ import { MerchandiserWiseScoreComponent } from "./innerComponents/merchandiser-w
 import { ComplienceReportComponent } from "./innerComponents/complience-report/complience-report.component";
 import { TableauHelperComponent } from "./Tableau/tableau-helper/tableau-helper.component";
 import { UniqueBasedProductivityReportComponent } from "./innerComponents/unique-based-productivity-report/unique-based-productivity-report.component";
-
+import { BrandSkuReportNewComponent } from "./innerComponents/brand-sku-report-new/brand-sku-report-new.component";
 const routes: Routes = [
   {
     path: "",
@@ -70,6 +70,16 @@ const routes: Routes = [
       { path: "update_password", component: UpdatePasswordComponent },
       { path: "raw_data", component: RawDataComponent },
       { path: "brand_sku_oos", component: DataAvailabilityComponent },
+      { path: "brand_sku_oos_gt", component: DataAvailabilityComponent },
+      {
+        path: "brand_sku_oos_gt/:regionId",
+        component: DataAvailabilityComponent,
+      },
+      { path: "brand_sku_oos_imt", component: DataAvailabilityComponent },
+      {
+        path: "brand_sku_oos_imt/:clusterId",
+        component: DataAvailabilityComponent,
+      },
       {
         path: "supervisor_wwwr_summary",
         component: SupervisorWwwrSummaryComponent,

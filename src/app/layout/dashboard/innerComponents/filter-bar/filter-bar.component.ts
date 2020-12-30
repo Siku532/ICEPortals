@@ -32,8 +32,7 @@ import { config } from "src/assets/config";
 export class FilterBarComponent implements OnInit {
   //#endregion
 
-  zonePlaceholder = "";
-  regionPlaceholder = "";
+ 
   constructor(
     private toastr: ToastrService,
     private httpService: DashboardService,
@@ -54,6 +53,8 @@ export class FilterBarComponent implements OnInit {
       this.regionPlaceholder = "Region";
     }
   }
+  zonePlaceholder = "";
+  regionPlaceholder = "";
   tableData: any = [];
   // ip = environment.ip;
   configFile = config;
@@ -256,57 +257,7 @@ export class FilterBarComponent implements OnInit {
     }
   }
 
-  getBrandSKUOOS() {
-    if (this.endDate >= this.startDate) {
-      this.loadingData = true;
-      this.loadingReportMessage = true;
-      const obj = {
-        zoneId: this.selectedZone.id || -1,
-        regionId: this.selectedRegion.id || -1,
-        startDate: moment(this.startDate).format("YYYY-MM-DD"),
-        endDate: moment(this.endDate).format("YYYY-MM-DD"),
-        channelId: this.arrayMaker(this.selectedChannel),
-        cityId: this.selectedCity.id || -1,
-        areaId: this.selectedArea.id || -1,
-        mustHaveAll: this.selectedMustHaveAll || "",
-      };
-
-      const url = "brandSKUOOS";
-      const body = this.httpService.UrlEncodeMaker(obj);
-      this.httpService.getKeyForProductivityReport(body, url).subscribe(
-        (data) => {
-          console.log(data, "query list");
-          const res: any = data;
-
-          if (res) {
-            const obj2 = {
-              key: res.key,
-              fileType: res.fileType,
-            };
-            const url = "downloadReport";
-            this.getproductivityDownload(obj2, url);
-          } else {
-            this.clearLoading();
-
-            this.toastr.info(
-              "Something went wrong,Please retry",
-              "dashboard Data Availability Message"
-            );
-          }
-        },
-        (error) => {
-          this.clearLoading();
-        }
-      );
-    } else {
-      this.clearLoading();
-      this.toastr.info(
-        "Something went wrong,Please retry",
-        "dashboard Data Availability Message"
-      );
-    }
-  }
-
+  
   getDashboardData() {
     if (this.endDate >= this.startDate) {
       this.loadingData = true;
