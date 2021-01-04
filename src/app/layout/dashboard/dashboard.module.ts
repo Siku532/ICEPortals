@@ -61,6 +61,10 @@ import { MerchandiserWiseScoreComponent } from './innerComponents/merchandiser-w
 import { ComplienceReportComponent } from './innerComponents/complience-report/complience-report.component';
 import { UniqueBasedProductivityReportComponent } from './innerComponents/unique-based-productivity-report/unique-based-productivity-report.component';
 import { BrandSkuReportNewComponent } from './innerComponents/brand-sku-report-new/brand-sku-report-new.component';
+import { MtDashboardComponent } from './Tableau/mt-dashboard/mt-dashboard.component';
+import { GtDashboardComponent } from './Tableau/gt-dashboard/gt-dashboard.component';
+import { SssGtDashboardComponent } from './Tableau/sss-gt-dashboard/sss-gt-dashboard.component';
+import { ComplianceDashboardComponent } from './Tableau/compliance-dashboard/compliance-dashboard.component';
 @NgModule({
     imports: [
         FormsModule,
@@ -103,6 +107,6 @@ ReactiveFormsModule
           UpdatePasswordComponent, RawDataComponent, MatTableComponent,
           DataAvailabilityComponent, MerchandiserListComponent,
           AbnormalityComponent, TimeAnalysisReportComponent, MerchandiserAttendanceComponent, DailyEvaluationReportComponent, EmailManagerComponent, MessageStatusListComponent, AddNewMessageComponent, UploadRoutesComponent, SingleRouteDetailComponent, ShopsForSingleRouteComponent, AddEditGroupComponent, AddDeviceComponent, SupervisorWwwrSummaryComponent, ShopListReportComponent, UploadRoutesNewComponent,
-          MerchandiserPlannedCallsComponent, TableauHelperComponent, DashboardTableauComponent, ProductivityTableauComponent, SkuDashboardComponent, VoErrorReportComponent, MerchandiserScoreComponent, MerchandiserWiseScoreComponent, ComplienceReportComponent, UniqueBasedProductivityReportComponent, BrandSkuReportNewComponent]
+          MerchandiserPlannedCallsComponent, TableauHelperComponent, DashboardTableauComponent, ProductivityTableauComponent, SkuDashboardComponent, VoErrorReportComponent, MerchandiserScoreComponent, MerchandiserWiseScoreComponent, ComplienceReportComponent, UniqueBasedProductivityReportComponent, BrandSkuReportNewComponent, MtDashboardComponent, GtDashboardComponent, SssGtDashboardComponent, ComplianceDashboardComponent]
 })
 export class DashboardModule {}

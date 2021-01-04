@@ -12,7 +12,7 @@ import { NgModel } from "@angular/forms";
   styleUrls: ["./data-availability.component.scss"],
 })
 export class DataAvailabilityComponent implements OnInit {
-  title = "Brand - SKU OOS";
+  title = "";
   zonePlaceholder = "";
   regionPlaceholder = "";
   tableData: any = [];
@@ -71,6 +71,10 @@ export class DataAvailabilityComponent implements OnInit {
     this.activatedRoute.params.subscribe((p) => {
       this.params = p;
     });
+    this.title = "OOS Dashboard Report";
+    if (this.params.regionId || this.params.clusterId) {
+      this.startDate.setDate(this.startDate.getDate() - 1);
+    }
   }
 
   ngOnInit() {}
@@ -139,17 +143,14 @@ export class DataAvailabilityComponent implements OnInit {
         clusterId: this.params.clusterId,
         regionId: -1,
         startDate: moment(this.startDate).format("YYYY-MM-DD"),
-        endDate: moment(this.endDate).format("YYYY-MM-DD"),
+        endDate: moment(this.startDate).format("YYYY-MM-DD"),
         channelId: this.arrayMaker(this.selectedChannel),
         cityId: -1,
         areaId: -1,
         mustHaveAll: this.selectedMustHaveAll || "",
       };
 
-      const url =
-        this.router.url == this.params.regionId
-          ? "brandSKUOOS"
-          : "brandSKUOOSNew";
+      const url = this.params.regionId ? "brandSKUOOS" : "brandSKUOOSNew";
       const body = this.httpService.UrlEncodeMaker(obj);
       this.httpService.getKeyForProductivityReport(body, url).subscribe(
         (data) => {

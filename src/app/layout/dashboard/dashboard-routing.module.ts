@@ -41,6 +41,11 @@ import { ComplienceReportComponent } from "./innerComponents/complience-report/c
 import { TableauHelperComponent } from "./Tableau/tableau-helper/tableau-helper.component";
 import { UniqueBasedProductivityReportComponent } from "./innerComponents/unique-based-productivity-report/unique-based-productivity-report.component";
 import { BrandSkuReportNewComponent } from "./innerComponents/brand-sku-report-new/brand-sku-report-new.component";
+import { MtDashboardComponent } from "./Tableau/mt-dashboard/mt-dashboard.component";
+import { GtDashboardComponent } from "./Tableau/gt-dashboard/gt-dashboard.component";
+import { SssGtDashboardComponent } from "./Tableau/sss-gt-dashboard/sss-gt-dashboard.component";
+import { ComplianceDashboardComponent } from "./Tableau/compliance-dashboard/compliance-dashboard.component";
+
 const routes: Routes = [
   {
     path: "",
@@ -111,6 +116,10 @@ const routes: Routes = [
       { path: "availability-tableau", component: DashboardTableauComponent },
       { path: "rental-dashboard", component: ProductivityTableauComponent },
       { path: "availability-dashboard", component: SkuDashboardComponent },
+      { path: "mt-dashboard", component: MtDashboardComponent },
+      { path: "gt-dashboard", component: GtDashboardComponent },
+      { path: "sss-gt-dashboard", component: SssGtDashboardComponent },
+      { path: "compliance-dashboard", component: ComplianceDashboardComponent },
       { path: "merchandiser_score", component: MerchandiserScoreComponent },
       { path: "vo_error_report", component: VoErrorReportComponent },
       { path: "raw_data/:reportId", component: RawDataComponent },

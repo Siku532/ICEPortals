@@ -20,7 +20,11 @@ export class LayoutComponent implements OnInit {
         // tslint:disable-next-line:triple-equals
         if (
           e.url == "/dashboard/availability-dashboard" ||
-          e.url == "/dashboard/rental-dashboard"
+          e.url == "/dashboard/rental-dashboard" ||
+          e.url == "/dashboard/gt-dashboard" ||
+          e.url == "/dashboard/mt-dashboard" ||
+          e.url == "/dashboard/sss-gt-dashboard" ||
+          e.url == "/dashboard/compliance-dashboard"
         ) {
           this.hideSideBar = true;
           this.isTableauRequest = true;
@@ -29,10 +33,14 @@ export class LayoutComponent implements OnInit {
     // For Shop Detail Page, Tableau , Hide Side Bar
     let url: any = new Array();
     url = this.router.url.split(/[?/]/);
-    const t: any = url.find((d) => d === "shop_detail");
+    const s: any = url.find((d) => d === "shop_detail");
     const r: any = url.find((d) => d === "details");
-    if (t || r) {
+    const t: any = url.find((d) => d == "tableau");
+    if (s || r || t) {
       this.hideSideBar = true;
+      if (t) {
+        this.isTableauRequest = true;
+      }
     }
   }
 
