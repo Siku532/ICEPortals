@@ -138,7 +138,7 @@ export class DashboardService {
   }
 
   merchandiserShopListCBL(obj) {
-    const body = `zoneId=${obj.zoneId}&regionId=${obj.regionId}&endDate=${obj.endDate}&startDate=${obj.startDate}&distributionId=${obj.distributionId}&cityId=${obj.cityId}&storeType=${obj.storeType}&channelId=${obj.channelId}`;
+    const body = `clusterId=${obj.clusterId}&zoneId=${obj.zoneId}&regionId=${obj.regionId}&endDate=${obj.endDate}&startDate=${obj.startDate}&distributionId=${obj.distributionId}&cityId=${obj.cityId}&storeType=${obj.storeType}&channelId=${obj.channelId}`;
     const url = this.ip + "merchandiserShopListCBL";
     return this.http.post(url, body, this.httpOptions);
     // .pipe(
@@ -163,6 +163,20 @@ export class DashboardService {
     //     return of(null);
     //   })
     // );
+  }
+
+  getZoneByCluster() {
+    this.user_id = localStorage.getItem("user_id");
+    const filter = JSON.stringify({ act: 18, userId: this.user_id });
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
+  }
+
+  getAllClusters() {
+    this.user_id = localStorage.getItem("user_id");
+    const filter = JSON.stringify({ act: 17, userId: this.user_id });
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
   }
 
   getQueryTypeList(reportId) {

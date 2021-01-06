@@ -826,17 +826,7 @@
         </mat-select>
       </mat-form-field>
 
-      <!-- <mat-form-field *ngIf="categoryList.length>0" class="example-margin mr-10-IMP">
-                <mat-select placeholder="Category" name='category' [(ngModel)]="selectedCategory" (ngModelChange)="categoryChange()">
-                    <mat-option [value]="category" *ngFor="let category of categoryList">{{category.title}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field *ngIf="productsList.length>0" class="example-margin mr-10-IMP">
-                <mat-select placeholder="product" name='product' [(ngModel)]="selectedProduct" multiple>
-                    <mat-option [value]="product" *ngFor="let product of productsList">{{product.title}}</mat-option>
-                </mat-select>
-            </mat-form-field> -->
+     
     </section>
 
     <section class="example-section">
@@ -878,16 +868,7 @@
       </mat-form-field>
     </section>
     <section class="example-section">
-      <!-- <mat-form-field *ngIf="lastVisit.length>0" class="example-margin mr-5-IMP">
-                <mat-select placeholder="Last Visit" name='lastVisit' [(ngModel)]="selectedLastVisit">
-                    <mat-option [value]="lv" *ngFor="let lv of lastVisit">{{lv}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field *ngIf="mustHave.length>0" class="example-margin mr-5-IMP">
-                <mat-select placeholder="Must Have" name='mustHave' [(ngModel)]="selectedMustHave">
-                    <mat-option [value]="m.key" *ngFor="let m of mustHave">{{m.value}}</mat-option>
-                </mat-select>
-            </mat-form-field> -->
+    
 
       <mat-form-field class="example-full-width mr-10-IMP">
         <input
@@ -1103,7 +1084,7 @@
           (ngModelChange)="zoneChange()"
         >
           <ng-container *ngFor="let zone of zones">
-            <mat-option *ngIf="zone.id !== -1" [value]="zone">{{
+            <mat-option [value]="zone">{{
               zone.title
             }}</mat-option>
           </ng-container>
@@ -1201,7 +1182,7 @@
           (ngModelChange)="zoneChange()"
         >
           <ng-container *ngFor="let zone of zones">
-            <mat-option *ngIf="zone.id !== -1" [value]="zone">{{
+            <mat-option [value]="zone">{{
               zone.title
             }}</mat-option>
           </ng-container>
@@ -2568,7 +2549,7 @@
           (ngModelChange)="zoneChange()"
         >
           <ng-container *ngFor="let zone of zones">
-            <mat-option *ngIf="zone.id !== -1" [value]="zone">{{
+            <mat-option [value]="zone">{{
               zone.title
             }}</mat-option>
           </ng-container>
@@ -2743,7 +2724,7 @@
           (ngModelChange)="zoneChange()"
         >
           <ng-container *ngFor="let zone of zones">
-            <mat-option *ngIf="zone.id !== -1" [value]="zone">{{
+            <mat-option [value]="zone">{{
               zone.title
             }}</mat-option>
           </ng-container>

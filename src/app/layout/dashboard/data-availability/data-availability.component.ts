@@ -84,8 +84,17 @@ export class DataAvailabilityComponent implements OnInit {
       this.loadingData = true;
       this.loadingReportMessage = true;
       const obj = {
-        zoneId: this.selectedZone.id || -1,
-        regionId: this.selectedRegion.id || -1,
+        clusterId: localStorage.getItem("clusterId") || -1,
+        zoneId: this.selectedZone.id
+          ? this.selectedZone.id == -1
+            ? localStorage.getItem("zoneId")
+            : this.selectedZone.id
+          : localStorage.getItem("zoneId"),
+        regionId: this.selectedRegion.id
+          ? this.selectedRegion.id == -1
+            ? localStorage.getItem("regionId")
+            : this.selectedZone.id
+          : localStorage.getItem("regionId"),
         startDate: moment(this.startDate).format("YYYY-MM-DD"),
         endDate: moment(this.endDate).format("YYYY-MM-DD"),
         channelId: this.arrayMaker(this.selectedChannel),
@@ -230,6 +239,7 @@ export class DataAvailabilityComponent implements OnInit {
 
   zoneChange() {
     this.loadingData = true;
+    this.selectedRegion = {};
 
     this.httpService.getRegion(this.selectedZone.id).subscribe(
       (data) => {
