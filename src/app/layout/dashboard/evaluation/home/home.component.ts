@@ -65,6 +65,7 @@ export class HomeComponent implements OnInit {
   evaluatorRole: any;
   surveyorId: any;
   visitDay: any;
+  surveyDetails: any;
 
   constructor(
     private router: Router,
@@ -152,6 +153,7 @@ export class HomeComponent implements OnInit {
       (data) => {
         if (data) {
           this.data = data;
+          this.surveyDetails = this.data.shopDetails.sectionMap;
           if (this.p.notEditable) {
             this.isEditable = false;
             document.title = this.data.section[0].sectionTitle;
@@ -513,16 +515,6 @@ export class HomeComponent implements OnInit {
     this.loading = true;
     const req = true;
 
-    for (const element of this.data.shopDetails.tagsList) {
-      // tslint:disable-next-line:triple-equals
-      if (element.heading == "surveyorId") {
-        this.surveyorId = element.value;
-        // tslint:disable-next-line:triple-equals
-      } else if (element.heading == "Visit Date") {
-        this.visitDay = element.value;
-      }
-    }
-
     if (req) {
       // tslint:disable-next-line:triple-equals
       if (this.userType == this.reevaluatorRole) {
@@ -530,8 +522,9 @@ export class HomeComponent implements OnInit {
           criteria: this.cloneArray,
           surveyId: this.surveyId,
           evaluatorId: user_id,
-          surveyorId: this.surveyorId,
-          visitDate: this.visitDay,
+          surveyorId: this.surveyDetails.surveyorId,
+          visitDate: this.surveyDetails.visitDate,
+          channelId: this.surveyDetails.channelId,
           evaluationRemark: this.selectedEvaluationRemark,
           status: this.checkForSlectedRemarks(this.cloneArray),
         };
@@ -566,8 +559,9 @@ export class HomeComponent implements OnInit {
         const obj = {
           criteria: this.cloneArray,
           surveyId: this.surveyId,
-          surveyorId: this.surveyorId,
-          visitDate: this.visitDay,
+          surveyorId: this.surveyDetails.surveyorId,
+          visitDate: this.surveyDetails.visitDate,
+          channelId: this.surveyDetails.channelId,
           evaluatorId: user_id,
           status: this.checkForSlectedRemarks(this.cloneArray),
         };

@@ -40,6 +40,7 @@ export class FilterBarComponent implements OnInit {
     public formBuilder: FormBuilder
   ) {
     this.zones = JSON.parse(localStorage.getItem("zoneList"));
+    this.clusterList = JSON.parse(localStorage.getItem("clusterList"));
     this.categoryList = JSON.parse(localStorage.getItem("assetList"));
     this.channels = JSON.parse(localStorage.getItem("channelList"));
     this.projectType = localStorage.getItem("projectType");
@@ -52,7 +53,9 @@ export class FilterBarComponent implements OnInit {
       this.zonePlaceholder = "Zone";
       this.regionPlaceholder = "Region";
     }
+    this.clusterPlaceHolder = "Cluster";
   }
+  clusterPlaceHolder = "";
   zonePlaceholder = "";
   regionPlaceholder = "";
   tableData: any = [];
@@ -176,8 +179,8 @@ export class FilterBarComponent implements OnInit {
     }
     if (!this.zones && !this.clusterList) {
       // tslint:disable-next-line:radix
-      if (localStorage.getItem("clusterId") != "-1") {
-        this.getZoneByCluster();
+      if (this.clusterId != "-1") {
+        this.getSelectiveClusters();
       } else {
         this.getZone();
       }
@@ -221,7 +224,11 @@ export class FilterBarComponent implements OnInit {
       this.loadingData = true;
       this.loadingReportMessage = true;
       const obj = {
-        clusterId: this.clusterId,
+        clusterId: this.selectedCluster.id
+          ? this.selectedCluster.id == -1
+            ? localStorage.getItem("clusterId")
+            : this.selectedCluster.id
+          : localStorage.getItem("clusterId"),
         zoneId: this.selectedZone.id
           ? this.selectedZone.id == -1
             ? localStorage.getItem("zoneId")
@@ -354,27 +361,30 @@ export class FilterBarComponent implements OnInit {
   }
 
   getZoneByCluster() {
-    this.httpService.getZoneByCluster().subscribe(
+    this.loadingData = true;
+    this.selectedZone = {};
+    this.selectedRegion = {};
+    this.selectedArea = {};
+    this.selectedCity = {};
+    this.selectedDistribution = {};
+    this.httpService.getZoneByCluster(this.selectedCluster.id || -1).subscribe(
       (data) => {
         const res: any = data;
-        if (res.zoneList) {
-          localStorage.setItem("zoneList", JSON.stringify(res.zoneList));
-          localStorage.setItem("assetList", JSON.stringify(res.assetList));
-          localStorage.setItem("channelList", JSON.stringify(res.channelList));
-          this.zones = res.zoneList;
-          this.categoryList = res.assetList;
-          this.channels = res.channelList;
+        if (res) {
+          this.zones = res;
         }
+        this.loadingData = false;
       },
       (error) => {
         error.status === 0
           ? this.toastr.error("Please check Internet Connection", "Error")
           : this.toastr.error(error.description, "Error");
+        this.loadingData = false;
       }
     );
   }
 
-  getAllClusters() {
+  getSelectiveClusters() {
     this.httpService.getAllClusters().subscribe(
       (data) => {
         const res: any = data;
@@ -1150,7 +1160,11 @@ export class FilterBarComponent implements OnInit {
       this.loadingData = true;
       this.loadingReportMessage = true;
       const obj = {
-        clusterId: this.clusterId,
+        clusterId: this.selectedCluster.id
+          ? this.selectedCluster.id == -1
+            ? localStorage.getItem("clusterId")
+            : this.selectedCluster.id
+          : localStorage.getItem("clusterId"),
         zoneId: this.selectedZone.id
           ? this.selectedZone.id == -1
             ? localStorage.getItem("zoneId")
@@ -1314,12 +1328,20 @@ export class FilterBarComponent implements OnInit {
 
     this.loading = true;
     const obj: any = {
-      clusterId: this.clusterId,
+      clusterId: this.selectedCluster.id
+        ? this.selectedCluster.id == -1
+          ? localStorage.getItem("clusterId")
+          : this.selectedCluster.id
+        : localStorage.getItem("clusterId"),
       zoneId: this.selectedZone.id
-        ? this.selectedZone.id
+        ? this.selectedZone.id == -1
+          ? localStorage.getItem("zoneId")
+          : this.selectedZone.id
         : localStorage.getItem("zoneId"),
       regionId: this.selectedRegion.id
-        ? this.selectedRegion.id
+        ? this.selectedRegion.id == -1
+          ? localStorage.getItem("regionId")
+          : this.selectedZone.id
         : localStorage.getItem("regionId"),
       startDate: startDate,
       endDate: endDate,

@@ -14,7 +14,26 @@
       *ngIf="!params.regionId && !params.clusterId; else singleDate"
     >
       <section class="example-section">
-        <mat-form-field class="example-margin mr-10-IMP">
+        <ng-container *ngIf="clusterId != '-1'">
+          <mat-form-field class="example-margin mr-10-IMP">
+            <mat-select
+              placeholder="{{ clusterPlaceHolder }}"
+              name="cluster"
+              [(ngModel)]="selectedCluster"
+              (ngModelChange)="getZoneByCluster()"
+            >
+              <mat-option
+                [value]="cluster"
+                *ngFor="let cluster of clusterList"
+                >{{ cluster.title }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <mat-form-field
+          *ngIf="zones.length > 0"
+          class="example-margin mr-10-IMP"
+        >
           <mat-select
             placeholder="{{ zonePlaceholder }}"
             name="zone"

@@ -74,19 +74,34 @@
       >
     </mat-card-title>
     <section class="example-section">
-      <mat-form-field class="example-margin mr-10-IMP">
-        <mat-select
-          placeholder="{{ zonePlaceholder }}"
-          name="zone"
-          [(ngModel)]="selectedZone"
-          (ngModelChange)="zoneChange()"
-        >
-          <mat-option [value]="zone" *ngFor="let zone of zones">{{
-            zone.title
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
+      <ng-container *ngIf="clusterId != '-1'">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ clusterPlaceHolder }}"
+            name="cluster"
+            [(ngModel)]="selectedCluster"
+            (ngModelChange)="getZoneByCluster()"
+          >
+            <mat-option [value]="cluster" *ngFor="let cluster of clusterList">{{
+              cluster.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="zones?.length > 0">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
       <mat-form-field
         *ngIf="regions.length > 0"
         class="example-margin mr-10-IMP"
@@ -246,18 +261,20 @@
       >
     </mat-card-title>
     <section class="example-section">
-      <mat-form-field class="example-margin mr-10-IMP">
-        <mat-select
-          placeholder="{{ zonePlaceholder }}"
-          name="zone"
-          [(ngModel)]="selectedZone"
-          (ngModelChange)="zoneChange()"
-        >
-          <mat-option [value]="zone" *ngFor="let zone of zones">{{
-            zone.title
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <ng-container *ngIf="zones?.length > 0">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
 
       <mat-form-field
         *ngIf="regions.length > 0"
@@ -436,18 +453,20 @@
       >
     </mat-card-title>
     <section class="example-section">
-      <mat-form-field class="example-margin mr-10-IMP">
-        <mat-select
-          placeholder="{{ zonePlaceholder }}"
-          name="zone"
-          [(ngModel)]="selectedZone"
-          (ngModelChange)="zoneChange()"
-        >
-          <mat-option [value]="zone" *ngFor="let zone of zones">{{
-            zone.title
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <ng-container *ngIf="zones?.length > 0">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
 
       <mat-form-field
         *ngIf="regions.length > 0"
@@ -606,18 +625,20 @@
             <small style="color:lightseagreen !important" class="mtb-5-IMP" *ngIf="loadingReportMessage">Your file is being prepared for download</small> -->
     </mat-card-title>
     <section class="example-section">
-      <mat-form-field class="example-margin mr-10-IMP">
-        <mat-select
-          placeholder="{{ zonePlaceholder }}"
-          name="zone"
-          [(ngModel)]="selectedZone"
-          (ngModelChange)="zoneChange()"
-        >
-          <mat-option [value]="zone" *ngFor="let zone of zones">{{
-            zone.title
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <ng-container *ngIf="zones?.length > 0">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
 
       <mat-form-field
         *ngIf="regions.length > 0"
@@ -780,18 +801,34 @@
       >
     </mat-card-title>
     <section class="example-section">
-      <mat-form-field class="example-margin mr-10-IMP">
-        <mat-select
-          placeholder="{{ zonePlaceholder }}"
-          name="zone"
-          [(ngModel)]="selectedZone"
-          (ngModelChange)="zoneChange()"
-        >
-          <mat-option [value]="zone" *ngFor="let zone of zones">{{
-            zone.title
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <ng-container *ngIf="clusterId != '-1'">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ clusterPlaceHolder }}"
+            name="cluster"
+            [(ngModel)]="selectedCluster"
+            (ngModelChange)="getZoneByCluster()"
+          >
+            <mat-option [value]="cluster" *ngFor="let cluster of clusterList">{{
+              cluster.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="zones?.length > 0">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
 
       <mat-form-field
         *ngIf="regions.length > 0"
@@ -825,8 +862,6 @@
           }}</mat-option>
         </mat-select>
       </mat-form-field>
-
-     
     </section>
 
     <section class="example-section">
@@ -868,8 +903,6 @@
       </mat-form-field>
     </section>
     <section class="example-section">
-    
-
       <mat-form-field class="example-full-width mr-10-IMP">
         <input
           matInput
@@ -926,18 +959,20 @@
       <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
     </mat-card-title>
     <section class="example-section">
-      <mat-form-field class="example-margin mr-10-IMP">
-        <mat-select
-          placeholder="{{ zonePlaceholder }}"
-          name="zone"
-          [(ngModel)]="selectedZone"
-          (ngModelChange)="zoneChange()"
-        >
-          <mat-option [value]="zone" *ngFor="let zone of zones">{{
-            zone.title
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <ng-container *ngIf="zones?.length > 0">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
       <mat-form-field
         *ngIf="channels.length > 0"
         class="example-margin mr-10-IMP"
@@ -1076,20 +1111,20 @@
       >
     </mat-card-title>
     <section class="example-section">
-      <mat-form-field class="example-margin mr-10-IMP">
-        <mat-select
-          placeholder="{{ zonePlaceholder }}"
-          name="zone"
-          [(ngModel)]="selectedZone"
-          (ngModelChange)="zoneChange()"
-        >
-          <ng-container *ngFor="let zone of zones">
-            <mat-option [value]="zone">{{
+      <ng-container *ngIf="zones?.length > 0">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
               zone.title
             }}</mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
 
       <mat-form-field
         *ngIf="regions.length > 0"
@@ -1174,21 +1209,20 @@
       >
     </mat-card-title>
     <section class="example-section">
-      <mat-form-field class="example-margin mr-10-IMP">
-        <mat-select
-          placeholder="{{ zonePlaceholder }}"
-          name="zone"
-          [(ngModel)]="selectedZone"
-          (ngModelChange)="zoneChange()"
-        >
-          <ng-container *ngFor="let zone of zones">
-            <mat-option [value]="zone">{{
+      <ng-container *ngIf="zones?.length > 0">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
               zone.title
             }}</mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>
-
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
       <mat-form-field
         *ngIf="regions.length > 0"
         class="example-margin mr-10-IMP"
@@ -1293,22 +1327,20 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field
-        *ngIf="isZoneFilterEnabled"
-        class="example-margin mr-10-IMP"
-      >
-        <mat-select
-          placeholder="{{ zonePlaceholder }}"
-          name="zone"
-          [(ngModel)]="selectedZone"
-          (ngModelChange)="zoneChange()"
-        >
-          <mat-option [value]="zone" *ngFor="let zone of zones">{{
-            zone.title
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
+      <ng-container *ngIf="zones?.length > 0">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
       <mat-form-field
         *ngIf="isRegionFilterEnabled"
         class="example-margin mr-10-IMP"
@@ -1391,19 +1423,34 @@
     </mat-card-title>
 
     <section class="example-section">
-      <mat-form-field class="example-margin mr-10-IMP">
-        <mat-select
-          placeholder="{{ zonePlaceholder }}"
-          name="zone"
-          [(ngModel)]="selectedZone"
-          (ngModelChange)="zoneChange()"
-        >
-          <mat-option [value]="zone" *ngFor="let zone of zones">{{
-            zone.title
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
+      <ng-container *ngIf="clusterId != '-1'">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ clusterPlaceHolder }}"
+            name="cluster"
+            [(ngModel)]="selectedCluster"
+            (ngModelChange)="getZoneByCluster()"
+          >
+            <mat-option [value]="cluster" *ngFor="let cluster of clusterList">{{
+              cluster.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="zones?.length > 0">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
       <mat-form-field
         *ngIf="regions.length > 0 && selectedZone.id !== -1"
         class="example-margin mr-10-IMP"
@@ -1449,22 +1496,6 @@
           }}</mat-option>
         </mat-select>
       </mat-form-field>
-
-      <!-- <mat-form-field
-        *ngIf="storeType.length > 0"
-        class="example-margin mr-10-IMP"
-      >
-        <mat-select
-          placeholder="Store Type"
-          name="storeType"
-          [(ngModel)]="selectedStoreType"
-          (ngModelChange)="getTabsData()"
-        >
-          <mat-option [value]="store" *ngFor="let store of storeType">{{
-            store
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field> -->
 
       <mat-form-field class="example-full-width mr-10-IMP">
         <input
@@ -2052,18 +2083,20 @@
       >
     </mat-card-title>
     <section class="example-section">
-      <mat-form-field class="example-margin mr-10-IMP">
-        <mat-select
-          placeholder="{{ zonePlaceholder }}"
-          name="zone"
-          [(ngModel)]="selectedZone"
-          (ngModelChange)="zoneChange()"
-        >
-          <ng-container *ngFor="let zone of zones">
-            <mat-option [value]="zone">{{ zone.title }}</mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>
+      <ng-container *ngIf="zones?.length > 0">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
 
       <mat-form-field
         *ngIf="regions.length > 0"
@@ -2156,18 +2189,20 @@
       >
     </mat-card-title>
     <section class="example-section">
-      <mat-form-field class="example-margin mr-10-IMP">
-        <mat-select
-          placeholder="{{ zonePlaceholder }}"
-          name="zone"
-          [(ngModel)]="selectedZone"
-          (ngModelChange)="zoneChange()"
-        >
-          <ng-container *ngFor="let zone of zones">
-            <mat-option [value]="zone">{{ zone.title }}</mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>
+      <ng-container *ngIf="zones?.length > 0">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
 
       <mat-form-field
         *ngIf="regions.length > 0"
@@ -2258,18 +2293,20 @@
       >
     </mat-card-title>
     <section class="example-section">
-      <mat-form-field class="example-margin mr-10-IMP">
-        <mat-select
-          placeholder="{{ zonePlaceholder }}"
-          name="zone"
-          [(ngModel)]="selectedZone"
-          (ngModelChange)="zoneChange()"
-        >
-          <ng-container *ngFor="let zone of zones">
-            <mat-option [value]="zone">{{ zone.title }}</mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>
+      <ng-container *ngIf="zones?.length > 0">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
 
       <mat-form-field
         *ngIf="regions.length > 0"
@@ -2541,20 +2578,20 @@
       >
     </mat-card-title>
     <section class="example-section">
-      <mat-form-field class="example-margin mr-10-IMP">
-        <mat-select
-          placeholder="{{ zonePlaceholder }}"
-          name="zone"
-          [(ngModel)]="selectedZone"
-          (ngModelChange)="zoneChange()"
-        >
-          <ng-container *ngFor="let zone of zones">
-            <mat-option [value]="zone">{{
+      <ng-container *ngIf="zones?.length > 0">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
               zone.title
             }}</mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
 
       <mat-form-field
         *ngIf="regions.length > 0"
@@ -2630,18 +2667,20 @@
       >
     </mat-card-title>
     <section class="example-section">
-      <mat-form-field class="example-margin mr-10-IMP">
-        <mat-select
-          placeholder="{{ zonePlaceholder }}"
-          name="zone"
-          [(ngModel)]="selectedZone"
-          (ngModelChange)="zoneChange()"
-        >
-          <ng-container *ngFor="let zone of zones">
-            <mat-option [value]="zone">{{ zone.title }}</mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>
+      <ng-container *ngIf="zones?.length > 0">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
 
       <mat-form-field
         *ngIf="regions.length > 0"
@@ -2716,20 +2755,20 @@
       >
     </mat-card-title>
     <section class="example-section">
-      <mat-form-field class="example-margin mr-10-IMP">
-        <mat-select
-          placeholder="{{ zonePlaceholder }}"
-          name="zone"
-          [(ngModel)]="selectedZone"
-          (ngModelChange)="zoneChange()"
-        >
-          <ng-container *ngFor="let zone of zones">
-            <mat-option [value]="zone">{{
+      <ng-container *ngIf="zones?.length > 0">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
               zone.title
             }}</mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
 
       <mat-form-field
         *ngIf="regions.length > 0"

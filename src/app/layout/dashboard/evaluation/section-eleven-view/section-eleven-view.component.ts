@@ -13,6 +13,7 @@ import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { EvaluationService } from "../evaluation.service";
 import { ModalDirective } from "ngx-bootstrap";
+import { KeyValuePipe } from "@angular/common";
 
 @Component({
   selector: "section-eleven-view",
@@ -54,17 +55,22 @@ export class SectionElevenViewComponent implements OnInit {
   facing: any;
   totalDesiredFacing: any;
   isSosDataAvailable = false;
+  isNonSosDataAvailable = false;
+  questionData: any;
 
-  statusArray: any = [
-    { title: "Yes", value: "1" },
-    { title: "No", value: "0" },
+  optionArray: any = [
+    { id: 1, title: "Yes" },
+    { id: 2, value: "No" },
   ];
 
   constructor(
     private router: Router,
     private toastr: ToastrService,
-    private httpService: EvaluationService
-  ) {}
+    private httpService: EvaluationService,
+    private keyValuePipe: KeyValuePipe
+  ) {
+    this.evaluatorId = localStorage.getItem("user_id");
+  }
 
   ngOnInit() {
     const arr = this.router.url.split("/");
@@ -76,23 +82,13 @@ export class SectionElevenViewComponent implements OnInit {
     if (changes.data.currentValue) {
       this.data = changes.data.currentValue;
       this.products = this.data.mslTable || [];
+      this.questionData =
+        this.keyValuePipe.transform(this.data.questionData) || [];
       if (this.products.length > 0) {
         this.availability = this.getAvailabilityCount(this.products);
         this.facing = this.getFacingCount(this.products);
       }
-
-      for (const element of this.data.imageList) {
-        if (element.isSosImage == "N") {
-          this.selectedImage = element;
-          break;
-        }
-      }
-      for (const element of this.data.tagsList) {
-        if (element.isSosTag == "Y") {
-          this.isSosDataAvailable = true;
-          break;
-        }
-      }
+      this.setDataSosWise();
     }
   }
 
@@ -100,6 +96,48 @@ export class SectionElevenViewComponent implements OnInit {
     this.selectedImage = img;
   }
 
+  setDataSosWise() {
+    for (const element of this.data.imageList) {
+      if (element.isSosImage == "N") {
+        this.selectedImage = element;
+        break;
+      }
+    }
+    for (const element of this.questionData) {
+      if (element.value.isSos != "Y" && element.value.answer != null) {
+        this.isNonSosDataAvailable = true;
+        break;
+      }
+      for (const element of this.questionData) {
+        if (element.value.isSos == "Y") {
+          this.isSosDataAvailable = true;
+          break;
+        }
+      }
+    }
+  }
+
+  setUtilization() {
+    let achievedSos = 0;
+    let comSos = 0;
+    for (const element of this.questionData) {
+      if (element.value.isSos == "Y" && element.value.answer != null) {
+        if (element.value.isSubQuestion == "nfl") {
+          achievedSos = achievedSos + Number(element.value.answer);
+        } else if (element.value.isSubQuestion == "competition") {
+          comSos = comSos + Number(element.value.answer);
+        }
+      }
+    }
+    return this.getUtilizationPercentage(achievedSos, comSos);
+  }
+
+  getUtilizationPercentage(achieved, competition) {
+    return (competition == 0 && achieved == 0
+      ? 0
+      : (achieved * 100) / (competition + achieved)
+    ).toFixed(2);
+  }
   getAvailabilityCount(products) {
     const sum = [];
     products.forEach((element) => {
@@ -200,6 +238,7 @@ export class SectionElevenViewComponent implements OnInit {
         }
       });
     }
+    this.updatingMSL = false;
   }
 
   showChildModal(shop): void {
@@ -211,15 +250,110 @@ export class SectionElevenViewComponent implements OnInit {
   showFacingChildModal(product) {
     if (this.isEditable) {
       this.selectedProduct = product;
-      // if (this.selectedProduct.available_sku > 0 ) {
-      //   this.selectedProduct.face_unit = 0;
-      // } else {
-      //   this.selectedProduct.face_unit = 1;
-      // }
       this.childModal.show();
     }
   }
   hideChildModal() {
     this.childModal.hide();
+  }
+
+  updateTextData(value) {
+    this.loading = true;
+    if (value.answer != null) {
+      if (this.isEditable) {
+        const obj = {
+          msdId: value.id,
+          newValue: value.answer,
+          type: 8,
+          evaluatorId: this.evaluatorId,
+        };
+
+        this.httpService.updateData(obj).subscribe((data: any) => {
+          if (data.success) {
+            this.loading = false;
+            this.toastr.success("Data Updated Successfully");
+            // const key = data.msdId;
+            // this.questionData.forEach((e) => {
+            //   // for (const key of this.colorUpdateList) {
+            //   if (key == e.value.id) {
+            //     const i = this.questionData.value.findIndex(
+            //       (p) => p.value.id == key
+            //     );
+            //     const obj = {
+            //       id: e.value.id,
+            //       categoryId: e.value.categoryId,
+            //       question: e.value.question,
+            //       answer: e.value.answer,
+            //       isSos: e.value.isSos,
+            //       imageUrl: e.value.imageUrl,
+            //       questionType: e.value.questionType,
+            //       isSubQuestion: e.value.isSubQuestion,
+            //       color: "red",
+            //     };
+
+            //     this.questionData.value.splice(i, 1, obj);
+            //   }
+
+            //   // }
+            // });
+          } else {
+            this.toastr.error(data.message, "Update Data");
+          }
+        });
+      }
+    } else {
+      this.toastr.error("Value is Incorrect");
+      this.loading = false;
+    }
+  }
+
+  updateMultiSelectData(value, data) {
+    this.loading = true;
+    if (value != null) {
+      if (this.isEditable) {
+        const obj = {
+          msdId: data.id,
+          newValue: value,
+          type: 4,
+          evaluatorId: this.evaluatorId,
+        };
+
+        this.httpService.updateData(obj).subscribe((data: any) => {
+          if (data.success) {
+            this.loading = false;
+            this.toastr.success("Data Updated Successfully");
+            // const key = data.msdId;
+            // this.questionData.forEach((e) => {
+            //   // for (const key of this.colorUpdateList) {
+            //   if (key === e.value.id) {
+            //     const i = this.questionData.findIndex(
+            //       (p) => p.value.id === key
+            //     );
+            //     const obj = {
+            //       id: e.value.id,
+            //       categoryId: e.value.categoryId,
+            //       question: e.value.question,
+            //       answer: e.value.answer,
+            //       isSos: e.value.isSos,
+            //       imageUrl: e.value.imageUrl,
+            //       questionType: e.value.questionType,
+            //       isSubQuestion: e.value.isSubQuestion,
+            //       color: "red",
+            //     };
+
+            //     this.questionData.splice(i, 1, obj);
+            //   }
+
+            //   // }
+            // });
+          } else {
+            this.toastr.error(data.message, "Update Data");
+          }
+        });
+      }
+    } else {
+      this.toastr.error("Value is Incorrect");
+      this.loading = false;
+    }
   }
 }

@@ -165,9 +165,13 @@ export class DashboardService {
     // );
   }
 
-  getZoneByCluster() {
+  getZoneByCluster(clusterId) {
     this.user_id = localStorage.getItem("user_id");
-    const filter = JSON.stringify({ act: 18, userId: this.user_id });
+    const filter = JSON.stringify({
+      act: 18,
+      userId: this.user_id,
+      clusterId: clusterId,
+    });
     const url = this.ip + "loadFilters";
     return this.http.post(url, filter);
   }

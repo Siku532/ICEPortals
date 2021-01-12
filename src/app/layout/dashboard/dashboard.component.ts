@@ -36,8 +36,8 @@ export class DashboardComponent implements OnInit {
     var st = localStorage.getItem("today");
     if (t > st) this.router.navigate(["/login"]);
     // tslint:disable-next-line:radix
-    if (parseInt(localStorage.getItem("clusterId")) > -1) {
-      this.getZoneByCluster();
+    if (localStorage.getItem("clusterId") != "-1") {
+      this.getSelectiveClusters();
     } else {
       this.getZone();
     }
@@ -67,12 +67,20 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  getZoneByCluster() {
-    this.httpService.getZoneByCluster().subscribe(
+  showChildModal(): void {
+    this.childModal.show();
+  }
+
+  hideChildModal(): void {
+    this.childModal.hide();
+  }
+
+  getSelectiveClusters() {
+    this.httpService.getAllClusters().subscribe(
       (data) => {
         const res: any = data;
-        if (res.zoneList) {
-          localStorage.setItem("zoneList", JSON.stringify(res.zoneList));
+        if (res.clusterList) {
+          localStorage.setItem("clusterList", JSON.stringify(res.clusterList));
           localStorage.setItem("assetList", JSON.stringify(res.assetList));
           localStorage.setItem("channelList", JSON.stringify(res.channelList));
         }
@@ -83,13 +91,5 @@ export class DashboardComponent implements OnInit {
           : this.toastr.error(error.description, "Error");
       }
     );
-  }
-
-  showChildModal(): void {
-    this.childModal.show();
-  }
-
-  hideChildModal(): void {
-    this.childModal.hide();
   }
 }

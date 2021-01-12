@@ -146,27 +146,26 @@ export class SectionSevenViewComponent implements OnInit {
       const obj = {
         msdId: value.id,
         facing: -1,
-        unitAvailable: !!value.available_sku ? 0 : 1,
-        surveyId: this.surveyId,
+        type: 1,
+        newValue: !!value.available_sku ? 0 : 1,
+        surveyId: value.survey_id,
         evaluatorId: this.evaluatorId,
       };
 
       // return value?'YES':'NO';
 
-      this.httpService.updateMSLStatus(obj).subscribe((data: any) => {
+      this.httpService.updateData(obj).subscribe((data: any) => {
         if (data.success) {
           this.loading = false;
           this.toastr.success("Data Updated Successfully");
-          // this.products=data.productList;
           const key = data.msdId;
           this.products.forEach((e) => {
-            // for (const key of this.colorUpdateList) {
             if (key === e.id) {
               const i = this.products.findIndex((p) => p.id === key);
               const obj = {
                 id: e.id,
                 available_sku:
-                  e.available_sku === 0
+                  e.available_sku == 0
                     ? (e.available_sku = 1)
                     : (e.available_sku = 0),
                 MSL: e.MSL,
@@ -205,15 +204,16 @@ export class SectionSevenViewComponent implements OnInit {
         this.colorUpdateList.push(value.id);
         const obj = {
           msdId: value.id,
-          facing: value.face_unit,
+          newValue: value.face_unit,
+          type: 2,
           unitAvailable: -1,
-          surveyId: this.surveyId,
+          surveyId: value.survey_id,
           evaluatorId: this.evaluatorId,
         };
 
         // return value?'YES':'NO';
 
-        this.httpService.updateMSLStatus(obj).subscribe((data: any) => {
+        this.httpService.updateData(obj).subscribe((data: any) => {
           if (data.success) {
             this.loading = false;
             this.toastr.success("Data Updated Successfully");

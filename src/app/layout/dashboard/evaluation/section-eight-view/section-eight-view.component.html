@@ -106,7 +106,6 @@
               <!-- <th>Brand Title</th> -->
               <th>Product Title</th>
               <!-- <th>D.Depth</th> -->
-              <th *ngIf="projectType != 'NFL'">Stock</th>
               <th>A.Depth</th>
               <th>Facing</th>
             </tr>
@@ -121,12 +120,6 @@
               <!-- <td style="width:100px !important">
                             {{product?.desiredDepth}}</td> -->
               <ng-container *ngIf="isEditable == false">
-                <td
-                  *ngIf="projectType != 'NFL'"
-                  style="width: 100px !important"
-                >
-                  {{ product?.stock }}
-                </td>
                 <td style="width: 100px !important">
                   {{ product.stock }}
                 </td>
@@ -136,27 +129,15 @@
               </ng-container>
               <ng-container *ngIf="isEditable == true">
                 <td
-                  *ngIf="projectType != 'NFL'"
                   style="width: 100px !important"
                   [ngStyle]="{ 'background-color': product.color }"
                 >
                   <input
                     type="number"
                     [(ngModel)]="product.stock"
-                    style="width: 4em"
-                    readonly
-                  />
-                </td>
-                <td
-                  style="width: 100px !important"
-                  [ngStyle]="{ 'background-color': product.color }"
-                >
-                  <input
-                    type="number"
-                    [(ngModel)]="product.unit_available"
                     maxlength="3"
                     style="width: 4em"
-                    (blur)="toggleValue(product, 1)"
+                    (change)="changeAvailability(product)"
                   />
                 </td>
                 <td
@@ -168,7 +149,7 @@
                     [(ngModel)]="product.face_unit"
                     maxlength="3"
                     style="width: 4em"
-                    (blur)="toggleValue(product, 2)"
+                    (change)="changeFacing(product)"
                   />
                 </td>
               </ng-container>

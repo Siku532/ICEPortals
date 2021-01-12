@@ -117,14 +117,25 @@
                   style="cursor: pointer"
                   (click)="changeSku(product)"
                   [ngClass]="{ 'background-color': product?.MSL == 'Yes' }"
+                  [ngStyle]="{ 'background-color': product.color }"
                 >
                   {{ updateString(product?.available_sku) }}
                 </td>
               </ng-container>
             </tr>
             <tr>
-              <th>Availability / Total</th>
-              <td>{{ availability }} / {{ products.length }}</td>
+              <th>
+                Availability / Total (Hurdle Rate:
+                {{ data?.categoryHurdleRate }})
+              </th>
+              <td
+                [ngClass]="{
+                  bgColorRed: data?.categoryHurdleRate > availability,
+                  bgColorGreen: data?.categoryHurdleRate <= availability
+                }"
+              >
+                {{ availability }} / {{ products.length }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -132,24 +143,75 @@
     </ng-container>
   </div>
 
-  <div class="row justify-content-center">
-    <ng-container class="justify-content-center" *ngIf="data?.tagsList">
-      <div class="col-md-11 mt-3">
-        <table class="table table-bordered">
-          <tr *ngFor="let tab of data.tagsList; let j = index">
-            <ng-container *ngIf="tab.isSosTag == 'N'">
-              <th style="width: 50%; background: lightgray">
-                {{ tab.heading }}
-              </th>
-              <td style="width: 50%; word-break: break-all">{{ tab.value }}</td>
+  <div class="row justify-content-center" *ngIf="isNonSosDataAvailable">
+    <div class="col-10 mt-4 tableHead">
+      <table class="table table-bordered table-hover w-100">
+        <thead style="background: lightgray">
+          <tr>
+            <th>Question</th>
+            <th>Answer</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let data of questionData">
+            <ng-container
+              *ngIf="data.value.isSos == 'N' && data.value.answer != null"
+            >
+              <td style="width: 500px !important">{{ data.value.question }}</td>
+              <ng-container *ngIf="isEditable == false">
+                <td style="width: 300px !important">{{ data.value.answer }}</td>
+              </ng-container>
+              <ng-container *ngIf="isEditable == true">
+                <ng-container
+                  *ngIf="data.value.questionType == 'text_field'; else options"
+                >
+                  <td style="width: 300px !important">
+                    <input
+                      type="number"
+                      [(ngModel)]="data.value.answer"
+                      maxlength="10"
+                      style="width: 4em"
+                      (change)="updateTextData(data.value)"
+                    />
+                  </td>
+                </ng-container>
+                <ng-template #options>
+                  <td>
+                    <select
+                      #newValue
+                      (change)="
+                        updateMultiSelectData(newValue.value, data.value)
+                      "
+                    >
+                      <ng-container
+                        *ngFor="let options of data.value.optionList"
+                      >
+                        <option
+                          *ngIf="data.value.answer == options.title"
+                          [value]="options.id"
+                          selected="selected"
+                        >
+                          {{ options?.title }}
+                        </option>
+                        <option
+                          *ngIf="data.value.answer != options.title"
+                          [value]="options.id"
+                        >
+                          {{ options?.title }}
+                        </option>
+                      </ng-container>
+                    </select>
+                  </td>
+                </ng-template>
+              </ng-container>
             </ng-container>
           </tr>
-        </table>
-      </div>
-    </ng-container>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
-
 <ng-container *ngIf="isSosDataAvailable">
   <div class="row">
     <div class="col-md-12 text-center">
@@ -175,19 +237,75 @@
   </div>
 
   <div class="row justify-content-center">
-    <ng-container class="justify-content-center" *ngIf="data?.tagsList">
-      <div class="col-md-11 mt-3">
-        <table class="table table-bordered">
-          <tr *ngFor="let tab of data.tagsList; let j = index">
-            <ng-container *ngIf="tab.isSosTag == 'Y'">
-              <th style="width: 50%; background: lightgray">
-                {{ tab.heading }}
-              </th>
-              <td style="width: 50%; word-break: break-all">{{ tab.value }}</td>
+    <div class="col-10 mt-4 tableHead">
+      <table class="table table-bordered table-hover w-100">
+        <thead style="background: lightgray">
+          <tr>
+            <th>Question</th>
+            <th>Answer</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let data of questionData">
+            <ng-container
+              *ngIf="data.value.isSos != 'N' && data.value.answer != null"
+            >
+              <td style="width: 500px !important">{{ data.value.question }}</td>
+              <ng-container *ngIf="isEditable == false">
+                <td style="width: 300px !important">{{ data.value.answer }}</td>
+              </ng-container>
+              <ng-container *ngIf="isEditable == true">
+                <ng-container
+                  *ngIf="data.value.questionType == 'text_field'; else options"
+                >
+                  <td style="width: 300px !important">
+                    <input
+                      type="number"
+                      [(ngModel)]="data.value.answer"
+                      maxlength="10"
+                      style="width: 4em"
+                      (change)="updateTextData(data.value)"
+                    />
+                  </td>
+                </ng-container>
+                <ng-template #options>
+                  <td>
+                    <select
+                      #newValue
+                      (change)="
+                        updateMultiSelectData(newValue.value, data.value)
+                      "
+                    >
+                      <ng-container
+                        *ngFor="let options of data.value.optionList"
+                      >
+                        <option
+                          *ngIf="data.answer == options.title"
+                          [value]="options.id"
+                          selected="selected"
+                        >
+                          {{ options?.title }}
+                        </option>
+                        <option
+                          *ngIf="data.answer != options.title"
+                          [value]="options.id"
+                        >
+                          {{ options?.title }}
+                        </option>
+                      </ng-container>
+                    </select>
+                  </td>
+                </ng-template>
+              </ng-container>
             </ng-container>
           </tr>
-        </table>
-      </div>
-    </ng-container>
+          <tr>
+            <td>Utilization</td>
+            <td>{{ setUtilization() }}%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </ng-container>

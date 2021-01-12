@@ -15,6 +15,8 @@ export class DataAvailabilityComponent implements OnInit {
   title = "";
   zonePlaceholder = "";
   regionPlaceholder = "";
+  clusterPlaceHolder = "";
+
   tableData: any = [];
   // ip = environment.ip;
   configFile = config;
@@ -51,6 +53,10 @@ export class DataAvailabilityComponent implements OnInit {
   loading = true;
   paramUrl: any;
 
+  clusterList: any = [];
+  selectedCluster: any = {};
+  clusterId: any;
+
   params: any = {};
   constructor(
     private toastr: ToastrService,
@@ -60,6 +66,7 @@ export class DataAvailabilityComponent implements OnInit {
     public activatedRoute: ActivatedRoute
   ) {
     this.zones = JSON.parse(localStorage.getItem("zoneList"));
+    this.clusterList = JSON.parse(localStorage.getItem("clusterList"));
     this.projectType = localStorage.getItem("projectType");
     if (this.projectType == "NFL") {
       this.zonePlaceholder = "Region";
@@ -68,6 +75,8 @@ export class DataAvailabilityComponent implements OnInit {
       this.zonePlaceholder = "Zone";
       this.regionPlaceholder = "Region";
     }
+    this.clusterPlaceHolder = "Cluster";
+
     this.activatedRoute.params.subscribe((p) => {
       this.params = p;
     });
@@ -75,6 +84,7 @@ export class DataAvailabilityComponent implements OnInit {
     if (this.params.regionId || this.params.clusterId) {
       this.startDate.setDate(this.startDate.getDate() - 1);
     }
+    this.clusterId = localStorage.getItem("clusterId") || -1;
   }
 
   ngOnInit() {}
@@ -84,7 +94,11 @@ export class DataAvailabilityComponent implements OnInit {
       this.loadingData = true;
       this.loadingReportMessage = true;
       const obj = {
-        clusterId: localStorage.getItem("clusterId") || -1,
+        clusterId: this.selectedCluster.id
+          ? this.selectedCluster.id == -1
+            ? localStorage.getItem("clusterId")
+            : this.selectedCluster.id
+          : localStorage.getItem("clusterId"),
         zoneId: this.selectedZone.id
           ? this.selectedZone.id == -1
             ? localStorage.getItem("zoneId")
@@ -148,8 +162,8 @@ export class DataAvailabilityComponent implements OnInit {
       this.loadingData = true;
       this.loadingReportMessage = true;
       const obj = {
-        zoneId: this.params.regionId,
-        clusterId: this.params.clusterId,
+        zoneId: this.params.regionId || -1,
+        clusterId: this.params.clusterId || -1,
         regionId: -1,
         startDate: moment(this.startDate).format("YYYY-MM-DD"),
         endDate: moment(this.startDate).format("YYYY-MM-DD"),
@@ -240,6 +254,9 @@ export class DataAvailabilityComponent implements OnInit {
   zoneChange() {
     this.loadingData = true;
     this.selectedRegion = {};
+    this.selectedArea = {};
+    this.selectedCity = {};
+    this.selectedDistribution = {};
 
     this.httpService.getRegion(this.selectedZone.id).subscribe(
       (data) => {
@@ -294,6 +311,30 @@ export class DataAvailabilityComponent implements OnInit {
       },
       (error) => {
         this.clearLoading();
+      }
+    );
+  }
+
+  getZoneByCluster() {
+    this.loadingData = true;
+    this.selectedZone = {};
+    this.selectedRegion = {};
+    this.selectedArea = {};
+    this.selectedCity = {};
+    this.selectedDistribution = {};
+    this.httpService.getZoneByCluster(this.selectedCluster.id || -1).subscribe(
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.zones = res;
+        }
+        this.loadingData = false;
+      },
+      (error) => {
+        error.status === 0
+          ? this.toastr.error("Please check Internet Connection", "Error")
+          : this.toastr.error(error.description, "Error");
+        this.loadingData = false;
       }
     );
   }
