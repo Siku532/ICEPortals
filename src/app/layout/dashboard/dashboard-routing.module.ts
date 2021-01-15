@@ -45,6 +45,7 @@ import { MtDashboardComponent } from "./Tableau/mt-dashboard/mt-dashboard.compon
 import { GtDashboardComponent } from "./Tableau/gt-dashboard/gt-dashboard.component";
 import { SssGtDashboardComponent } from "./Tableau/sss-gt-dashboard/sss-gt-dashboard.component";
 import { ComplianceDashboardComponent } from "./Tableau/compliance-dashboard/compliance-dashboard.component";
+import { TrendingOosReportComponent } from "./innerComponents/trending-oos-report/trending-oos-report.component";
 
 const routes: Routes = [
   {
@@ -60,6 +61,10 @@ const routes: Routes = [
       { path: "summary_report", component: SummaryComponent },
       { path: "productivity_report", component: ProductivityComponent },
       { path: "msl_dashboard", component: MslDashboardComponent },
+      {
+        path: "trending_oos_report",
+        component: TrendingOosReportComponent,
+      },
       {
         path: "productivity_dashboard",
         component: ProductivityDashboardComponent,

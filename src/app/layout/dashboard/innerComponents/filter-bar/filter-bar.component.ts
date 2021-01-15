@@ -46,7 +46,7 @@ export class FilterBarComponent implements OnInit {
     this.projectType = localStorage.getItem("projectType");
     this.clusterId = localStorage.getItem("clusterId") || -1;
     this.sortIt("completed");
-    if (this.projectType == "NFL") {
+    if (this.projectType == "NFL" || this.projectType == "NFL_SO") {
       this.zonePlaceholder = "Region";
       this.regionPlaceholder = "Zone";
     } else {
@@ -217,6 +217,66 @@ export class FilterBarComponent implements OnInit {
           : this.toastr.error(error.description, "Error");
       }
     );
+  }
+
+  getTrendingOOSReport() {
+    if (this.endDate >= this.startDate) {
+      this.loadingData = true;
+      this.loadingReportMessage = true;
+      const obj = {
+        clusterId: this.selectedCluster.id
+          ? this.selectedCluster.id == -1
+            ? localStorage.getItem("clusterId")
+            : this.selectedCluster.id
+          : localStorage.getItem("clusterId"),
+        zoneId: this.selectedZone.id
+          ? this.selectedZone.id == -1
+            ? localStorage.getItem("zoneId")
+            : this.selectedZone.id
+          : localStorage.getItem("zoneId"),
+        regionId: this.selectedRegion.id
+          ? this.selectedRegion.id == -1
+            ? localStorage.getItem("regionId")
+            : this.selectedZone.id
+          : localStorage.getItem("regionId"),
+        startDate: moment(this.startDate).format("YYYY-MM-DD"),
+        endDate: moment(this.endDate).format("YYYY-MM-DD"),
+      };
+
+      const url = "trending-oos-report";
+      const body = this.httpService.UrlEncodeMaker(obj);
+      this.httpService.getKeyForProductivityReport(body, url).subscribe(
+        (data) => {
+          console.log(data, "query list");
+          const res: any = data;
+
+          if (res) {
+            const obj2 = {
+              key: res.key,
+              fileType: res.fileType,
+            };
+            const url = "downloadReport";
+            this.getproductivityDownload(obj2, url);
+          } else {
+            this.clearLoading();
+
+            this.toastr.info(
+              "Something went wrong,Please retry",
+              "Report Message"
+            );
+          }
+        },
+        (error) => {
+          this.clearLoading();
+        }
+      );
+    } else {
+      this.clearLoading();
+      this.toastr.info(
+        "Something went wrong,Please retry",
+        "dashboard Data Availability Message"
+      );
+    }
   }
 
   getAbnormalityReport() {
