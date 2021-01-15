@@ -55,7 +55,11 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("Evaluator", res.Evaluator);
         localStorage.setItem("projectType", res.projectType);
 
-        if (res.projectType == "CCL" || res.projectType == "NFL") {
+        if (
+          res.projectType == "CCL" ||
+          res.projectType == "NFL" ||
+          res.projectType == "NFL_SO"
+        ) {
           if (
             res.user.typeID == res.Evaluator ||
             res.user.typeID == res.ReEvaluator

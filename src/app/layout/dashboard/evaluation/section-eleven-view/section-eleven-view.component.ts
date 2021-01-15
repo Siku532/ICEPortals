@@ -104,15 +104,15 @@ export class SectionElevenViewComponent implements OnInit {
       }
     }
     for (const element of this.questionData) {
-      if (element.value.isSos != "Y" && element.value.answer != null) {
+      if (element.value.isSos != "Y" && element.value.questionType != "image") {
         this.isNonSosDataAvailable = true;
         break;
       }
-      for (const element of this.questionData) {
-        if (element.value.isSos == "Y") {
-          this.isSosDataAvailable = true;
-          break;
-        }
+    }
+    for (const element of this.questionData) {
+      if (element.value.isSos == "Y") {
+        this.isSosDataAvailable = true;
+        break;
       }
     }
   }
@@ -191,14 +191,15 @@ export class SectionElevenViewComponent implements OnInit {
       const obj = {
         msdId: value.id,
         facing: -1,
-        unitAvailable: !!value.available_sku ? 0 : 1,
-        surveyId: this.surveyId,
+        type: 1,
+        newValue: !!value.available_sku ? 0 : 1,
+        surveyId: value.survey_id,
         evaluatorId: this.evaluatorId,
       };
 
       // return value?'YES':'NO';
 
-      this.httpService.updateMSLStatus(obj).subscribe((data: any) => {
+      this.httpService.updateData(obj).subscribe((data: any) => {
         if (data.success) {
           this.loading = false;
           this.toastr.success("Data Updated Successfully");
@@ -259,7 +260,7 @@ export class SectionElevenViewComponent implements OnInit {
 
   updateTextData(value) {
     this.loading = true;
-    if (value.answer != null) {
+    if (value.answer != null && value.answer >= 0) {
       if (this.isEditable) {
         const obj = {
           msdId: value.id,

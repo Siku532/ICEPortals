@@ -25,6 +25,9 @@ export class UploadRoutesNewComponent implements OnInit {
   regionId = -1;
   regions: any = [];
   response: any = "";
+  projectType: any;
+  zonePlaceholder = "";
+  regionPlaceholder = "";
   constructor(
     private toastr: ToastrService,
     private httpService: DashboardService,
@@ -35,6 +38,14 @@ export class UploadRoutesNewComponent implements OnInit {
       selectedOption: this.selectedOption,
       avatar: null,
     });
+    this.projectType = localStorage.getItem("projectType");
+    if (this.projectType == "NFL" || this.projectType == "NFL_SO") {
+      this.zonePlaceholder = "Region";
+      this.regionPlaceholder = "Zone";
+    } else {
+      this.zonePlaceholder = "Zone";
+      this.regionPlaceholder = "Region";
+    }
   }
   ngOnInit() {
     this.getAllRegions();

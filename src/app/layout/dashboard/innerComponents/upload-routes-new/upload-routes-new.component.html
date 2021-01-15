@@ -12,7 +12,7 @@
       >
         <mat-form-field class="example-margin mr-10-IMP">
           <mat-select
-            placeholder="Region"
+            placeholder="{{ regionPlaceholder }}"
             name="cityId"
             [formControl]="selectedRegionUp"
             [(ngModel)]="regionId"
@@ -70,7 +70,6 @@
     </table>
   </mat-card-content>
 </mat-card>
-
 
 <div
   bsModal

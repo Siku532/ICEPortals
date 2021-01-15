@@ -66,9 +66,10 @@ export class DataAvailabilityComponent implements OnInit {
     public activatedRoute: ActivatedRoute
   ) {
     this.zones = JSON.parse(localStorage.getItem("zoneList"));
+    this.channels = JSON.parse(localStorage.getItem("channelList"));
     this.clusterList = JSON.parse(localStorage.getItem("clusterList"));
     this.projectType = localStorage.getItem("projectType");
-    if (this.projectType == "NFL") {
+    if (this.projectType == "NFL" || this.projectType == "NFL_SO") {
       this.zonePlaceholder = "Region";
       this.regionPlaceholder = "Zone";
     } else {

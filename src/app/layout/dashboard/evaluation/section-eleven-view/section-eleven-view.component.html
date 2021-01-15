@@ -156,7 +156,9 @@
         <tbody>
           <tr *ngFor="let data of questionData">
             <ng-container
-              *ngIf="data.value.isSos == 'N' && data.value.answer != null"
+              *ngIf="
+                data.value.isSos == 'N' && data.value.questionType != 'image'
+              "
             >
               <td style="width: 500px !important">{{ data.value.question }}</td>
               <ng-container *ngIf="isEditable == false">
@@ -249,7 +251,9 @@
         <tbody>
           <tr *ngFor="let data of questionData">
             <ng-container
-              *ngIf="data.value.isSos != 'N' && data.value.answer != null"
+              *ngIf="
+                data.value.isSos != 'N' && data.value.questionType != 'image'
+              "
             >
               <td style="width: 500px !important">{{ data.value.question }}</td>
               <ng-container *ngIf="isEditable == false">

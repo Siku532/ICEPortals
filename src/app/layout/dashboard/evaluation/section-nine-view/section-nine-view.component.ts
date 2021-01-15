@@ -141,7 +141,7 @@ export class SectionNineViewComponent implements OnInit {
 
   updateTextData(value) {
     this.loading = true;
-    if (value.answer != null) {
+    if (value.answer != null && value.answer >= 0) {
       if (this.isEditable) {
         const obj = {
           msdId: value.id,

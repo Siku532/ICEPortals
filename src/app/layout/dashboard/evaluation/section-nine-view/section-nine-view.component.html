@@ -14,8 +14,8 @@
     <ng-container *ngIf="data?.imageList.length > 0">
       <div
         [ngClass]="{
-          'col-md-5': (formData | json) != null,
-          'col-md-4': (formData | json) == null
+          'col-md-5': formData != null,
+          'col-md-4': formData == null
         }"
       >
         <label class="title" for="title">{{ selectedImage?.title }}</label>
@@ -47,7 +47,7 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="(formData | json) != null">
+    <ng-container *ngIf="formData != null">
       <div
         class="tableFixHead"
         [ngClass]="{
@@ -66,55 +66,59 @@
 
           <tbody>
             <tr *ngFor="let data of formData">
-              <td style="width: 500px !important; word-wrap: break-word">
-                {{ data.value.question }}
-              </td>
+              <ng-container *ngIf="data.value.fieldType != 'image'">
+                <td style="width: 500px !important; word-wrap: break-word">
+                  {{ data.value.question }}
+                </td>
 
-              <ng-container *ngIf="isEditable == false">
-                <td style="width: 400px !important">{{ data.value.answer }}</td>
-              </ng-container>
-              <ng-container *ngIf="isEditable == true">
-                <ng-container
-                  *ngIf="data.value.fieldType == 'text_field'; else options"
-                >
-                  <td style="width: 400px">
-                    <input
-                      type="number"
-                      [(ngModel)]="data.value.answer"
-                      maxlength="10"
-                      style="width: 3em"
-                      (change)="updateTextData(data.value)"
-                    />
+                <ng-container *ngIf="isEditable == false">
+                  <td style="width: 400px !important">
+                    {{ data.value.answer }}
                   </td>
                 </ng-container>
-                <ng-template #options>
-                  <td>
-                    <select
-                      #newValue
-                      (change)="
-                        updateMultiOptionData(newValue.value, data.value)
-                      "
-                    >
-                      <ng-container
-                        *ngFor="let options of data.value.optionList"
+                <ng-container *ngIf="isEditable == true">
+                  <ng-container
+                    *ngIf="data.value.fieldType == 'text_field'; else options"
+                  >
+                    <td style="width: 400px">
+                      <input
+                        type="number"
+                        [(ngModel)]="data.value.answer"
+                        maxlength="10"
+                        style="width: 3em"
+                        (change)="updateTextData(data.value)"
+                      />
+                    </td>
+                  </ng-container>
+                  <ng-template #options>
+                    <td>
+                      <select
+                        #newValue
+                        (change)="
+                          updateMultiOptionData(newValue.value, data.value)
+                        "
                       >
-                        <option
-                          *ngIf="data.value.answer == options.title"
-                          [value]="options.id"
-                          selected="selected"
+                        <ng-container
+                          *ngFor="let options of data.value.optionList"
                         >
-                          {{ options?.title }}
-                        </option>
-                        <option
-                          *ngIf="data.value.answer != options.title"
-                          [value]="options.id"
-                        >
-                          {{ options?.title }}
-                        </option>
-                      </ng-container>
-                    </select>
-                  </td>
-                </ng-template>
+                          <option
+                            *ngIf="data.value.answer == options.title"
+                            [value]="options.id"
+                            selected="selected"
+                          >
+                            {{ options?.title }}
+                          </option>
+                          <option
+                            *ngIf="data.value.answer != options.title"
+                            [value]="options.id"
+                          >
+                            {{ options?.title }}
+                          </option>
+                        </ng-container>
+                      </select>
+                    </td>
+                  </ng-template>
+                </ng-container>
               </ng-container>
             </tr>
           </tbody>
