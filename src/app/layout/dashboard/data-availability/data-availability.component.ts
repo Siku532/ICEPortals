@@ -108,7 +108,7 @@ export class DataAvailabilityComponent implements OnInit {
         regionId: this.selectedRegion.id
           ? this.selectedRegion.id == -1
             ? localStorage.getItem("regionId")
-            : this.selectedZone.id
+            : this.selectedRegion.id
           : localStorage.getItem("regionId"),
         startDate: moment(this.startDate).format("YYYY-MM-DD"),
         endDate: moment(this.endDate).format("YYYY-MM-DD"),
@@ -120,7 +120,8 @@ export class DataAvailabilityComponent implements OnInit {
 
       const url =
         this.router.url == "/dashboard/brand_sku_oos" ||
-        this.router.url == "/dashboard/brand_sku_oos_gt"
+        this.router.url == "/dashboard/brand_sku_oos_gt" ||
+        this.router.url == "/dashboard/brand_sku_oos_so"
           ? "brandSKUOOS"
           : "brandSKUOOSNew";
       const body = this.httpService.UrlEncodeMaker(obj);

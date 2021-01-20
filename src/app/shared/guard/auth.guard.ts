@@ -17,6 +17,7 @@ export class AuthGuard implements CanActivate {
       this.location.path().indexOf("/details/") > -1 ||
       this.location.path().indexOf("/brand_sku_oos_gt/") > -1 ||
       this.location.path().indexOf("/brand_sku_oos_imt/") > -1 ||
+      this.location.path().indexOf("/brand_sku_oos_so/") > -1 ||
       this.location.path().indexOf("/tableau/") > -1
     ) {
       return true;
