@@ -36,7 +36,8 @@ export class LayoutComponent implements OnInit {
     const s: any = url.find((d) => d === "shop_detail");
     const r: any = url.find((d) => d === "details");
     const t: any = url.find((d) => d == "tableau");
-    if (s || r || t) {
+    const p: any = url.find((d) => d == "planogram-images");
+    if (p || s || r || t) {
       this.hideSideBar = true;
       if (t) {
         this.isTableauRequest = true;

@@ -57,6 +57,7 @@ export class SectionElevenViewComponent implements OnInit {
   isSosDataAvailable = false;
   isNonSosDataAvailable = false;
   questionData: any;
+  planogramList: any = [];
 
   optionArray: any = [
     { id: 1, title: "Yes" },
@@ -82,6 +83,7 @@ export class SectionElevenViewComponent implements OnInit {
     if (changes.data.currentValue) {
       this.data = changes.data.currentValue;
       this.products = this.data.mslTable || [];
+      this.planogramList = JSON.stringify(this.data.planogramImageList);
       this.questionData =
         this.keyValuePipe.transform(this.data.questionData) || [];
       if (this.products.length > 0) {
@@ -356,5 +358,12 @@ export class SectionElevenViewComponent implements OnInit {
       this.toastr.error("Value is Incorrect");
       this.loading = false;
     }
+  }
+
+  navigateWithArray() {
+    window.open(
+      `${environment.hash}dashboard/evaluation/list/planogram-images?imageList=${this.planogramList}`,
+      "_blank"
+    );
   }
 }

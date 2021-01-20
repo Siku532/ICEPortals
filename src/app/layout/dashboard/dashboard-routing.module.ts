@@ -85,6 +85,14 @@ const routes: Routes = [
         path: "brand_sku_oos_gt/:regionId",
         component: DataAvailabilityComponent,
       },
+      {
+        path: "brand_sku_oos_so",
+        component: DataAvailabilityComponent,
+      },
+      {
+        path: "brand_sku_oos_so/:regionId",
+        component: DataAvailabilityComponent,
+      },
       { path: "brand_sku_oos_imt", component: DataAvailabilityComponent },
       {
         path: "brand_sku_oos_imt/:clusterId",

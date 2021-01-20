@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <label class="title" for="title">{{ selectedImage?.title }}</label>
+      <img
+        src="{{ ip }}{{ selectedImage?.url }}"
+        class="img-fluid"
+        style="height: 500px; width: 100%"
+      />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="d-flex justify-content-between">
+        <button mat-raised-button (click)="changeImage(-1)">❮ Previous</button>
+        <button mat-raised-button (click)="changeImage(1)">Next ❯</button>
+      </div>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center">
+    <ng-container *ngFor="let img of imageList; let i = index">
+      <div class="col-1 my-1" role="button" (click)="setSelectedImage(img)">
+        <img
+          src="{{ img?.url }}"
+          width="100"
+          [ngClass]="[isImageSelected(img) ? 'img-thumbnail' : 'img-fluid']"
+          style="height: 80px !important; width: 100% !important"
+        />
+      </div>
+    </ng-container>
+  </div>
+</div>
