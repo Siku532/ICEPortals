@@ -237,7 +237,7 @@ export class FilterBarComponent implements OnInit {
         regionId: this.selectedRegion.id
           ? this.selectedRegion.id == -1
             ? localStorage.getItem("regionId")
-            : this.selectedZone.id
+            : this.selectedRegion.id
           : localStorage.getItem("regionId"),
         startDate: moment(this.startDate).format("YYYY-MM-DD"),
         endDate: moment(this.endDate).format("YYYY-MM-DD"),
@@ -297,7 +297,7 @@ export class FilterBarComponent implements OnInit {
         regionId: this.selectedRegion.id
           ? this.selectedRegion.id == -1
             ? localStorage.getItem("regionId")
-            : this.selectedZone.id
+            : this.selectedRegion.id
           : localStorage.getItem("regionId"),
         startDate: moment(this.startDate).format("YYYY-MM-DD"),
         endDate: moment(this.endDate).format("YYYY-MM-DD"),
@@ -1233,7 +1233,7 @@ export class FilterBarComponent implements OnInit {
         regionId: this.selectedRegion.id
           ? this.selectedRegion.id == -1
             ? localStorage.getItem("regionId")
-            : this.selectedZone.id
+            : this.selectedRegion.id
           : localStorage.getItem("regionId"),
         cityId: this.selectedCity.id || -1,
         areaId: this.selectedArea.id || -1,
@@ -1401,7 +1401,7 @@ export class FilterBarComponent implements OnInit {
       regionId: this.selectedRegion.id
         ? this.selectedRegion.id == -1
           ? localStorage.getItem("regionId")
-          : this.selectedZone.id
+          : this.selectedRegion.id
         : localStorage.getItem("regionId"),
       startDate: startDate,
       endDate: endDate,
