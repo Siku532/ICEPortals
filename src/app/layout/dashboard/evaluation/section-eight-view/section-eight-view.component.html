@@ -7,7 +7,14 @@
     <div class="col-md-12 text-center">
       <h4>
         <u>{{ data?.sectionTitle }} </u
-        ><i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i>
+        >
+        <span id="planobtn">
+          <i
+            class="fas fa-image"
+            title="View Planogram Images"
+            (click)="navigateWithArray()"
+          ></i>
+        </span><i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loading }"></i>
       </h4>
     </div>
 
@@ -130,16 +137,14 @@
               <ng-container *ngIf="isEditable == true">
                 <td
                   style="width: 100px !important"
-                  [ngStyle]="{ 'background-color': product.color }"
                 >
                   <input
                     type="number"
                     [(ngModel)]="product.stock"
-                    maxlength="3"
-                    style="width: 4em"
-                    (change)="changeAvailability(product)"
+                    readonly
                   />
                 </td>
+                <!-- (change)="changeAvailability(product)" -->
                 <td
                   style="width: 100px !important"
                   [ngStyle]="{ 'background-color': product.color }"

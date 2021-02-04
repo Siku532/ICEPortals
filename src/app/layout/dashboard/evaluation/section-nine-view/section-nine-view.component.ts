@@ -97,11 +97,21 @@ export class SectionNineViewComponent implements OnInit {
 
   updateMultiOptionData(value, data) {
     this.loading = true;
+    let selectedOption;
+    for(const option of data.optionList){
+      if(value==option.id){
+        selectedOption=option;
+        break;
+      }
+    }
     if (value != null) {
       if (this.isEditable) {
         const obj = {
           msdId: data.id,
-          newValue: value,
+          title: data.question,
+          categoryTitle: this.data.sectionTitle,
+          newValueId: selectedOption.id,
+          newValue: selectedOption.title,
           type: 4,
           evaluatorId: this.evaluatorId,
         };
@@ -146,6 +156,9 @@ export class SectionNineViewComponent implements OnInit {
         const obj = {
           msdId: value.id,
           newValue: value.answer,
+          newValueId:-1,
+          title: value.question,
+          categoryTitle: this.data.sectionTitle,
           type: 8,
           evaluatorId: this.evaluatorId,
         };

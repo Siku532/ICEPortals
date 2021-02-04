@@ -61,6 +61,8 @@ export class SectionEightViewComponent implements OnInit {
   loadingData: boolean;
   loading = false;
 
+  planogramList:any=[];
+
   constructor(
     private router: Router,
     private toastr: ToastrService,
@@ -90,7 +92,9 @@ export class SectionEightViewComponent implements OnInit {
         this.availableDepth,
         this.desiredDepth
       );
+
     }
+    this.planogramList = JSON.stringify(this.data.planogramImageList);
   }
 
   setSelectedImage(img) {
@@ -234,6 +238,8 @@ export class SectionEightViewComponent implements OnInit {
           msdId: product.detailId,
           newValue: product.unit_available,
           evaluatorId: this.evaluatorId,
+          title: product.product_title,
+          categoryTitle: this.data.sectionTitle,
           type: 5,
         };
         this.httpService.updateData(obj).subscribe((data: any) => {
@@ -283,8 +289,9 @@ export class SectionEightViewComponent implements OnInit {
         const obj = {
           msdId: product.detailId,
           newValue: product.face_unit,
-          surveyId: product.surveyId,
           evaluatorId: this.evaluatorId,
+          title: product.product_title,
+          categoryTitle: this.data.sectionTitle,
           type: 6,
         };
         this.httpService.updateData(obj).subscribe((data: any) => {
@@ -323,5 +330,13 @@ export class SectionEightViewComponent implements OnInit {
       this.toastr.error("Facing Value is Incorrect");
       this.loading = false;
     }
+  }
+
+
+  navigateWithArray() {
+    window.open(
+      `${environment.hash}dashboard/evaluation/list/planogram-images?imageList=${this.planogramList}`,
+      "_blank"
+    );
   }
 }
