@@ -1,0 +1,170 @@
+<mat-card class="mb-20">
+  <mat-card-content>
+    <mat-card-title>
+      {{ title | uppercase }}
+      <i color="warn" [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+      <small
+        style="color: lightseagreen !important"
+        class="mtb-5-IMP"
+        *ngIf="loadingReportMessage"
+        >Your file is being prepared for download</small
+      >
+    </mat-card-title>
+    <ng-container
+      *ngIf="!params.regionId && !params.clusterId; else singleDate"
+    >
+      <section class="example-section">
+        <ng-container *ngIf="clusterId != '-1'">
+          <mat-form-field class="example-margin mr-10-IMP">
+            <mat-select
+              placeholder="{{ clusterPlaceHolder }}"
+              name="cluster"
+              [(ngModel)]="selectedCluster"
+              (ngModelChange)="getZoneByCluster()"
+            >
+              <mat-option
+                [value]="cluster"
+                *ngFor="let cluster of clusterList"
+                >{{ cluster.title }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <mat-form-field
+          *ngIf="zones?.length > 0"
+          class="example-margin mr-10-IMP"
+        >
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field
+          *ngIf="regions.length > 0"
+          class="example-margin mr-10-IMP"
+        >
+          <mat-select
+            placeholder="{{ regionPlaceholder }}"
+            name="region"
+            [(ngModel)]="selectedRegion"
+            (ngModelChange)="regionChange()"
+          >
+            <mat-option [value]="region" *ngFor="let region of regions">{{
+              region.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field
+          *ngIf="areas.length > 0"
+          class="example-margin mr-10-IMP"
+        >
+          <mat-select
+            placeholder="Areas"
+            name="areas"
+            [(ngModel)]="selectedArea"
+          >
+            <mat-option [value]="area" *ngFor="let area of areas">{{
+              area.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field
+          *ngIf="cities.length > 0"
+          class="example-margin mr-10-IMP"
+        >
+          <mat-select placeholder="City" name="city" [(ngModel)]="selectedCity">
+            <mat-option [value]="city" *ngFor="let city of cities">{{
+              city.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
+      <section class="example-section">
+
+        <mat-form-field class="example-full-width mr-10-IMP">
+          <input
+            matInput
+            [min]="minDate"
+            [max]="maxDate"
+            [matDatepicker]="picker0"
+            [(ngModel)]="startDate"
+            placeholder="Choose a start date"
+            readonly
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker0"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker0></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="example-full-width mr-10-IMP">
+          <input
+            matInput
+            [min]="minDate"
+            [max]="maxDate"
+            [matDatepicker]="picker1"
+            [(ngModel)]="endDate"
+            placeholder="Choose a end date"
+            readonly
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker1"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+      </section>
+    </ng-container>
+    <ng-template #singleDate>
+      <section>
+        <mat-form-field class="example-full-width mr-10-IMP">
+          <input
+            matInput
+            [min]="minDate"
+            [max]="maxDate"
+            [matDatepicker]="picker0"
+            [(ngModel)]="startDate"
+            placeholder="Choose a Date"
+            readonly
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker0"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker0></mat-datepicker>
+        </mat-form-field>
+      </section>
+    </ng-template>
+    <section
+      class="example-section"
+      *ngIf="!params.regionId && !params.clusterId; else downloadByParams"
+    >
+      <button
+        [disabled]="!selectedZone.id && !selectedRegion.id"
+        mat-raised-button
+        color="warn"
+        (click)="getBrandSKUOOS()"
+      >
+        Download
+      </button>
+    </section>
+    <ng-template #downloadByParams>
+      <section class="example-section">
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="getBrandSKUOOSByParams()"
+        >
+          Download
+        </button>
+      </section>
+    </ng-template>
+  </mat-card-content>
+</mat-card>
