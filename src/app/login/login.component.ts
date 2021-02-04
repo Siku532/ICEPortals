@@ -61,8 +61,7 @@ export class LoginComponent implements OnInit {
           res.projectType == "NFL_SO"
         ) {
           if (
-            res.user.typeID == res.Evaluator ||
-            res.user.typeID == res.ReEvaluator
+            res.user.typeID == res.Evaluator
           ) {
             this.router.navigate(["/dashboard"]);
           } else {
