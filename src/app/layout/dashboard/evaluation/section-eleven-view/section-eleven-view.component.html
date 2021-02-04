@@ -102,6 +102,7 @@
             <tr>
               <th>Product Title</th>
               <th>Availability</th>
+              <th *ngIf="isMtChannel">Facing</th>
             </tr>
           </thead>
 
@@ -113,10 +114,14 @@
               <ng-container *ngIf="isEditable == false">
                 <td
                   style="width: 200px !important"
-                  [ngClass]="{ 'background-color': product?.MSL == 'Yes' }"
                 >
                   {{ updateString(product?.available_sku) }}
                 </td>
+                
+                <td *ngIf="isMtChannel" style="width: 200px !important">
+                  {{ product?.face_unit }}
+                </td>
+
               </ng-container>
 
               <ng-container *ngIf="isEditable == true">
@@ -127,6 +132,18 @@
                   [ngStyle]="{ 'background-color': product.color }"
                 >
                   {{ updateString(product?.available_sku) }}
+                </td>
+                <td *ngIf="isMtChannel"
+                  style="width: 100px !important"
+                  [ngStyle]="{ 'background-color': product.color }"
+                >
+                  <input 
+                    type="number"
+                    [(ngModel)]="product.face_unit"
+                    maxlength="3"
+                    style="width: 4em"
+                    (change)="changeFacing(product)"
+                  />
                 </td>
               </ng-container>
             </tr>
@@ -143,6 +160,7 @@
               >
                 {{ availability }} / {{ products.length }}
               </td>
+              <td *ngIf="isMtChannel">{{ facing }}</td>
             </tr>
           </tbody>
         </table>

@@ -26,6 +26,7 @@ export class SectionElevenViewComponent implements OnInit {
   @ViewChild("childModal") childModal: ModalDirective;
   @Output("showModal") showModal: any = new EventEmitter<any>();
   @Input("isEditable") isEditable: any;
+  @Input("channelId") channelId: any;
   @Output("assetTypeId") assetTypeForEmit: any = new EventEmitter<any>();
   selectedShop: any = {};
   selectedImage: any = {};
@@ -58,6 +59,7 @@ export class SectionElevenViewComponent implements OnInit {
   isNonSosDataAvailable = false;
   questionData: any;
   planogramList: any = [];
+  isMtChannel=false;
 
   optionArray: any = [
     { id: 1, title: "Yes" },
@@ -92,6 +94,10 @@ export class SectionElevenViewComponent implements OnInit {
       }
       this.setDataSosWise();
     }
+
+    if(this.channelId==1 || this.channelId==2 || this.channelId==3){
+      this.isMtChannel=true;
+    }
   }
 
   setSelectedImage(img) {
@@ -120,6 +126,30 @@ export class SectionElevenViewComponent implements OnInit {
   }
 
   setUtilization() {
+    if(this.isMtChannel){
+      return this.calculateUtilizationBySkus();
+    }
+    else
+    {
+      return this.calculateUtilizationWithSos();
+    }
+  }
+
+  calculateUtilizationBySkus(){
+    let achieved=0;
+    let com=0;
+    for(const element of this.products){
+      if(element.is_competition==1){
+        achieved=achieved+Number(element.face_unit);
+      }
+      else if(element.is_competition==2){
+        com=com+Number(element.face_unit);
+      }
+    }
+    return this.getUtilizationPercentage(achieved,com);
+  }
+
+  calculateUtilizationWithSos(){
     let achievedSos = 0;
     let comSos = 0;
     for (const element of this.questionData) {
@@ -132,6 +162,7 @@ export class SectionElevenViewComponent implements OnInit {
       }
     }
     return this.getUtilizationPercentage(achievedSos, comSos);
+
   }
 
   getUtilizationPercentage(achieved, competition) {
@@ -186,13 +217,13 @@ export class SectionElevenViewComponent implements OnInit {
   changeSku(value) {
     this.loading = true;
     if (this.isEditable) {
-      this.changeColor = true;
       this.updatingMSL = true;
 
       this.colorUpdateList.push(value.id);
       const obj = {
         msdId: value.id,
-        facing: -1,
+        categoryTitle: this.data.sectionTitle,
+        title: value.product_title,
         type: 1,
         newValue: !!value.available_sku ? 0 : 1,
         surveyId: value.survey_id,
@@ -205,10 +236,8 @@ export class SectionElevenViewComponent implements OnInit {
         if (data.success) {
           this.loading = false;
           this.toastr.success("Data Updated Successfully");
-          // this.products=data.productList;
           const key = data.msdId;
           this.products.forEach((e) => {
-            // for (const key of this.colorUpdateList) {
             if (key == e.id) {
               const i = this.products.findIndex((p) => p.id == key);
               const obj = {
@@ -222,6 +251,7 @@ export class SectionElevenViewComponent implements OnInit {
                 face_unit: e.face_unit,
                 desired_facing: e.desired_facing,
                 category_title: e.category_title,
+                is_competition:e.is_competition,
                 color: "red",
               };
 
@@ -231,18 +261,80 @@ export class SectionElevenViewComponent implements OnInit {
             }
 
             // }
+
+            this.availability = this.getAvailabilityCount(this.products);
+            this.MSLNAvailabilityCount = this.getMSLNAvailbilityCount(
+              this.products
+            );
           });
-          this.availability = this.getAvailabilityCount(this.products);
-          this.MSLNAvailabilityCount = this.getMSLNAvailbilityCount(
-            this.products
-          );
         } else {
           this.toastr.error(data.message, "Update Data");
         }
       });
     }
-    this.updatingMSL = false;
   }
+
+  changeFacing(value) {
+    this.loading = true;
+    if (this.isEditable) {
+      this.changeColor = true;
+      this.updatingMSL = true;
+      if (value !== null) {
+        this.colorUpdateList.push(value.id);
+        const obj = {
+          msdId: value.id,
+          newValue: value.face_unit,
+          categoryTitle: this.data.sectionTitle,
+          title: value.product_title,
+          type: 2,
+          surveyId: value.survey_id,
+          evaluatorId: this.evaluatorId,
+        };
+
+        // return value?'YES':'NO';
+
+        this.httpService.updateData(obj).subscribe((data: any) => {
+          if (data.success) {
+            this.loading = false;
+            this.toastr.success("Data Updated Successfully");
+            // this.products=data.productList;
+            const key = data.msdId;
+            this.products.forEach((e) => {
+              // for (const key of this.colorUpdateList) {
+              if (key === e.id) {
+                const i = this.products.findIndex((p) => p.id === key);
+                const obj = {
+                  id: e.id,
+                  available_sku: e.available_sku,
+                  MSL: e.MSL,
+                  product_title: e.product_title,
+                  face_unit: e.face_unit,
+                  desired_facing: e.desired_facing,
+                  category_title: e.category_title,
+                  is_competition:e.is_competition,
+                  color: "red",
+                };
+
+                this.products.splice(i, 1, obj);
+
+                // console.log(this.products[i])
+              }
+
+              // }
+
+              this.facing = this.getFacingCount(this.products);
+            });
+          } else {
+            this.toastr.error(data.message, "Update Data");
+          }
+        });
+      } else {
+        this.toastr.error("Facing Value is Incorrect");
+        this.loading = false;
+      }
+    }
+  }
+
 
   showChildModal(shop): void {
     this.selectedShop = shop;
@@ -267,6 +359,9 @@ export class SectionElevenViewComponent implements OnInit {
         const obj = {
           msdId: value.id,
           newValue: value.answer,
+          newValueId:-1,
+          title: value.question,
+          categoryTitle: this.data.sectionTitle,
           type: 8,
           evaluatorId: this.evaluatorId,
         };
@@ -312,11 +407,21 @@ export class SectionElevenViewComponent implements OnInit {
 
   updateMultiSelectData(value, data) {
     this.loading = true;
+    let selectedOption;
+    for(const option of data.optionList){
+      if(value==option.id){
+        selectedOption=option;
+        break;
+      }
+    }
     if (value != null) {
       if (this.isEditable) {
         const obj = {
           msdId: data.id,
-          newValue: value,
+          title: data.question,
+          categoryTitle: this.data.sectionTitle,
+          newValueId: selectedOption.id,
+          newValue: selectedOption.title,
           type: 4,
           evaluatorId: this.evaluatorId,
         };
