@@ -46,6 +46,9 @@ import { GtDashboardComponent } from "./Tableau/gt-dashboard/gt-dashboard.compon
 import { SssGtDashboardComponent } from "./Tableau/sss-gt-dashboard/sss-gt-dashboard.component";
 import { ComplianceDashboardComponent } from "./Tableau/compliance-dashboard/compliance-dashboard.component";
 import { TrendingOosReportComponent } from "./innerComponents/trending-oos-report/trending-oos-report.component";
+import { MtdOosReportComponent } from './mtd-oos-report/mtd-oos-report.component';
+import { ManageProductsComponent } from './innerComponents/manage-products/manage-products.component';
+import { ExpiryDataReportComponent } from './innerComponents/expiry-data-report/expiry-data-report.component';
 
 const routes: Routes = [
   {
@@ -61,6 +64,7 @@ const routes: Routes = [
       { path: "summary_report", component: SummaryComponent },
       { path: "productivity_report", component: ProductivityComponent },
       { path: "msl_dashboard", component: MslDashboardComponent },
+      { path: "manage_products", component: ManageProductsComponent },
       {
         path: "trending_oos_report",
         component: TrendingOosReportComponent,
@@ -144,6 +148,14 @@ const routes: Routes = [
         path: "merchandiser_score/:surveyorId/:startDate/:endDate",
         component: MerchandiserScoreComponent,
       },
+      {
+        path: "mtd-oos-mt",
+        component: MtdOosReportComponent,
+      },
+      {
+        path: "mtd-oos-gt",
+        component: MtdOosReportComponent,
+      },
 
       { path: "compliance-report", component: ComplienceReportComponent },
       { path: "tableau/:key", component: TableauHelperComponent },
@@ -151,6 +163,8 @@ const routes: Routes = [
         path: "capturedAbnormalUnvisited",
         component: UniqueBasedProductivityReportComponent,
       },
+      { path: "expiry-data-mt", component: ExpiryDataReportComponent },
+      { path: "expiry-data-gt", component: ExpiryDataReportComponent },
     ],
   },
   // { path: 'shop_detail/:id', component: ShopDetailComponent },

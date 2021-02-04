@@ -80,6 +80,11 @@ import { GtDashboardComponent } from "./Tableau/gt-dashboard/gt-dashboard.compon
 import { SssGtDashboardComponent } from "./Tableau/sss-gt-dashboard/sss-gt-dashboard.component";
 import { ComplianceDashboardComponent } from "./Tableau/compliance-dashboard/compliance-dashboard.component";
 import { TrendingOosReportComponent } from "./innerComponents/trending-oos-report/trending-oos-report.component";
+import { MtdOosReportComponent } from './mtd-oos-report/mtd-oos-report.component';
+import { ManageProductsComponent } from './innerComponents/manage-products/manage-products.component';
+import { AccordionModule } from "ngx-bootstrap";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { ExpiryDataReportComponent } from './innerComponents/expiry-data-report/expiry-data-report.component';
 
 @NgModule({
   imports: [
@@ -111,6 +116,8 @@ import { TrendingOosReportComponent } from "./innerComponents/trending-oos-repor
     BsDropdownModule.forRoot(),
     MatMenuModule,
     ReactiveFormsModule,
+    AccordionModule,
+    MatExpansionModule
   ],
   declarations: [
     DashboardComponent,
@@ -162,6 +169,9 @@ import { TrendingOosReportComponent } from "./innerComponents/trending-oos-repor
     SssGtDashboardComponent,
     ComplianceDashboardComponent,
     TrendingOosReportComponent,
+    MtdOosReportComponent,
+    ManageProductsComponent,
+    ExpiryDataReportComponent,
   ],
 })
 export class DashboardModule {}

@@ -200,7 +200,19 @@ export class DashboardService {
   }
 
   updateRouteStatus(obj) {
+    const urlencoded = this.UrlEncodeMaker(obj);
     const url = this.ip + "shopWiseRouteCount";
+    return this.http.post(url, obj);
+  }
+
+  getProductList(obj) {
+    const urlencoded = this.UrlEncodeMaker(obj);
+    const url = this.ip + "viewProductDetail";
+    return this.http.post(url, urlencoded, this.httpOptions);
+  }
+
+  updateCategory(obj) {
+    const url = this.ip + "updateProduct";
     return this.http.post(url, obj);
   }
 
