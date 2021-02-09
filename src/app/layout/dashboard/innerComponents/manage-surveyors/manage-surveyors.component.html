@@ -1,0 +1,289 @@
+<mat-card
+  class="mb-20"
+>
+  <mat-card-content>
+    <mat-card-title>
+      {{ title | uppercase }}
+      <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+    </mat-card-title>
+    <section class="example-section">
+      <ng-container *ngIf="zones?.length > 0">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+            <mat-option [value]="zone" *ngFor="let zone of zones">{{
+              zone.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+
+      <mat-form-field
+        *ngIf="regions.length > 0"
+        class="example-margin mr-10-IMP"
+      >
+        <mat-select
+          placeholder="{{ regionPlaceholder }}"
+          name="region"
+          [(ngModel)]="selectedRegion"
+        >
+          <ng-container *ngFor="let region of regions">
+            <mat-option [value]="region">{{ region.title }}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </section>
+
+    <section class="example-section">
+      <button [disabled]="loadingData || !selectedZone.id" mat-raised-button color="primary" (click)="loadSurveyors()">
+       Submit
+      </button>
+    </section>
+  </mat-card-content>
+</mat-card>
+
+
+
+<ng-container *ngIf="surveyorList.length > 0">
+  <div class="animated slideInLeft">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th (click)="sortIt('m_code')" style="cursor: pointer">
+                  Merchandiser Code
+                  <i class="material-icons arrow material-icons-arrow">
+                    {{ getArrowType("m_code") }}
+                  </i>
+                </th>
+                <th (click)="sortIt('fullName')" style="cursor: pointer">
+                  Merchandiser Name
+                  <i class="material-icons arrow material-icons-arrow">
+                    {{ getArrowType("fullName") }}
+                  </i>
+                </th>
+                <th (click)="sortIt('supervisorName')" style="cursor: pointer">
+                  Supervisor Name
+                  <i class="material-icons arrow material-icons-arrow">
+                    {{ getArrowType("supervisorName") }}
+                  </i>
+                </th>
+                <th  style="cursor: pointer">
+                  Password
+                 
+                </th>
+                <th style="cursor: pointer">
+                  Phone
+                 
+                </th>
+                <th  style="cursor: pointer">
+                  Email
+                  
+                </th>
+                <th style="cursor: pointer">
+                 Cnic
+                </th>
+                <th (click)="sortIt('active')" style="cursor: pointer">
+                  Active
+                  <i class="material-icons arrow material-icons-arrow">
+                    {{ getArrowType("active") }}
+                  </i>
+                </th>
+                <th>
+                  Action
+                </th>
+              </tr>
+            </thead>
+
+            <tbody *ngIf="surveyorList.length > 0">
+              <tr
+                *ngFor="
+                  let item of surveyorList | orderBy: sortBy:sortOrder
+                "
+              >
+                <td>{{ item?.m_code }}</td>
+                <td>{{ item?.fullName }}</td>
+                <td>{{ item?.supervisorName }}</td>
+                <td>{{ item?.password }}</td>
+                <td>{{ item?.phone }}</td>
+                <td>{{ item?.email }}</td>
+                <td>
+                  {{ item?.cnic }}
+                </td>
+                <td>
+                  {{ item?.active }}
+                </td>
+                <td>
+                  <button
+                  class="btn btn-primary btn-fixed"
+                  title="Edit Surveyor" (click)="showSurveyorInfoModal(item)">
+                  <i class="fa fa-edit">
+                  </i>
+                </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+  </div>
+</ng-container>
+
+
+<div
+  bsModal
+  #surveyorInfoModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">
+          Update Surveyor
+          <i [ngClass]="{ 'fa fa-cog fa-spin': loadingModal }"></i>
+        </h4>
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="hideSurveyorInfoModal()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="form" enctype="multipart/form-data">
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="hidden" formControlName="id" />
+          </div> 
+          <div class="form-group">
+            <label for="m_code">Surveyor Code</label>
+            <input
+              type="text"
+              class="form-control"
+              id="m_code"
+              formControlName="m_code"
+              readonly
+            />
+          </div>
+          <div class="row">
+            <div class="form-group col-md-8">
+              <label for="fullName">Surveyor Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="fullName"
+                formControlName="fullName"
+              />
+              <div
+              *ngIf="
+                form.controls.fullName.errors &&
+                (form.controls.fullName.touched || form.controls.fullName.dirty)
+              "
+            >
+              <mat-error
+                *ngIf="form.hasError('required', 'fullName')"
+                class="invalid-feedback"
+              >
+                Valid Surveyor Name is required.
+              </mat-error>
+            </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="active">Active</label>
+              <select
+                formControlName="active"
+                class="form-control"
+                placeholder="Change Status"
+                name="active"
+              >
+                <ng-container *ngFor="let status of activeStatus">
+                  <option [value]="status">{{status}}</option>
+                </ng-container>
+              </select>
+              <div
+                *ngIf="
+                  form.controls.active.errors &&
+                  (form.controls.active.touched || form.controls.active.dirty)
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'active')"
+                  class="invalid-feedback"
+                >
+                  Valid Status is Required.
+                </mat-error>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="text"
+              class="form-control"
+              id="password"
+              formControlName="password"
+            />
+            <div
+            *ngIf="
+              form.controls.password.errors &&
+              (form.controls.password.touched || form.controls.password.dirty)
+            "
+          >
+            <mat-error
+              *ngIf="form.hasError('required', 'password')"
+              class="invalid-feedback"
+            >
+              Valid Password is Required.
+            </mat-error>
+          </div>
+            </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="text"
+              class="form-control"
+              id="email"
+              formControlName="email"
+            />
+          </div>  
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input
+              type="text"
+              class="form-control"
+              id="phone"
+              formControlName="phone"
+            />
+          </div> 
+          <div class="form-group">
+            <label for="cnic">Cnic</label>
+            <input
+              type="text"
+              class="form-control"
+              id="cnic"
+              formControlName="cnic"
+            />
+          </div> 
+
+        </div>
+        <div class="modal-footer">
+          <button
+            (click)="updateSurveyorData(form.value)"
+            class="mr-1"
+            [disabled]="!form.valid || loadingModalButton"
+            mat-raised-button
+            color="primary"
+          >
+            <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingModalButton }"></i>
+            Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

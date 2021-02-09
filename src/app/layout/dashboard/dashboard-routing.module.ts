@@ -49,6 +49,7 @@ import { TrendingOosReportComponent } from "./innerComponents/trending-oos-repor
 import { MtdOosReportComponent } from './mtd-oos-report/mtd-oos-report.component';
 import { ManageProductsComponent } from './innerComponents/manage-products/manage-products.component';
 import { ExpiryDataReportComponent } from './innerComponents/expiry-data-report/expiry-data-report.component';
+import { ManageSurveyorsComponent } from './innerComponents/manage-surveyors/manage-surveyors.component';
 
 const routes: Routes = [
   {
@@ -65,6 +66,7 @@ const routes: Routes = [
       { path: "productivity_report", component: ProductivityComponent },
       { path: "msl_dashboard", component: MslDashboardComponent },
       { path: "manage_products", component: ManageProductsComponent },
+      { path: "manage_surveyors", component: ManageSurveyorsComponent },
       {
         path: "trending_oos_report",
         component: TrendingOosReportComponent,

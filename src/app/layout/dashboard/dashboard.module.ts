@@ -85,6 +85,7 @@ import { ManageProductsComponent } from './innerComponents/manage-products/manag
 import { AccordionModule } from "ngx-bootstrap";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { ExpiryDataReportComponent } from './innerComponents/expiry-data-report/expiry-data-report.component';
+import { ManageSurveyorsComponent } from './innerComponents/manage-surveyors/manage-surveyors.component';
 
 @NgModule({
   imports: [
@@ -172,6 +173,7 @@ import { ExpiryDataReportComponent } from './innerComponents/expiry-data-report/
     MtdOosReportComponent,
     ManageProductsComponent,
     ExpiryDataReportComponent,
+    ManageSurveyorsComponent,
   ],
 })
 export class DashboardModule {}
