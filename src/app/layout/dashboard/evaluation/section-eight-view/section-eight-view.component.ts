@@ -339,4 +339,74 @@ export class SectionEightViewComponent implements OnInit {
       "_blank"
     );
   }
+
+
+  updateTextData(tag) {
+    this.loading = true;
+    if (tag.value != null && tag.value >= 0) {
+      if (this.isEditable) {
+        const obj = {
+          msdId: tag.questionId,
+          newValue: tag.value,
+          newValueId:-1,
+          title: tag.heading,
+          categoryTitle: this.data.sectionTitle,
+          type: 9,
+          evaluatorId: this.evaluatorId,
+        };
+
+        this.httpService.updateData(obj).subscribe((data: any) => {
+          if (data.success) {
+            this.loading = false;
+            this.toastr.success("Data Updated Successfully");
+          } else {
+            this.toastr.error(data.message, "Update Data");
+          }
+        });
+      }
+    } else {
+      this.toastr.error("Value is Incorrect");
+      this.loading = false;
+    }
+  }
+
+
+  updateMultiSelectData(value, data) {
+    this.loading = true;
+    let selectedOption;
+    for(const option of data.optionList){
+      if(value==option.id){
+        selectedOption=option;
+        break;
+      }
+    }
+    if (value != null) {
+      if (this.isEditable) {
+        const obj = {
+          msdId: data.questionId,
+          title: data.heading,
+          categoryTitle: this.data.sectionTitle,
+          newValue: selectedOption.title,
+          newValueId: selectedOption.id,
+          type: 10,
+          chillerRemarkId:data.chillerRemarkId,
+          evaluatorId: this.evaluatorId,
+        };
+
+        this.httpService.updateData(obj).subscribe((data: any) => {
+          if (data.success) {
+            this.loading = false;
+            this.toastr.success("Data Updated Successfully");
+          } else {
+            this.toastr.error(data.message, "Update Data");
+          }
+        });
+      }
+    } else {
+      this.toastr.error("Value is Incorrect");
+      this.loading = false;
+    }
+  }
+
+
 }

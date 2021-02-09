@@ -244,7 +244,7 @@
       </div>
     </div>
   </div>
-  <div class="row justify-content-center">
+  <div class="row justify-content-center" *ngIf="isEditable">
     <ng-container class="mt-5 justify-content-center" *ngIf="data?.tagsList">
       <div class="col-md-11 mt-5">
         <table class="table table-bordered">
@@ -252,12 +252,67 @@
             <th style="width: 50%; background: lightgray">
               {{ tab.heading }}
             </th>
+            <ng-container *ngIf="tab.isEditable;else notEditable">
+              <td *ngIf="tab.optionList==null">
+              <input
+                    type="number"
+                    [(ngModel)]="tab.value"
+                    maxlength="3"
+                    style="width: 4em"
+                    (change)="updateTextData(tab)"
+                  />
+                </td>
+                <td *ngIf="tab.optionList!=null">
+                  <select
+                    #newValue
+                    (change)="
+                      updateMultiSelectData(newValue.value, tab)
+                    "
+                  >
+                    <ng-container
+                      *ngFor="let options of tab.optionList"
+                    >
+                      <option
+                        *ngIf="tab.value == options.title"
+                        [value]="options.id"
+                        selected="selected"
+                      >
+                        {{ options?.title }}
+                      </option>
+                      <option
+                        *ngIf="tab.value != options.title"
+                        [value]="options.id"
+                      >
+                        {{ options?.title }}
+                      </option>
+                    </ng-container>
+                  </select>
+                </td>   
+            </ng-container>
+            <ng-template #notEditable>
             <td style="width: 50%; word-break: break-word">
               {{ tab.value }}
             </td>
+          </ng-template>
           </tr>
         </table>
       </div>
     </ng-container>
   </div>
+</div>
+
+
+<div class="row justify-content-center" *ngIf="!isEditable">
+  <ng-container class=" justify-content-center " *ngIf="data?.tagsList">
+      <div class="col-md-11 mt-3 ">
+          <table class="table table-bordered ">
+              <tr *ngFor="let tab of data.tagsList;let j=index ">
+                  <th style="width:50%;background: lightgray; ">{{tab.heading}}</th>
+                  <td style="width:50%;word-break: break-all ">{{tab.value}}</td>
+              </tr>
+
+          </table>
+
+      </div>
+  </ng-container>
 </div>
