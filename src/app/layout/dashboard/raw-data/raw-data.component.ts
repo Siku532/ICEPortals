@@ -22,13 +22,40 @@ export class RawDataComponent implements OnInit {
   reportId = -1;
   title = "";
   selectedReportUrl = "";
+  clusterList:any=[];
+  zones:any=[];
+  regions:any=[];
+  selectedZone:any={};
+  selectedRegion:any={};
+  selectedCluster:any={};
+  clusterId:any;
+
+  zonePlaceholder = "";
+  regionPlaceholder = "";
+  clusterPlaceHolder = "";
+  projectType:any;
+  queryParams:any=[];
+  regionList:any=[];
 
   constructor(
     private activatedRoutes: ActivatedRoute,
     private httpService: DashboardService,
     public router: Router,
     private toastr: ToastrService
-  ) {}
+  ) {
+    this.clusterList = JSON.parse(localStorage.getItem("clusterList"));
+    this.zones = JSON.parse(localStorage.getItem("zoneList"));
+    this.clusterId = localStorage.getItem("clusterId") || -1;
+    this.projectType = localStorage.getItem("projectType");
+    if (this.projectType == "NFL" || this.projectType == "NFL_SO") {
+      this.zonePlaceholder = "Region";
+      this.regionPlaceholder = "Zone";
+    } else {
+      this.zonePlaceholder = "Zone";
+      this.regionPlaceholder = "Region";
+    }
+    this.clusterPlaceHolder = "Cluster";
+  }
 
   ngOnInit() {
     this.activatedRoutes.params.subscribe((params) => {
@@ -37,6 +64,7 @@ export class RawDataComponent implements OnInit {
       }
       this.getQueryTypeList(this.reportId);
     });
+    this.getAllRegions();
   }
 
   getQueryTypeList(reportId) {
@@ -68,8 +96,15 @@ export class RawDataComponent implements OnInit {
       // tslint:disable-next-line:triple-equals
       const obj = {
         queryId: this.selectedQuery.id,
-        startDate: moment(this.startDate).format("YYYY-MM-DD"),
-        endDate: moment(this.endDate).format("YYYY-MM-DD"),
+        clusterId: this.selectedCluster.id
+        ? this.selectedCluster.id == -1
+          ? localStorage.getItem("clusterId")
+          : this.selectedCluster.id
+        : localStorage.getItem("clusterId"),
+      zoneId: this.zoneCheck(),
+      regionId: this.regionCheck(),
+        startDate: this.selectedQuery.date=='Y'? moment(this.startDate).format("YYYY-MM-DD"): -1,
+        endDate: this.selectedQuery.date=='Y'?moment(this.endDate).format("YYYY-MM-DD"):-1,
       };
 
       const url = "dashboard-data";
@@ -127,5 +162,124 @@ export class RawDataComponent implements OnInit {
   clearLoading() {
     this.loadingData = false;
     this.loadingReportMessage = false;
+  }
+
+  getZoneByCluster() {
+    if(this.selectedQuery.zone=='Y'){
+    this.loadingData = true;
+    this.selectedZone = {};
+    this.selectedRegion = {};
+    this.httpService.getZoneByCluster(this.selectedCluster.id || -1).subscribe(
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.zones = res;
+        }
+        this.loadingData = false;
+      },
+      (error) => {
+        error.status === 0
+          ? this.toastr.error("Please check Internet Connection", "Error")
+          : this.toastr.error(error.description, "Error");
+        this.loadingData = false;
+      }
+    );
+    }
+  }
+
+  zoneChange() {
+    if(this.selectedQuery.region=='Y'){
+    this.loadingData = true;
+    this.selectedRegion = {};
+
+    this.httpService.getRegion(this.selectedZone.id).subscribe(
+      (data) => {
+        const res: any = data;
+        if (res) {
+          this.regions = res;
+        } else {
+          this.clearLoading();
+
+          this.toastr.info(
+            "Something went wrong,Please retry",
+            "Connectivity Message"
+          );
+        }
+
+        setTimeout(() => {
+          this.loadingData = false;
+        }, 500);
+      },
+      (error) => {
+        this.clearLoading();
+      }
+    );
+  }
+
+  }
+  zoneCheck(){
+    const zoneId=this.selectedZone.id
+    ? this.selectedZone.id == -1
+      ? localStorage.getItem("zoneId")
+      : this.selectedZone.id
+    : localStorage.getItem("zoneId");
+    let zoneArray:any=[];
+    if(zoneId==-1 && this.selectedQuery.zone=='Y'){
+      this.zones.forEach((e) => {
+        if(e.id!=-1){
+          zoneArray.push(e.id);
+        }
+      });
+      zoneArray=zoneArray.join();
+      return zoneArray;
+    }
+    return zoneId;
+  }
+  regionCheck(){
+    const regionId=this.selectedRegion.id
+    ? this.selectedRegion.id == -1
+      ? localStorage.getItem("regionId")
+      : this.selectedRegion.id
+    : localStorage.getItem("regionId");
+    let regionArray:any=[];
+    if(regionId==-1 && this.selectedQuery.region=='Y'){
+      this.regions.forEach((e) => {
+        if(e.id!=-1){
+          regionArray.push(e.id);
+        }
+      });
+      if(regionArray.length==0){
+        this.regionList.forEach((e) => {
+          if(e.id!=-1){
+            regionArray.push(e.id);
+          }
+        });
+      }
+      regionArray=regionArray.join();
+      return regionArray;
+    }
+    return regionId;
+  }
+
+  getAllRegions() {
+    this.loadingData = true;
+    this.httpService.getRegions().subscribe(
+      (data) => {
+        const res: any = data;
+        if (res.regionList) {
+          this.regionList = res.regionList;
+        }
+        if (!res.regionList) {
+          this.toastr.info("No data Found For Regions", "Info");
+        }
+        this.clearLoading();
+      },
+      (error) => {
+        this.clearLoading();
+        error.status === 0
+          ? this.toastr.error("Please check Internet Connection", "Error")
+          : this.toastr.error(error.description, "Error");
+      }
+    );
   }
 }

@@ -11,18 +11,52 @@
       >
     </mat-card-title>
     <section class="example-section">
-      <mat-form-field class="example-margin mr-10-IMP">
+      <ng-container *ngIf="clusterId != '-1' && selectedQuery.cluster=='Y'">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ clusterPlaceHolder }}"
+            name="cluster"
+            [(ngModel)]="selectedCluster"
+            (ngModelChange)="getZoneByCluster()"
+          >
+            <mat-option [value]="cluster" *ngFor="let cluster of clusterList">{{
+              cluster.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="zones?.length > 0 && selectedQuery.zone=='Y'">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ zonePlaceholder }}"
+            name="zone"
+            [(ngModel)]="selectedZone"
+            (ngModelChange)="zoneChange()"
+          >
+          <ng-container *ngFor="let zone of zones">
+            <mat-option [value]="zone">{{
+              zone.title
+            }}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+      <mat-form-field
+        *ngIf="regions.length > 0 && selectedQuery.region=='Y'" 
+        class="example-margin mr-10-IMP"
+      >
         <mat-select
-          placeholder="Query Type"
-          name="queryList"
-          [(ngModel)]="selectedQuery"
+          placeholder="{{ regionPlaceholder }}"
+          name="region"
+          [(ngModel)]="selectedRegion"
         >
-          <ng-container *ngFor="let query of queryList">
-            <mat-option [value]="query">{{ query.title }}</mat-option>
-          </ng-container>
+          <mat-option [value]="region" *ngFor="let region of regions">{{
+            region.title
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
-
+    </section>
+    <section class="example-section" *ngIf="selectedQuery.date=='Y'">
       <mat-form-field class="example-full-width mr-10-IMP">
         <input
           matInput
@@ -59,7 +93,7 @@
 
     <section class="example-section">
       <button
-        [disabled]="!selectedQuery.id"
+        [disabled]="!selectedQuery.id || (selectedQuery.zone=='Y' && !selectedZone.id)"
         mat-raised-button
         color="warn"
         (click)="getDashboardData()"
