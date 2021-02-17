@@ -25,6 +25,7 @@ export class ManageSurveyorsComponent implements OnInit {
   selectedZone:any={};
   selectedRegion:any={};
   surveyorList:any=[];
+  supervisorList:any=[];
   loadingData:boolean;
   title='Manage Surveyors';
   projectType:any;
@@ -34,6 +35,7 @@ export class ManageSurveyorsComponent implements OnInit {
   loadingModal:boolean;
   loadingModalButton:boolean;
   activeStatus: any = ['Y','N'];
+  selectedSurveyor:any={};
   
   constructor( private toastr: ToastrService,
     private httpService: DashboardService,
@@ -53,6 +55,7 @@ export class ManageSurveyorsComponent implements OnInit {
       m_code: new FormControl(""),
       fullName: new FormControl("", [Validators.required]),
       password: new FormControl("", [Validators.required]),
+      supervisorId: new FormControl(""),
       email: new FormControl(""),
       phone: new FormControl(""),
       cnic: new FormControl(""),
@@ -97,6 +100,7 @@ export class ManageSurveyorsComponent implements OnInit {
         const res: any = data;
         if (res) {
           this.surveyorList=res
+          this.getSupervisors();
         }
         if (!res) {
           this.toastr.info("No data Found", "Info");
@@ -141,11 +145,13 @@ export class ManageSurveyorsComponent implements OnInit {
   }
 
   showSurveyorInfoModal(surveyor){
+    this.selectedSurveyor=surveyor;
     this.form.patchValue({
       id: surveyor.id,
       m_code: surveyor.m_code,
       fullName: surveyor.fullName,
       password: surveyor.password,
+      supervisorId:surveyor.supervisorId,
       email: surveyor.email,
       phone: surveyor.phone,
       active: surveyor.active,
@@ -155,8 +161,19 @@ export class ManageSurveyorsComponent implements OnInit {
   }
 
   hideSurveyorInfoModal(){
+    this.selectedSurveyor={};
       this.form.reset();
       this.surveyorInfoModal.hide();
+  }
+
+  getSupervisors(){
+    this.supervisorList=[];
+    for(const surveyor of this.surveyorList){
+      if(surveyor.type==2){
+        this.supervisorList.push(surveyor);
+      }
+    }
+    console.log(this.supervisorList);
   }
 
 }
