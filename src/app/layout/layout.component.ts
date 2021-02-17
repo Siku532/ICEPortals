@@ -24,7 +24,8 @@ export class LayoutComponent implements OnInit {
           e.url == "/dashboard/gt-dashboard" ||
           e.url == "/dashboard/mt-dashboard" ||
           e.url == "/dashboard/sss-gt-dashboard" ||
-          e.url == "/dashboard/compliance-dashboard"
+          e.url == "/dashboard/compliance-dashboard" ||
+          e.url == "/dashboard/compliance-dashboard-national"
         ) {
           this.hideSideBar = true;
           this.isTableauRequest = true;

@@ -1,20 +1,10 @@
 <!-- <app-nav></app-nav> -->
 
 <app-topnav (hideSideBar)="hideBarStatus()"></app-topnav>
-<ng-container *ngIf="!hideSideBar">
-  <app-sidebar></app-sidebar>
-  <div class="main-container">
-    <router-outlet></router-outlet>
-  </div>
-</ng-container>
+<ng-container >
+  <app-sidebar *ngIf="!hideSideBar"></app-sidebar>
+  <div class="main-container"  [ngClass]="{'main-container': !hideSideBar, 'container-fluid mt-12':hideSideBar}">
 
-<ng-container *ngIf="hideSideBar">
-  <div
-    [ngClass]="{
-      'container mt-12': isTableauRequest,
-      'container-fluid mt-6': !isTableauRequest
-    }"
-  >
-    <router-outlet></router-outlet>
+      <router-outlet></router-outlet>
   </div>
 </ng-container>
