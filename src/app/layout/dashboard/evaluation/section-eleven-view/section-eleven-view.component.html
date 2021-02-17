@@ -114,6 +114,7 @@
               <ng-container *ngIf="isEditable == false">
                 <td
                   style="width: 200px !important"
+                  [ngClass]="{ 'background-color': product?.MSL == 'Yes' }"
                 >
                   {{ updateString(product?.available_sku) }}
                 </td>
