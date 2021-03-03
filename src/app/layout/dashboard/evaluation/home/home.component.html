@@ -146,8 +146,8 @@
         </div>
       </div>
     </div>
-    <ng-container *ngIf="projectType == 'NFL'; else simpleCriteriaView">
-      <ng-container *ngIf="!p.notEditable">
+      <ng-container *ngIf="isEditable">
+        <ng-container *ngIf="projectType == 'NFL'; else simpleCriteriaView">
         <div
           class="col-md-3"
           *ngIf="data?.criteria && isFromShop && !isDragging"
@@ -375,17 +375,202 @@
                 </div>
               </ng-container>
             </div>
+
+            <div class="row justify-content-center">
+              <div 
+                class="col-md-8"
+              >
+                <button *ngIf="exceptionList.length>0"
+                  class="btn btn-primary" (click)="showExceptionDetailModal()"
+                >
+                 Compliance Exceptions
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </ng-container>
 
-      <ng-container *ngIf="p.notEditable">
+      <ng-template #simpleCriteriaView>
+          <div class="col-md-3">
+            <div class="card">
+              <div
+                class="row"
+                *ngIf="
+                  data?.criteria &&
+                  isFromShop &&
+                  !isDragging &&
+                  (userType == evaluatorRole || userType == reevaluatorRole)
+                "
+              >
+                <div class="col-md-12">
+                  <table
+                    class="table table-bordered sm-table table-hover"
+                    style="line-height: 1"
+                  >
+                    <thead class="thead-light">
+                      <tr style="text-align: center">
+                        <th>Title</th>
+                        <th>Score</th>
+                        <th>Achieved</th>
+                      </tr>
+                    </thead>
+                    <!-- {{cloneArray[0] | json }} -->
+                    <tbody>
+                      <tr
+                        *ngFor="let item of cloneArray; let i = index"
+                        style="text-align: center"
+                      >
+                        <td>
+                          <label class="container" style="margin-bottom: 8px">
+                            <p style="padding-top: 5px; margin-bottom: 5px">
+                              {{ item?.title }}
+                            </p>
+                            <ng-container
+                              *ngIf="item?.type != 'CRITICAL_CASE' && isCritical"
+                            >
+                              <input
+                                class="checkbox"
+                                type="checkbox"
+                                name="{{ item?.title }}"
+                                [checked]="item?.isChecked"
+                                id="{{ item?.id }}"
+                                (click)="
+                                  counter(checked, item, i);
+                                  createTickForSlider(item)
+                                "
+                                #checked
+                              />
+                              <span class="checkmark"></span>
+                            </ng-container>
+                            <ng-container
+                              *ngIf="
+                                item?.type == 'CRITICAL_CASE' && !isNoNCritical
+                              "
+                            >
+                              <input
+                                class="checkbox"
+                                type="checkbox"
+                                name="{{ item?.title }}"
+                                [checked]="item?.isChecked"
+                                id="{{ item?.id }}"
+                                (click)="counter(checked, item, i)"
+                                #checked
+                              />
+                              <span class="checkmark"></span>
+                            </ng-container>
+                          </label>
+                        </td>
+                        <td>
+                          <label
+                            class="container"
+                            for="score"
+                            style="margin-top: 5px; margin-bottom: 2px"
+                          >
+                            {{ item?.score }}
+                          </label>
+                        </td>
+  
+                        <td>
+                          <label
+                            class="container"
+                            for="achievedScore"
+                            style="margin-top: 5px; margin-bottom: 2px"
+                          >
+                            <span>
+                              {{ item?.achievedScore }}
+                            </span>
+                          </label>
+                        </td>
+                      </tr>
+                      <!-- <hr> -->
+                      <tr style="font-weight: 700; text-align: center">
+                        <td>
+                          <label class="container" for="">Total Score:</label>
+                        </td>
+                        <td>
+                          <label class="container" for="score">
+                            {{ score.toFixed() }}
+                          </label>
+                        </td>
+                        <td>
+                          <label class="container" for="totalAchieveScore">
+                            {{ totalAchieveScore.toFixed() }}
+                          </label>
+                        </td>
+                      </tr>
+  
+                      <!-- <hr> -->
+                    </tbody>
+                  </table>
+                  <div class="row" *ngIf="userType == evaluatorRole">
+                    <div
+                      class="col-md-12"
+                      style="text-align: end; padding: 0 20px 5px 0"
+                    >
+                      <button
+                        [disabled]="loading"
+                        class="btn btn-primary"
+                        (click)="evaluateShop()"
+                      >
+                        <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
+                        Evaluate
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="userType == reevaluatorRole">
+                    <div
+                      class="col-md-12"
+                      style="text-align: end; padding: 0 20px 5px 0"
+                    >
+                      <button
+                        [disabled]="loading"
+                        class="btn btn-primary"
+                        (click)="showEvaluationRemarksModal()"
+                      >
+                        <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
+                        Evaluate
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <hr />
+  
+              <div class="row justify-content-center" *ngIf="!isDragging">
+                <ng-container
+                  class="mt-2 justify-content-center"
+                  *ngIf="data?.shopDetails?.tagsList"
+                >
+                  <div class="col-md-11 mt-1">
+                    <table class="table table-bordered sm-table">
+                      <tr
+                        *ngFor="
+                          let tab of data?.shopDetails?.tagsList;
+                          let j = index
+                        "
+                      >
+                        <th style="background: lightgray">{{ tab.heading }}</th>
+                        <td style="word-break: break-word">{{ tab.value }}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+      </ng-template>
+      </ng-container>
+
+
+
+      <ng-container *ngIf="!isEditable">
         <div
           class="col-md-3"
-          *ngIf="data?.criteria && isFromShop && !isDragging"
         >
           <div class="card">
-            <div class="row">
+            <div class="row" *ngIf="data?.criteria && isFromShop && !isDragging">
               <div class="col-md-12">
                 <table
                   class="table table-bordered sm-table table-hover"
@@ -404,7 +589,7 @@
                       *ngFor="let item of cloneArray; let i = index"
                       style="text-align: center"
                     >
-                      <ng-container *ngIf="item.parentId != -1">
+                      <ng-container *ngIf="projectType=='NFL' && item.parentId != -1; else altView">
                         <ng-container *ngIf="!item.remarkId">
                           <td>
                             <label class="container" style="margin-bottom: 8px">
@@ -503,10 +688,72 @@
                           </td>
                         </ng-container>
                       </ng-container>
-                    </tr>
-                    <!-- <hr> -->
+                      <ng-template #altView>
 
-                    <!-- <hr> -->
+                      <ng-container *ngIf="!item.remarkId">
+                        <td>
+                          <label class="container" style="margin-bottom: 8px;">
+                            <p style="padding-top: 5px; margin-bottom: 5px ">{{item?.title}}</p>
+      
+                          </label>
+                        </td>
+                        <td>
+                          <label class="container" for="score" style=" margin-top: 5px;  margin-bottom: 2px;">
+                            {{item?.score}}
+                          </label>
+                        </td>
+      
+                        <td>                
+                          <label class="container" for="achievedScore" style=" margin-top: 5px; margin-bottom: 2px; ">
+                            <span>
+                              {{item?.achievedScore}}
+                            </span>
+                    
+                          </label>
+                        </td>
+                    </ng-container>
+                    <ng-container *ngIf="item.remarkId">
+                     <td>
+                        <mat-accordion>
+                            <mat-expansion-panel (opened)="panelOpenState = true"
+                        (closed)="panelOpenState = false" >
+                        <mat-expansion-panel-header [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+                          <label class="container" style="margin-bottom: 8px;">
+                            <p style="padding-top: 5px; margin-bottom: 5px ">{{item?.title}}</p>
+      
+                          </label>
+                     
+                        <mat-panel-description>
+                        </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ng-container *ngFor="let remark of remarksList">
+                
+                          <li *ngIf="remark.criteriaId==item.id && remark.isChecked==1" >
+                            <span style="font-size: 80%; color : red;"> {{remark.description}} </span>
+                          </li>
+            
+                      </ng-container>
+                        </mat-expansion-panel>
+                        </mat-accordion>
+                      </td>
+                      <td>
+                        <label class="container" for="score" style=" margin-top: 5px;  margin-bottom: 2px;">
+                          {{item?.score}}
+                        </label>
+                      </td>
+      
+                      <td>                
+                        <label class="container" for="achievedScore" style=" margin-top: 5px; margin-bottom: 2px; ">
+                          <span>
+                            {{item?.achievedScore}}
+                          </span>
+                  
+                        </label>
+      
+                      </td>
+                    </ng-container>
+                  </ng-template>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -534,340 +781,20 @@
                 </div>
               </ng-container>
             </div>
-          </div>
-        </div>
-      </ng-container>
-    </ng-container>
-    <ng-template #simpleCriteriaView>
-      <ng-container *ngIf="!p.notEditable">
-        <div class="col-md-3">
-          <div class="card">
-            <div
-              class="row"
-              *ngIf="
-                data?.criteria &&
-                isFromShop &&
-                !isDragging &&
-                (userType == evaluatorRole || userType == reevaluatorRole)
-              "
-            >
-              <div class="col-md-12">
-                <table
-                  class="table table-bordered sm-table table-hover"
-                  style="line-height: 1"
+            <div class="row justify-content-center">
+              <div 
+                class="col-md-8"
+              >
+                <button *ngIf="exceptionList.length>0"
+                  class="btn btn-primary" (click)="showExceptionDetailModal()"
                 >
-                  <thead class="thead-light">
-                    <tr style="text-align: center">
-                      <th>Title</th>
-                      <th>Score</th>
-                      <th>Achieved</th>
-                    </tr>
-                  </thead>
-                  <!-- {{cloneArray[0] | json }} -->
-                  <tbody>
-                    <tr
-                      *ngFor="let item of cloneArray; let i = index"
-                      style="text-align: center"
-                    >
-                      <td>
-                        <label class="container" style="margin-bottom: 8px">
-                          <p style="padding-top: 5px; margin-bottom: 5px">
-                            {{ item?.title }}
-                          </p>
-                          <ng-container
-                            *ngIf="item?.type != 'CRITICAL_CASE' && isCritical"
-                          >
-                            <input
-                              class="checkbox"
-                              type="checkbox"
-                              name="{{ item?.title }}"
-                              [checked]="item?.isChecked"
-                              id="{{ item?.id }}"
-                              (click)="
-                                counter(checked, item, i);
-                                createTickForSlider(item)
-                              "
-                              #checked
-                            />
-                            <span class="checkmark"></span>
-                          </ng-container>
-                          <ng-container
-                            *ngIf="
-                              item?.type == 'CRITICAL_CASE' && !isNoNCritical
-                            "
-                          >
-                            <input
-                              class="checkbox"
-                              type="checkbox"
-                              name="{{ item?.title }}"
-                              [checked]="item?.isChecked"
-                              id="{{ item?.id }}"
-                              (click)="counter(checked, item, i)"
-                              #checked
-                            />
-                            <span class="checkmark"></span>
-                          </ng-container>
-                        </label>
-                      </td>
-                      <td>
-                        <label
-                          class="container"
-                          for="score"
-                          style="margin-top: 5px; margin-bottom: 2px"
-                        >
-                          {{ item?.score }}
-                        </label>
-                      </td>
-
-                      <td>
-                        <label
-                          class="container"
-                          for="achievedScore"
-                          style="margin-top: 5px; margin-bottom: 2px"
-                        >
-                          <span>
-                            {{ item?.achievedScore }}
-                          </span>
-                        </label>
-                      </td>
-                    </tr>
-                    <!-- <hr> -->
-                    <tr style="font-weight: 700; text-align: center">
-                      <td>
-                        <label class="container" for="">Total Score:</label>
-                      </td>
-                      <td>
-                        <label class="container" for="score">
-                          {{ score.toFixed() }}
-                        </label>
-                      </td>
-                      <td>
-                        <label class="container" for="totalAchieveScore">
-                          {{ totalAchieveScore.toFixed() }}
-                        </label>
-                      </td>
-                    </tr>
-
-                    <!-- <hr> -->
-                  </tbody>
-                </table>
-                <div class="row" *ngIf="userType == evaluatorRole">
-                  <div
-                    class="col-md-12"
-                    style="text-align: end; padding: 0 20px 5px 0"
-                  >
-                    <button
-                      [disabled]="loading"
-                      class="btn btn-primary"
-                      (click)="evaluateShop()"
-                    >
-                      <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
-                      Evaluate
-                    </button>
-                  </div>
-                </div>
-                <div class="row" *ngIf="userType == reevaluatorRole">
-                  <div
-                    class="col-md-12"
-                    style="text-align: end; padding: 0 20px 5px 0"
-                  >
-                    <button
-                      [disabled]="loading"
-                      class="btn btn-primary"
-                      (click)="showEvaluationRemarksModal()"
-                    >
-                      <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
-                      Evaluate
-                    </button>
-                  </div>
-                </div>
+                 Compliance Exceptions
+                </button>
               </div>
             </div>
-
-            <hr />
-
-            <div class="row justify-content-center" *ngIf="!isDragging">
-              <ng-container
-                class="mt-2 justify-content-center"
-                *ngIf="data?.shopDetails?.tagsList"
-              >
-                <div class="col-md-11 mt-1">
-                  <table class="table table-bordered sm-table">
-                    <tr
-                      *ngFor="
-                        let tab of data?.shopDetails?.tagsList;
-                        let j = index
-                      "
-                    >
-                      <th style="background: lightgray">{{ tab.heading }}</th>
-                      <td style="word-break: break-word">{{ tab.value }}</td>
-                    </tr>
-                  </table>
-                </div>
-              </ng-container>
-            </div>
           </div>
         </div>
       </ng-container>
-
-      <ng-container *ngIf="p.notEditable">
-        <div class="col-md-3">
-          <div class="card">
-            <div
-              class="row"
-              *ngIf="data?.criteria && isFromShop && !isDragging"
-            >
-              <div class="col-md-12">
-                <table
-                  class="table table-bordered sm-table table-hover"
-                  style="line-height: 1"
-                >
-                  <thead class="thead-light">
-                    <tr style="text-align: center">
-                      <th>Title</th>
-                      <th>Score</th>
-                      <th>Achieved</th>
-                    </tr>
-                  </thead>
-                  <!-- {{cloneArray[0] | json }} -->
-                  <tbody>
-                    <tr
-                      *ngFor="let item of cloneArray; let i = index"
-                      style="text-align: center"
-                    >
-                      <ng-container *ngIf="!item.remarkId">
-                        <td>
-                          <label class="container" style="margin-bottom: 8px">
-                            <p style="padding-top: 5px; margin-bottom: 5px">
-                              {{ item?.title }}
-                            </p>
-                          </label>
-                        </td>
-                        <td>
-                          <label
-                            class="container"
-                            for="score"
-                            style="margin-top: 5px; margin-bottom: 2px"
-                          >
-                            {{ item?.score }}
-                          </label>
-                        </td>
-
-                        <td>
-                          <label
-                            class="container"
-                            for="achievedScore"
-                            style="margin-top: 5px; margin-bottom: 2px"
-                          >
-                            <span>
-                              {{ item?.achievedScore }}
-                            </span>
-                          </label>
-                        </td>
-                      </ng-container>
-                      <ng-container *ngIf="item.remarkId">
-                        <td>
-                          <mat-accordion>
-                            <mat-expansion-panel
-                              (opened)="panelOpenState = true"
-                              (closed)="panelOpenState = false"
-                            >
-                              <mat-expansion-panel-header
-                                [collapsedHeight]="'40px'"
-                                [expandedHeight]="'40px'"
-                              >
-                                <label
-                                  class="container"
-                                  style="margin-bottom: 8px"
-                                >
-                                  <p
-                                    style="padding-top: 5px; margin-bottom: 5px"
-                                  >
-                                    {{ item?.title }}
-                                  </p>
-                                </label>
-
-                                <mat-panel-description> </mat-panel-description>
-                              </mat-expansion-panel-header>
-                              <ng-container *ngFor="let remark of remarksList">
-                                <li
-                                  *ngIf="
-                                    remark.criteriaId == item.id &&
-                                    remark.isChecked == 1
-                                  "
-                                >
-                                  <span style="font-size: 80%; color: red">
-                                    {{ remark.description }}
-                                  </span>
-                                </li>
-                              </ng-container>
-                            </mat-expansion-panel>
-                          </mat-accordion>
-                        </td>
-                        <td>
-                          <label
-                            class="container"
-                            for="score"
-                            style="margin-top: 5px; margin-bottom: 2px"
-                          >
-                            {{ item?.score }}
-                          </label>
-                        </td>
-
-                        <td>
-                          <label
-                            class="container"
-                            for="achievedScore"
-                            style="margin-top: 5px; margin-bottom: 2px"
-                          >
-                            <span>
-                              {{ item?.achievedScore }}
-                            </span>
-                          </label>
-                        </td>
-                      </ng-container>
-                    </tr>
-                    <!-- <hr> -->
-
-                    <!-- <hr> -->
-                  </tbody>
-                </table>
-                <!-- <ng-container *ngIf="userType!=15">
-                      <div class="col-md-12" style="text-align: end; padding: 0 20px 5px 0; ">
-                          <button [disabled]="loading" class="btn btn-primary" (click)="showEmailModal()">
-                              <i [ngClass]="{'fa fa-spinner fa-spin': loading}"></i>
-                              Send Email</button>
-                      </div>
-                    </ng-container> -->
-              </div>
-            </div>
-
-            <hr />
-
-            <div class="row justify-content-center" *ngIf="!isDragging">
-              <ng-container
-                class="mt-2 justify-content-center"
-                *ngIf="data?.shopDetails?.tagsList"
-              >
-                <div class="col-md-11 mt-1">
-                  <table class="table table-bordered sm-table">
-                    <tr
-                      *ngFor="
-                        let tab of data?.shopDetails?.tagsList;
-                        let j = index
-                      "
-                    >
-                      <th style="background: lightgray">{{ tab.heading }}</th>
-                      <td style="word-break: break-word">{{ tab.value }}</td>
-                    </tr>
-                  </table>
-                </div>
-              </ng-container>
-            </div>
-          </div>
-        </div>
-      </ng-container>
-    </ng-template>
   </div>
 </div>
 
@@ -1110,6 +1037,74 @@
             </button>
           </div>
         </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div
+  bsModal
+  #exceptionDescriptionModal="bs-modal"
+  [config]="{ backdrop: 'static', keyboard: false }"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">
+          Exceptions
+        </h4>
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="hideExceptionDetailModal()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 10px">
+            <div class="animated slideInLeft">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>
+                            Category
+                          </th>
+                          <th>
+                            Posm
+                          </th>
+                          <th>
+                            Planogram
+                          </th>
+                        </tr>
+                      </thead>
+          
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let item of exceptionList "
+                        >
+                          <td>{{ item?.category }}</td>
+                          <td>{{ item?.posm }}</td>
+                          <td>{{ item?.planogram }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+            </div>
+          
+          <div class="col-md" style="text-align: end; padding: 0 20px 5px 0">
+            <button
+              class="btn btn-default mr-2 btn-sm"
+              (click)="hideExceptionDetailModal()"
+            >
+              Close
+            </button>
+          </div>
       </div>
     </div>
   </div>

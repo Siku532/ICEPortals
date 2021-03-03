@@ -133,6 +133,7 @@
                   style="cursor: pointer"
                   (click)="changeSku(product)"
                   [ngClass]="{ 'background-color': product?.MSL == 'Yes' }"
+                  [ngStyle]="{ 'background-color': product.color }"
                 >
                   {{ updateString(product?.available_sku) }}
                 </td>

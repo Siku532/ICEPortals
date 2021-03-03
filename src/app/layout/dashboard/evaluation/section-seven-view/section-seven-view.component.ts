@@ -139,13 +139,13 @@ export class SectionSevenViewComponent implements OnInit {
   changeSku(value) {
     this.loading = true;
     if (this.isEditable) {
-      this.changeColor = true;
       this.updatingMSL = true;
 
       this.colorUpdateList.push(value.id);
       const obj = {
         msdId: value.id,
-        facing: -1,
+        categoryTitle: this.data.sectionTitle,
+        title: value.product_title,
         type: 1,
         newValue: !!value.available_sku ? 0 : 1,
         surveyId: value.survey_id,
@@ -160,8 +160,8 @@ export class SectionSevenViewComponent implements OnInit {
           this.toastr.success("Data Updated Successfully");
           const key = data.msdId;
           this.products.forEach((e) => {
-            if (key === e.id) {
-              const i = this.products.findIndex((p) => p.id === key);
+            if (key == e.id) {
+              const i = this.products.findIndex((p) => p.id == key);
               const obj = {
                 id: e.id,
                 available_sku:
@@ -173,6 +173,7 @@ export class SectionSevenViewComponent implements OnInit {
                 face_unit: e.face_unit,
                 desired_facing: e.desired_facing,
                 category_title: e.category_title,
+                is_competition:e.is_competition,
                 color: "red",
               };
 
@@ -205,8 +206,9 @@ export class SectionSevenViewComponent implements OnInit {
         const obj = {
           msdId: value.id,
           newValue: value.face_unit,
+          categoryTitle: this.data.sectionTitle,
+          title: value.product_title,
           type: 2,
-          unitAvailable: -1,
           surveyId: value.survey_id,
           evaluatorId: this.evaluatorId,
         };
@@ -220,7 +222,6 @@ export class SectionSevenViewComponent implements OnInit {
             // this.products=data.productList;
             const key = data.msdId;
             this.products.forEach((e) => {
-              // for (const key of this.colorUpdateList) {
               if (key === e.id) {
                 const i = this.products.findIndex((p) => p.id === key);
                 const obj = {
@@ -231,6 +232,7 @@ export class SectionSevenViewComponent implements OnInit {
                   face_unit: e.face_unit,
                   desired_facing: e.desired_facing,
                   category_title: e.category_title,
+                  is_competition:e.is_competition,
                   color: "red",
                 };
 

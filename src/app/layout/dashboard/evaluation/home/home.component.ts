@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   @ViewChild("remarksModal") remarksModal: ModalDirective;
   @ViewChild("sosModal") sosModal: ModalDirective;
   @ViewChild("evaluationRemarksModal") evaluationRemarksModal: ModalDirective;
+  @ViewChild("exceptionDescriptionModal") exceptionDescriptionModal: ModalDirective;
 
   score: any = 0;
   isChecked = 0;
@@ -66,6 +67,7 @@ export class HomeComponent implements OnInit {
   surveyorId: any;
   visitDay: any;
   surveyDetails: any;
+  exceptionList:any=[];
 
   constructor(
     private router: Router,
@@ -154,6 +156,9 @@ export class HomeComponent implements OnInit {
         if (data) {
           this.data = data;
           this.surveyDetails = this.data.shopDetails.sectionMap;
+          if(this.projectType=='NFL'){
+            this.exceptionList=this.data.exceptionDetails;
+            }
           if (this.p.notEditable) {
             this.isEditable = false;
             document.title = this.data.section[0].sectionTitle;
@@ -650,6 +655,15 @@ export class HomeComponent implements OnInit {
 
   hideSoSModal(): void {
     this.sosModal.hide();
+  }
+
+
+  showExceptionDetailModal(){
+    this.exceptionDescriptionModal.show();
+  }
+
+  hideExceptionDetailModal() {
+    this.exceptionDescriptionModal.hide();
   }
 
   showRemarksModal() {
