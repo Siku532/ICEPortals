@@ -66,7 +66,7 @@
 
           <tbody>
             <tr *ngFor="let data of formData">
-              <ng-container *ngIf="data.value.fieldType != 'image'">
+              <ng-container *ngIf="data.value.fieldType != 'image' && data.value.fieldType != 'Image'">
                 <td style="width: 500px !important; word-wrap: break-word">
                   {{ data.value.question }}
                 </td>

@@ -56,18 +56,20 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("projectType", res.projectType);
 
         if (
+          res.user.typeID == res.Evaluator
+        ) {
+          this.router.navigate(["/dashboard"]);
+        }
+        else if (
           res.projectType == "CCL" ||
           res.projectType == "NFL" ||
-          res.projectType == "NFL_SO"
+          res.projectType == "NFL_SO" ||
+          res.projectType=='T_Hands'
         ) {
-          if (
-            res.user.typeID == res.Evaluator
-          ) {
-            this.router.navigate(["/dashboard"]);
-          } else {
             this.router.navigate(["/dashboard/productivity_report"]);
-          }
-        } else {
+        } 
+        else
+        {
           this.router.navigate(["/dashboard"]);
         }
 
