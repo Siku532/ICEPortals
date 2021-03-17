@@ -50,6 +50,8 @@ import { MtdOosReportComponent } from './mtd-oos-report/mtd-oos-report.component
 import { ManageProductsComponent } from './innerComponents/manage-products/manage-products.component';
 import { ExpiryDataReportComponent } from './innerComponents/expiry-data-report/expiry-data-report.component';
 import { ManageSurveyorsComponent } from './innerComponents/manage-surveyors/manage-surveyors.component';
+import { ComplianceDashboardNationalComponent } from './Tableau/compliance-dashboard-national/compliance-dashboard-national.component';
+import { ProfileComponent } from './innerComponents/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -59,6 +61,7 @@ const routes: Routes = [
     children: [
       { path: "", redirectTo: "home", pathMatch: "full" },
       { path: "home", component: HomeComponent },
+      { path: "main", component: ProfileComponent },
       { path: "daily_visit_report", component: DailyVisitReportComponent },
       { path: "oos_details_report", component: DetailsComponent },
       { path: "shop_list_report", component: ShopListComponent },
@@ -160,13 +163,13 @@ const routes: Routes = [
       },
 
       { path: "compliance-report", component: ComplienceReportComponent },
-      { path: "tableau/:key", component: TableauHelperComponent },
       {
         path: "capturedAbnormalUnvisited",
         component: UniqueBasedProductivityReportComponent,
       },
       { path: "expiry-data-mt", component: ExpiryDataReportComponent },
       { path: "expiry-data-gt", component: ExpiryDataReportComponent },
+      { path: "compliance-dashboard-national", component: ComplianceDashboardNationalComponent },
     ],
   },
   // { path: 'shop_detail/:id', component: ShopDetailComponent },

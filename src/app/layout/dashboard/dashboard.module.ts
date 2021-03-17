@@ -86,6 +86,8 @@ import { AccordionModule } from "ngx-bootstrap";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { ExpiryDataReportComponent } from './innerComponents/expiry-data-report/expiry-data-report.component';
 import { ManageSurveyorsComponent } from './innerComponents/manage-surveyors/manage-surveyors.component';
+import { ComplianceDashboardNationalComponent } from './Tableau/compliance-dashboard-national/compliance-dashboard-national.component';
+import { ProfileComponent } from './innerComponents/profile/profile.component';
 
 @NgModule({
   imports: [
@@ -174,6 +176,8 @@ import { ManageSurveyorsComponent } from './innerComponents/manage-surveyors/man
     ManageProductsComponent,
     ExpiryDataReportComponent,
     ManageSurveyorsComponent,
+    ComplianceDashboardNationalComponent,
+    ProfileComponent,
   ],
 })
 export class DashboardModule {}
