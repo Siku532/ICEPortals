@@ -69,14 +69,13 @@ export class RawDataComponent implements OnInit {
 
   getQueryTypeList(reportId) {
     this.loadingData = true;
-    this.httpService.getQueryTypeList(reportId).subscribe(
+    this.httpService.getQueryTypeList(-1).subscribe(
       (data) => {
         console.log("qurry list", data);
         if (data) {
           this.queryList = data;
-          this.title =
-            this.reportId > -1 ? this.queryList[0].title : "Raw Data";
-          this.selectedQuery = this.queryList[0];
+   
+            this.loadQuery(reportId);
         }
         this.loadingData = false;
       },
@@ -281,5 +280,23 @@ export class RawDataComponent implements OnInit {
           : this.toastr.error(error.description, "Error");
       }
     );
+  }
+  loadQuery(reportId){
+    if(reportId>-1){
+    for(const element of this.queryList){
+      if(element.id==reportId){
+        this.selectedQuery=element;
+        this.title = this.selectedQuery.title;
+        break;
+      }
+    }
+    this.queryList=[];
+    this.queryList.push(this.selectedQuery);
+  }
+  else
+  {
+    this.title="Raw Data"
+  }
+  this.selectedQuery = this.queryList[0];
   }
 }
