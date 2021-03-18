@@ -426,6 +426,12 @@ export class DashboardService {
     const url = this.ip + "UploadRoutesControllerNew";
     return this.http.post(url, obj);
   }
+
+
+  uploadHurdleRates(obj) {
+   const url = this.ip + "update-hurdle-rates";     //  ---------> UploadHurdleRatesController
+    return this.http.post(url, obj);
+  }
   getKey(obj) {
     const body = this.UrlEncodeMaker(obj);
     return this.http.post(this.ip + "tableauTicket", body, this.httpOptions);

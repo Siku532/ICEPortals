@@ -1,0 +1,56 @@
+<mat-card class="mb-20">
+  <mat-card-content>
+    <mat-card-title>
+      Upload Hurdle Rates
+      <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+    </mat-card-title>
+    <section class="example-section">
+      <form
+        (ngSubmit)="uploadData(form.value)"
+        [formGroup]="form"
+        enctype="multipart/form-data"
+      >
+        <input
+          #fileInput
+          (change)="onFileChange($event)"
+          id="avatar"
+          type="file"
+        />
+        <section class="example-section">
+          <button [disabled]="loadingData" type="submit" mat-raised-button color="warn">Upload</button>
+        </section>
+      </form>
+    </section>
+  </mat-card-content>
+
+ 
+</mat-card>
+
+<div
+  bsModal
+  #errorModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">Status</h4>
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="hideErrorModal()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <label>{{ response }}</label>
+      </div>
+    </div>
+  </div>
+</div>

@@ -88,6 +88,7 @@ import { ExpiryDataReportComponent } from './innerComponents/expiry-data-report/
 import { ManageSurveyorsComponent } from './innerComponents/manage-surveyors/manage-surveyors.component';
 import { ComplianceDashboardNationalComponent } from './Tableau/compliance-dashboard-national/compliance-dashboard-national.component';
 import { ProfileComponent } from './innerComponents/profile/profile.component';
+import { UploadHurdleRateComponent } from './innerComponents/upload-hurdle-rate/upload-hurdle-rate.component';
 
 @NgModule({
   imports: [
@@ -178,6 +179,7 @@ import { ProfileComponent } from './innerComponents/profile/profile.component';
     ManageSurveyorsComponent,
     ComplianceDashboardNationalComponent,
     ProfileComponent,
+    UploadHurdleRateComponent,
   ],
 })
 export class DashboardModule {}

@@ -52,6 +52,7 @@ import { ExpiryDataReportComponent } from './innerComponents/expiry-data-report/
 import { ManageSurveyorsComponent } from './innerComponents/manage-surveyors/manage-surveyors.component';
 import { ComplianceDashboardNationalComponent } from './Tableau/compliance-dashboard-national/compliance-dashboard-national.component';
 import { ProfileComponent } from './innerComponents/profile/profile.component';
+import { UploadHurdleRateComponent } from './innerComponents/upload-hurdle-rate/upload-hurdle-rate.component';
 
 const routes: Routes = [
   {
@@ -170,6 +171,7 @@ const routes: Routes = [
       { path: "expiry-data-mt", component: ExpiryDataReportComponent },
       { path: "expiry-data-gt", component: ExpiryDataReportComponent },
       { path: "compliance-dashboard-national", component: ComplianceDashboardNationalComponent },
+      { path: "upload_hurdle_rates", component: UploadHurdleRateComponent },
     ],
   },
   // { path: 'shop_detail/:id', component: ShopDetailComponent },
