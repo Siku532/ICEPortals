@@ -221,6 +221,14 @@ export class DashboardService {
     return this.http.post(url, obj);
   }
 
+
+
+  getHurdleRates(obj) {
+    const url = this.ip + "get_hurdle_rates";
+    return this.http.post(url, obj);
+  }
+
+
   deleteRoutes(obj) {
     const url = this.ip + "shopWiseRouteCount";
     return this.http.post(url, obj);

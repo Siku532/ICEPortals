@@ -4,26 +4,167 @@
       Upload Hurdle Rates
       <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
     </mat-card-title>
+   
     <section class="example-section">
-      <form
-        (ngSubmit)="uploadData(form.value)"
-        [formGroup]="form"
-        enctype="multipart/form-data"
+      <ng-container *ngIf="clusterId != '-1'">
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="{{ clusterPlaceHolder }}"
+            name="cluster"
+            [(ngModel)]="selectedCluster"
+            (ngModelChange)="getZoneByCluster()"
+          >
+            <mat-option
+              [value]="cluster"
+              *ngFor="let cluster of clusterList"
+              >{{ cluster.title }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+      <mat-form-field
+        *ngIf="zones?.length > 0"
+        class="example-margin mr-10-IMP"
       >
-        <input
-          #fileInput
-          (change)="onFileChange($event)"
-          id="avatar"
-          type="file"
-        />
-        <section class="example-section">
-          <button [disabled]="loadingData" type="submit" mat-raised-button color="warn">Upload</button>
-        </section>
-      </form>
-    </section>
-  </mat-card-content>
+        <mat-select
+          placeholder="{{ zonePlaceholder }}"
+          name="zone"
+          [(ngModel)]="selectedZone"
+          (ngModelChange)="zoneChange();"
+        >
+          <mat-option [value]="zone" *ngFor="let zone of zones">{{
+            zone.title
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
- 
+      <mat-form-field
+        *ngIf="regions.length > 0"
+        class="example-margin mr-10-IMP"
+      >
+        <mat-select
+          placeholder="{{ regionPlaceholder }}"
+          name="region"
+          [(ngModel)]="selectedRegion"
+        >
+          <mat-option [value]="region" *ngFor="let region of regions">{{
+            region.title
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- <mat-form-field *ngIf="shops" class="example-margin mr-10-IMP">
+        <mat-select
+          placeholder="Shops"
+          name="shops"
+          [(ngModel)]="selectedShop"
+        >
+          <ngx-mat-select-search
+            [placeholderLabel]="'Find Shop...'"
+            [noEntriesFoundLabel]="'No Matching Shop Found'"
+            [(ngModel)]="selectedKeyword"
+            (ngModelChange)="filterItem(selectedKeyword)"
+          ></ngx-mat-select-search>
+          <mat-option [value]="shop" *ngFor="let shop of filteredShops">{{shop.shop_code}} - {{
+            shop.shop_name
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field> -->
+
+        <mat-form-field
+          *ngIf="channels.length > 0"
+          class="example-margin mr-10-IMP"
+        >
+          <mat-select
+            placeholder="Channel"
+            name="channel"
+            [(ngModel)]="selectedChannel"
+            multiple
+            #channelSelect="ngModel"
+            [compareWith]="equals"
+          >
+            <mat-option disabled="disabled" class="filter-option">
+              <button
+                mat-raised-button
+                class="mat-primary fill text-sm"
+                (click)="selectAll(channelSelect, channels)"
+              >
+                Select All
+              </button>
+              <button
+                mat-raised-button
+                color="warn"
+                class="ml-1 mat-accent fill text-sm"
+                (click)="deselectAll(channelSelect)"
+              >
+                Deselect All
+              </button>
+            </mat-option>
+
+            <mat-option [value]="channel" *ngFor="let channel of channels">{{
+              channel.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+    </section>
+    <section>
+      <button [disabled]="loadingData || !selectedZone.id || selectedChannel.length<1" (click)="loadHurdleRate()" mat-raised-button color="primary">
+        Display</button>  
+        <span *ngIf="selectedChannel.length < 1" class="channel-message"
+        ><small>(channel selection is mandatory)</small></span
+      >   
+    </section>
+    <section>
+      <strong> OR </strong> 
+    </section>
+    <form
+    (ngSubmit)="uploadData(form.value)"
+    [formGroup]="form"
+    enctype="multipart/form-data">
+    <section>
+    <input
+    #fileInput
+    (change)="onFileChange($event)"
+    id="avatar"
+    type="file"
+  />
+</section>
+<section>
+  <button [disabled]="loadingData" type="submit" mat-raised-button color="warn">Upload File</button>
+</section>
+</form> 
+</mat-card-content>
+
+
+<mat-card-content>
+  <table class="table" *ngIf="hurdleRateList.length > 0">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Shop Code</th>
+        <th scope="col">Shop Name</th>
+        <th scope="col">Region</th>
+        <th scope="col">Zone</th>
+        <th scope="col">Channel</th>
+        <th scope="col">Category</th>
+        <th scope="col">Brand</th>
+        <th scope="col">Hurdle Rate</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let count of hurdleRateList; let i = index">
+        <th scope="col">{{ i + 1 }}</th>
+        <td>{{ count?.shop_code }}</td>
+        <td>{{ count?.shop_title }}</td>
+        <td>{{ count?.zone_name }}</td>
+        <td>{{ count?.region_title }}</td>
+        <td>{{ count?.channel_title }}</td>
+        <td>{{ count?.category_title }}</td>
+        <td>{{ count?.brand_title }}</td>
+        <td>{{ count?.hurdle_rate }}</td>
+      </tr>
+    </tbody>
+  </table>
+</mat-card-content>
 </mat-card>
 
 <div
