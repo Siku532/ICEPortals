@@ -479,4 +479,14 @@ export class DashboardService {
     const url = this.ip + "updateSurveyor"; // -----------> UpdateSurveyorController
     return this.http.post(url, obj);
   }
+
+  getAllShops(zoneId, regionId) {
+    const filter = JSON.stringify({
+      act: 16,
+      zoneId: zoneId,
+      regionId: regionId,
+    });
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
+  }
 }

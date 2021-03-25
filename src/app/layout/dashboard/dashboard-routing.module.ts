@@ -53,6 +53,10 @@ import { ManageSurveyorsComponent } from './innerComponents/manage-surveyors/man
 import { ComplianceDashboardNationalComponent } from './Tableau/compliance-dashboard-national/compliance-dashboard-national.component';
 import { ProfileComponent } from './innerComponents/profile/profile.component';
 import { UploadHurdleRateComponent } from './innerComponents/upload-hurdle-rate/upload-hurdle-rate.component';
+import { VdComplianceMtComponent } from './Tableau/vd-compliance-mt/vd-compliance-mt.component';
+import { VdComplianceGtComponent } from './Tableau/vd-compliance-gt/vd-compliance-gt.component';
+import { AttendanceReportComponent } from './innerComponents/attendance-report/attendance-report.component';
+
 
 const routes: Routes = [
   {
@@ -171,6 +175,9 @@ const routes: Routes = [
       { path: "expiry-data-mt", component: ExpiryDataReportComponent },
       { path: "expiry-data-gt", component: ExpiryDataReportComponent },
       { path: "compliance-dashboard-national", component: ComplianceDashboardNationalComponent },
+      { path: "vd-compliance-mt", component: VdComplianceMtComponent },
+      { path: "vd-compliance-gt", component: VdComplianceGtComponent },
+      { path: "attendance-report", component: AttendanceReportComponent },
       { path: "upload_hurdle_rates", component: UploadHurdleRateComponent },
     ],
   },

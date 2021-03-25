@@ -89,6 +89,10 @@ import { ManageSurveyorsComponent } from './innerComponents/manage-surveyors/man
 import { ComplianceDashboardNationalComponent } from './Tableau/compliance-dashboard-national/compliance-dashboard-national.component';
 import { ProfileComponent } from './innerComponents/profile/profile.component';
 import { UploadHurdleRateComponent } from './innerComponents/upload-hurdle-rate/upload-hurdle-rate.component';
+import { VdComplianceMtComponent } from './Tableau/vd-compliance-mt/vd-compliance-mt.component';
+import { VdComplianceGtComponent } from './Tableau/vd-compliance-gt/vd-compliance-gt.component';
+import { AttendanceReportComponent } from './innerComponents/attendance-report/attendance-report.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   imports: [
@@ -121,7 +125,8 @@ import { UploadHurdleRateComponent } from './innerComponents/upload-hurdle-rate/
     MatMenuModule,
     ReactiveFormsModule,
     AccordionModule,
-    MatExpansionModule
+    MatExpansionModule,
+    NgxMatSelectSearchModule
   ],
   declarations: [
     DashboardComponent,
@@ -180,6 +185,9 @@ import { UploadHurdleRateComponent } from './innerComponents/upload-hurdle-rate/
     ComplianceDashboardNationalComponent,
     ProfileComponent,
     UploadHurdleRateComponent,
+    VdComplianceMtComponent,
+    VdComplianceGtComponent,
+    AttendanceReportComponent
   ],
 })
 export class DashboardModule {}
