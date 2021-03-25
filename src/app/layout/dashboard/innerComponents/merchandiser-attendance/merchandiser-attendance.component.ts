@@ -13,6 +13,6 @@ import { ngxCsv } from 'ngx-csv/ngx-csv';
   styleUrls: ['./merchandiser-attendance.component.scss']
 })
 export class MerchandiserAttendanceComponent {
-  title = 'Merchandiser Attendance';
+  title = 'Merchandiser Distribution Checkin';
 
 }
