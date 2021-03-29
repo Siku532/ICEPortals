@@ -93,6 +93,7 @@ import { VdComplianceMtComponent } from './Tableau/vd-compliance-mt/vd-complianc
 import { VdComplianceGtComponent } from './Tableau/vd-compliance-gt/vd-compliance-gt.component';
 import { AttendanceReportComponent } from './innerComponents/attendance-report/attendance-report.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { VdReportComponent } from './innerComponents/vd-report/vd-report.component';
 
 @NgModule({
   imports: [
@@ -187,7 +188,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     UploadHurdleRateComponent,
     VdComplianceMtComponent,
     VdComplianceGtComponent,
-    AttendanceReportComponent
+    AttendanceReportComponent,
+    VdReportComponent
   ],
 })
 export class DashboardModule {}

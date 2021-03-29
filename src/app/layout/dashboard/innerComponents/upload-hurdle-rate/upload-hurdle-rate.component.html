@@ -4,7 +4,7 @@
       Upload Hurdle Rates
       <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
     </mat-card-title>
-   
+
     <section class="example-section">
       <ng-container *ngIf="clusterId != '-1'">
         <mat-form-field class="example-margin mr-10-IMP">
@@ -110,9 +110,10 @@
       <button [disabled]="loadingData || !selectedZone.id || selectedChannel.length<1" (click)="loadHurdleRate()" mat-raised-button color="primary">
         Display</button>  
         <span *ngIf="selectedChannel.length < 1" class="channel-message"
-        ><small>(channel selection is mandatory)</small></span
-      >   
+        ><small>(channel and {{zonePlaceholder}} selection is mandatory)</small></span
+      >    
     </section>
+
     <section>
       <strong> OR </strong> 
     </section>
@@ -129,14 +130,32 @@
   />
 </section>
 <section>
-  <button [disabled]="loadingData" type="submit" mat-raised-button color="warn">Upload File</button>
+  <button [disabled]="loadingUpload" type="submit" mat-raised-button color="warn">
+    <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingUpload }"></i>
+    Upload File</button>
 </section>
 </form> 
 </mat-card-content>
-
-
+</mat-card>
+<div class="example-section" style="text-align: end">
+  <button matTooltip="Download Sample File" class="hidden-sm" 
+        mat-icon-button [matMenuTriggerFor]="profile" [disabled]="hurdleRateList.length==0">
+          <i class="material-icons">
+                  cloud_download
+                  </i><br>
+          </button>
+  <mat-menu #profile="matMenu">
+      <ng-container *ngFor="let file of downloadList">
+          <button mat-menu-item (click)="downloadFile(file,hurdleRateList)">
+                      <i class="{{file?.icon}} " aria-hidden="true "></i> &nbsp;
+                  <span>{{file?.title}}</span>
+              </button>
+      </ng-container>
+  </mat-menu>
+  </div>
+<mat-card *ngIf="hurdleRateList.length > 0">
 <mat-card-content>
-  <table class="table" *ngIf="hurdleRateList.length > 0">
+  <table class="table">
     <thead>
       <tr>
         <th scope="col">#</th>

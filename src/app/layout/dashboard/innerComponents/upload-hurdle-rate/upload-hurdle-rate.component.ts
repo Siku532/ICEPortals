@@ -10,6 +10,8 @@ import { DashboardService } from "../../dashboard.service";
 import { NgModel } from "@angular/forms";
 import { ModalDirective } from "ngx-bootstrap";
 import { config } from "src/assets/config";
+import { ExcelService } from '../../excel.service';
+import { ngxCsv } from 'ngx-csv/ngx-csv';
 @Component({
   selector: 'app-upload-hurdle-rate',
   templateUrl: './upload-hurdle-rate.component.html',
@@ -18,6 +20,7 @@ import { config } from "src/assets/config";
 export class UploadHurdleRateComponent implements OnInit {
   @ViewChild("errorModal") errorModal: ModalDirective;
   loadingData: boolean;
+  loadingUpload:boolean;
   selectedRegionUp: any = new FormControl({}, [Validators.required]);
   selectedFile = new FormControl(null, [Validators.required]);
   selectedOption = new FormControl("", [Validators.required]);
@@ -49,10 +52,14 @@ export class UploadHurdleRateComponent implements OnInit {
   selectedShop:any={};
   shops:any=[];
 
+downloadList = [{ key: 'xlsx', title: 'Excel', icon: 'fa fa-file-excel-o' }];
+ selectedFileType: {};
+
   constructor(
     private toastr: ToastrService,
     private httpService: DashboardService,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    private excelService: ExcelService
   ) {
     this.form = formBuilder.group({
       avatar: null,
@@ -94,22 +101,22 @@ export class UploadHurdleRateComponent implements OnInit {
     if (
       this.form.get("avatar").value !== null
     ) {
-      this.loadingData = true;
+      this.loadingUpload = true;
       this.httpService.uploadHurdleRates(formData).subscribe((data) => {
         if (data) {
           this.response = data;
           if (this.response.length > 0) {
             this.showErrorModal();
-            this.loadingData = false;
+            this.loadingUpload = false;
             this.toastr.info(this.response, "Info");
           }
         } else {
-          this.loadingData = false;
+          this.loadingUpload = false;
           this.toastr.error("There is an error in ur file!!");
         }
       });
     } else {
-      this.loadingData = false;
+      this.loadingUpload = false;
       this.toastr.error("Please select a file");
     }
   }
@@ -267,5 +274,25 @@ export class UploadHurdleRateComponent implements OnInit {
               this.clearLoading();
             }
           );
+          }
+
+
+          downloadFile(file, dataTable) {
+             this.loadingData=true;
+            const type = file.key;
+            const data: any = dataTable;
+            const fileTitle = 'Hurdle Rate Sample';
+        
+        
+            if (type === 'csv') {
+            new ngxCsv(data, fileTitle);
+            } else if (type === 'xlsx') {
+            this.excelService.exportAsExcelFile(data, fileTitle);
+                 }
+        
+            this.selectedFileType = {};
+            setTimeout(() => {
+              this.loadingData = false;
+            }, 1000);
           }
   }

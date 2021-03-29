@@ -191,6 +191,13 @@ export class DashboardService {
     return this.http.post(url, filter);
   }
 
+
+  getChillerList() {
+    const filter = JSON.stringify({ act: 20 });
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
+  }
+
   getReportList() {
     this.user_id = localStorage.getItem("user_id");
 
