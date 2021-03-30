@@ -495,5 +495,13 @@ export class DashboardService {
     });
     const url = this.ip + "loadFilters";
     return this.http.post(url, filter);
+  
+  }
+
+  
+  getMerchandiserRoaster(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + '/merchandiser-roaster';
+    return this.http.post(url, urlEncode, this.httpOptions);
   }
 }

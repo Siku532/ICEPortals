@@ -1,0 +1,153 @@
+<div class="animated slideInLeft">
+  <mat-card class="mb-20">
+
+    <mat-card-content>
+        <mat-card-title>
+            {{title| uppercase}} <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loadingData}"></i>
+            <small style="color:lightseagreen !important" class="mtb-5-IMP" *ngIf="loadingReportMessage">Your file is being prepared for download</small>
+        </mat-card-title>
+        <section class="example-section">
+          <mat-form-field class="example-full-width mr-10-IMP">
+            <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker0" [(ngModel)]="startDate" (ngModelChange)="getMerchandiserList()" placeholder="Choose a start date" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+            <mat-datepicker #picker0></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="example-full-width mr-10-IMP">
+            <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" [(ngModel)]="endDate" (ngModelChange)="getMerchandiserList()" placeholder="Choose a end date" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <ng-container *ngIf="userTypeId==ReEvaluatorId">
+            <mat-form-field class="example-margin mr-10-IMP">
+                <mat-select placeholder="Evaluators" name='evaluators' [(ngModel)]="selectedEvaluator" (ngModelChange)="getMerchandiserList()">
+                    <mat-option [value]="-1">All</mat-option>
+                    <mat-option [value]="evaluator" *ngFor="let evaluator of evaluatorList">{{evaluator.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </ng-container>
+<!-- 
+            <mat-form-field class="example-margin mr-10-IMP">
+                <mat-select placeholder="Zone" name='zone' [(ngModel)]="selectedZone" (ngModelChange)="zoneChange()">
+                    <ng-container *ngFor="let zone of zones">
+                        <mat-option [value]="zone">{{zone.title}}</mat-option>
+                    </ng-container>
+
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field *ngIf="regions.length>0" class="example-margin mr-10-IMP">
+                <mat-select placeholder="Region" name='region' [(ngModel)]="selectedRegion" (ngModelChange)="getMerchandiserList()">
+                    <ng-container *ngFor="let region of regions">
+                        <mat-option [value]="region">{{region.title}}</mat-option>
+
+                    </ng-container>
+
+                </mat-select>
+            </mat-form-field> -->
+
+        </section>
+
+
+        <div class="example-section" style="text-align: end">
+            <button class="hidden-sm" mat-icon-button [matMenuTriggerFor]="profile">
+  
+                    <i class="material-icons">
+                            cloud_download
+                            </i><br>
+                    </button>
+            <mat-menu #profile="matMenu">
+  
+                <ng-container *ngFor="let file of downloadList">
+  
+                    <button mat-menu-item (click)="downloadFile(file,merchandiserList)">
+                                <!-- <mat-icon>lock</mat-icon> -->
+                                <i class="{{file?.icon}} " aria-hidden="true "></i> &nbsp;
+                            <span>{{file?.title}}</span>
+                        </button>
+  
+                </ng-container>
+  
+  
+            </mat-menu>
+        </div>
+    </mat-card-content>
+</mat-card></div>
+
+<ng-container *ngIf="myMap">
+  <div class="animated slideInLeft">
+      <mat-card class="mb-20" style="border-top: 1px solid #AFAFAF;">
+
+          <mat-card-content>
+
+              <section class="example-section">
+
+                  <table class="table table-hover" id="table">
+
+                      <thead>
+                          <tr>
+                              
+                              <th style="cursor: pointer" (click)="sortIt('merchandiser_code')">Merchandiser Code
+                                <i class="material-icons arrow material-icons-arrow">
+                                    {{getArrowType('merchandiser_code')}}
+                                </i>
+                              </th>
+                              <th  style="cursor: pointer">Sun
+                                </th>
+                                <th  style="cursor: pointer">Mon
+                                </th>
+                                <th  style="cursor: pointer">Tues
+                                </th>
+                                <th  style="cursor: pointer">Wed
+                                </th>
+                                <th  style="cursor: pointer">Thurs
+                                </th>
+                                <th  style="cursor: pointer">Fri
+                                </th>
+                                <th  style="cursor: pointer">Sat
+                                </th>
+                                <th  style="cursor: pointer">Total
+                                </th>
+                                             
+                                        
+
+                          </tr>
+                      </thead>
+
+                      <tbody *ngIf="myMap">
+                          <tr *ngFor="let item of 
+                          myMap  | orderBy: sortBy : sortOrder | keyvalue">
+                              <td>{{item.key}}</td>
+                              <ng-container *ngFor="let i of ids">
+                                  <td style="color:blue">{{ putValue(item.value | keyvalue,i) }}</td>
+                                  </ng-container>
+                                  <td>{{showTotal()}}</td>
+                               
+                                                
+                          </tr>
+                      </tbody>
+                  </table>
+
+              </section>
+
+
+
+          </mat-card-content>
+      </mat-card>
+  </div>
+</ng-container>
+<div class="row " *ngIf="loading">
+  <div class="col-md-12 text-center">
+      <div class="img-center">
+          <img src="assets/images/basicloader.gif" alt="" srcset="">
+      </div>
+  </div>
+</div>
+
+<div class="row " *ngIf="!loading && !myMap">
+  <div class="col-md-12 text-center">
+
+      <div class="alert alert-info">
+          <p>No Data Found</p>
+      </div>
+  </div>
+</div>

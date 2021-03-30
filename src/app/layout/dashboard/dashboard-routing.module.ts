@@ -57,6 +57,7 @@ import { VdComplianceMtComponent } from './Tableau/vd-compliance-mt/vd-complianc
 import { VdComplianceGtComponent } from './Tableau/vd-compliance-gt/vd-compliance-gt.component';
 import { AttendanceReportComponent } from './innerComponents/attendance-report/attendance-report.component';
 import { VdReportComponent } from './innerComponents/vd-report/vd-report.component';
+import { MerchandiserRosterComponent } from './innerComponents/merchandiser-roster/merchandiser-roster.component';
 
 const routes: Routes = [
   {
@@ -181,6 +182,7 @@ const routes: Routes = [
       { path: "upload_hurdle_rates", component: UploadHurdleRateComponent },
       { path: "vd-report-mt", component: VdReportComponent },
       { path: "vd-report-gt", component: VdReportComponent },
+      { path: "merchandiser_roster", component: MerchandiserRosterComponent },
     ],
   },
   // { path: 'shop_detail/:id', component: ShopDetailComponent },

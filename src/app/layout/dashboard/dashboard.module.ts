@@ -94,6 +94,7 @@ import { VdComplianceGtComponent } from './Tableau/vd-compliance-gt/vd-complianc
 import { AttendanceReportComponent } from './innerComponents/attendance-report/attendance-report.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { VdReportComponent } from './innerComponents/vd-report/vd-report.component';
+import { MerchandiserRosterComponent } from './innerComponents/merchandiser-roster/merchandiser-roster.component';
 
 @NgModule({
   imports: [
@@ -189,7 +190,8 @@ import { VdReportComponent } from './innerComponents/vd-report/vd-report.compone
     VdComplianceMtComponent,
     VdComplianceGtComponent,
     AttendanceReportComponent,
-    VdReportComponent
+    VdReportComponent,
+    MerchandiserRosterComponent
   ],
 })
 export class DashboardModule {}
