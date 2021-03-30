@@ -32,7 +32,7 @@
           [(ngModel)]="selectedZone"
           (ngModelChange)="zoneChange();"
         >
-          <mat-option [value]="zone" *ngFor="let zone of zones">{{
+          <mat-option *ngIf="zone.id!=-1" [value]="zone" *ngFor="let zone of zones">{{
             zone.title
           }}</mat-option>
         </mat-select>
@@ -47,7 +47,7 @@
           name="region"
           [(ngModel)]="selectedRegion"
         >
-          <mat-option [value]="region" *ngFor="let region of regions">{{
+          <mat-option *ngIf="region.id!=-1" [value]="region" *ngFor="let region of regions">{{
             region.title
           }}</mat-option>
         </mat-select>
@@ -107,10 +107,10 @@
         </mat-form-field>
     </section>
     <section>
-      <button [disabled]="loadingData || !selectedZone.id || selectedChannel.length<1" (click)="loadHurdleRate()" mat-raised-button color="primary">
+      <button [disabled]="loadingData || !selectedZone.id || !selectedRegion.id || selectedChannel.length<1" (click)="loadHurdleRate()" mat-raised-button color="primary">
         Display</button>  
         <span *ngIf="selectedChannel.length < 1" class="channel-message"
-        ><small>(channel and {{zonePlaceholder}} selection is mandatory)</small></span
+        ><small>(Channel, {{zonePlaceholder}} and {{regionPlaceholder}} selection is mandatory)</small></span
       >    
     </section>
 
