@@ -6,10 +6,10 @@ import {
   ViewChild,
 } from "@angular/core";
 import { DashboardService } from "../../dashboard.service";
+import { DashboardDataService } from "../../dashboard-data.service";
 import * as moment from "moment";
 import { subscribeOn } from "rxjs/operators";
 import { Router } from "@angular/router";
-import { DashboardDataService } from "../../dashboard-data.service";
 import {
   FormGroup,
   FormControl,
