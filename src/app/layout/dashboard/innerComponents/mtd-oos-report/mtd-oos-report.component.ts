@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
-import { DashboardDataService } from "../dashboard-data.service";
 import { config } from "src/assets/config";
 import { ToastrService } from "ngx-toastr";
-import { DashboardService } from "../dashboard.service";
 import * as moment from "moment";
 import { NgModel } from "@angular/forms";
+import { DashboardService } from "../../dashboard.service";
+import { DashboardDataService } from "../../dashboard-data.service";
 @Component({
   selector: "mtd-oos-report",
   templateUrl: "./mtd-oos-report.component.html",
