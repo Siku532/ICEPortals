@@ -228,14 +228,6 @@ export class DashboardService {
     return this.http.post(url, obj);
   }
 
-
-
-  getHurdleRates(obj) {
-    const url = this.ip + "get_hurdle_rates";
-    return this.http.post(url, obj);
-  }
-
-
   deleteRoutes(obj) {
     const url = this.ip + "shopWiseRouteCount";
     return this.http.post(url, obj);
@@ -447,6 +439,12 @@ export class DashboardService {
    const url = this.ip + "update-hurdle-rates";     //  ---------> UploadHurdleRatesController
     return this.http.post(url, obj);
   }
+
+
+  uploadSOS(obj) {
+    const url = this.ip + "update-desied-sos";     //  ---------> UploadDesiredSOSController
+     return this.http.post(url, obj);
+   }
   getKey(obj) {
     const body = this.UrlEncodeMaker(obj);
     return this.http.post(this.ip + "tableauTicket", body, this.httpOptions);
@@ -503,5 +501,17 @@ export class DashboardService {
     const urlEncode = this.UrlEncodeMaker(obj);
     const url = this.ip + '/merchandiser-roaster';
     return this.http.post(url, urlEncode, this.httpOptions);
+  }
+
+  getHurdleRates(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "get_hurdle_rates";
+    return this.http.post(url,urlEncode, this.httpOptions);
+  }
+
+  getDesiredSOS(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "get_desired_sos";
+    return this.http.post(url,urlEncode, this.httpOptions);
   }
 }
