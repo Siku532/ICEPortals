@@ -34,11 +34,11 @@ export class UploadHurdleRateComponent implements OnInit {
 
   zones: any = [];
   regions: any = [];
-  channels: any = [];
+  channels: any = [{id:1, title:'MT'}, {id:2, title:'GT'}];
 
   selectedZone: any = {};
   selectedRegion: any = {};
-  selectedChannel: any = [];
+  selectedChannel: any = {};
   regionId = -1;
 
   clusterList: any = [];
@@ -51,6 +51,7 @@ export class UploadHurdleRateComponent implements OnInit {
   filteredShops: any=[];
   selectedShop:any={};
   shops:any=[];
+  shopCode='';
 
 downloadList = [{ key: 'xlsx', title: 'Excel', icon: 'fa fa-file-excel-o' }];
  selectedFileType: {};
@@ -74,7 +75,6 @@ downloadList = [{ key: 'xlsx', title: 'Excel', icon: 'fa fa-file-excel-o' }];
     }
     this.clusterPlaceHolder = "Cluster";
     this.zones = JSON.parse(localStorage.getItem("zoneList"));
-    this.channels = JSON.parse(localStorage.getItem("channelList"));
     this.clusterList = JSON.parse(localStorage.getItem("clusterList"));
     this.projectType = localStorage.getItem("projectType");
     this.clusterId = localStorage.getItem("clusterId") || -1;
@@ -114,6 +114,9 @@ downloadList = [{ key: 'xlsx', title: 'Excel', icon: 'fa fa-file-excel-o' }];
           this.loadingUpload = false;
           this.toastr.error("There is an error in ur file!!");
         }
+        if(this.selectedZone.id || this.shopCode!=''){
+          this.loadHurdleRate();
+          }
       });
     } else {
       this.loadingUpload = false;
@@ -130,32 +133,6 @@ downloadList = [{ key: 'xlsx', title: 'Excel', icon: 'fa fa-file-excel-o' }];
 
 
   
-  arrayMaker(arr) {
-    const all = arr.filter((a) => a === "all");
-    const result: any = [];
-    if (all[0] === "all") {
-      arr = this.channels;
-    }
-    arr.forEach((e) => {
-      result.push(e.id);
-    });
-    return result;
-  }
-
-  selectAll(select: NgModel, values) {
-    select.update.emit(values);
-  }
-
-  deselectAll(select: NgModel) {
-    select.update.emit([]);
-  }
-
-  equals(objOne, objTwo) {
-    if (typeof objOne !== "undefined" && typeof objTwo !== "undefined") {
-      return objOne.id === objTwo.id;
-    }
-  }
-
   zoneChange() {
     this.loadingData = true;
     this.selectedRegion = {};
@@ -224,13 +201,17 @@ downloadList = [{ key: 'xlsx', title: 'Excel', icon: 'fa fa-file-excel-o' }];
           ? localStorage.getItem("regionId")
           : this.selectedRegion.id
         : localStorage.getItem("regionId"),
-      channelId: this.arrayMaker(this.selectedChannel),
+      channelType: this.selectedChannel.id || -1,
       shopId:this.selectedShop.id || -1,
+      shopCode:this.shopCode,
       }
       this.httpService.getHurdleRates(obj).subscribe(
         (data) => {
           if (data) {
             this.hurdleRateList = data;
+            if(this.hurdleRateList.length==0){
+              this.toastr.info("No Data Found");
+            }
           }
           this.loadingData=false;
         },

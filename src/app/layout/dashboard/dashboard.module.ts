@@ -44,7 +44,7 @@ import { UpdatePasswordComponent } from "./user/update-password/update-password.
 import { RawDataComponent } from "./raw-data/raw-data.component";
 import { MatTableComponent } from "./innerComponents/mat-table/mat-table.component";
 import { Ng2OrderModule } from "ng2-order-pipe";
-import { DataAvailabilityComponent } from "./data-availability/data-availability.component";
+import { DataAvailabilityComponent } from "./innerComponents/data-availability/data-availability.component";
 import { ButtonsModule } from "ngx-bootstrap";
 import { MerchandiserListComponent } from "./innerComponents/merchandiser-list/merchandiser-list.component";
 import { AbnormalityComponent } from "./innerComponents/abnormality/abnormality.component";
@@ -80,7 +80,7 @@ import { GtDashboardComponent } from "./Tableau/gt-dashboard/gt-dashboard.compon
 import { SssGtDashboardComponent } from "./Tableau/sss-gt-dashboard/sss-gt-dashboard.component";
 import { ComplianceDashboardComponent } from "./Tableau/compliance-dashboard/compliance-dashboard.component";
 import { TrendingOosReportComponent } from "./innerComponents/trending-oos-report/trending-oos-report.component";
-import { MtdOosReportComponent } from './mtd-oos-report/mtd-oos-report.component';
+import { MtdOosReportComponent } from './innerComponents/mtd-oos-report/mtd-oos-report.component';
 import { ManageProductsComponent } from './innerComponents/manage-products/manage-products.component';
 import { AccordionModule } from "ngx-bootstrap";
 import { MatExpansionModule } from "@angular/material/expansion";
@@ -95,6 +95,7 @@ import { AttendanceReportComponent } from './innerComponents/attendance-report/a
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { VdReportComponent } from './innerComponents/vd-report/vd-report.component';
 import { MerchandiserRosterComponent } from './innerComponents/merchandiser-roster/merchandiser-roster.component';
+import { UploadDesiredSosComponent } from './innerComponents/upload-desired-sos/upload-desired-sos.component';
 
 @NgModule({
   imports: [
@@ -191,7 +192,8 @@ import { MerchandiserRosterComponent } from './innerComponents/merchandiser-rost
     VdComplianceGtComponent,
     AttendanceReportComponent,
     VdReportComponent,
-    MerchandiserRosterComponent
+    MerchandiserRosterComponent,
+    UploadDesiredSosComponent
   ],
 })
 export class DashboardModule {}

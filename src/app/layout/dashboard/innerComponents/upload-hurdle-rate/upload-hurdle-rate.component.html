@@ -1,11 +1,29 @@
 <mat-card class="mb-20">
   <mat-card-content>
     <mat-card-title>
-      Upload Hurdle Rates
+      Manage Hurdle Rates
       <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
     </mat-card-title>
-
-    <section class="example-section">
+    <section>
+      <mat-form-field
+      *ngIf="channels.length > 0"
+      class="example-margin mr-10-IMP"
+    >
+      <mat-select
+        placeholder="Channel Type"
+        name="channel"
+        [(ngModel)]="selectedChannel"
+      >
+      <ng-container *ngFor="let channel of channels">
+        <mat-option [value]="channel">{{
+          channel.title
+        }}</mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+    </section>
+    <ng-container *ngIf="selectedChannel.id">
+<section>
       <ng-container *ngIf="clusterId != '-1'">
         <mat-form-field class="example-margin mr-10-IMP">
           <mat-select
@@ -32,9 +50,11 @@
           [(ngModel)]="selectedZone"
           (ngModelChange)="zoneChange();"
         >
-          <mat-option *ngIf="zone.id!=-1" [value]="zone" *ngFor="let zone of zones">{{
+        <ng-container *ngFor="let zone of zones">
+          <mat-option *ngIf="zone.id!=-1" [value]="zone">{{
             zone.title
           }}</mat-option>
+        </ng-container>
         </mat-select>
       </mat-form-field>
 
@@ -47,9 +67,11 @@
           name="region"
           [(ngModel)]="selectedRegion"
         >
-          <mat-option *ngIf="region.id!=-1" [value]="region" *ngFor="let region of regions">{{
+        <ng-container *ngFor="let region of regions">
+          <mat-option [value]="region">{{
             region.title
           }}</mat-option>
+          </ng-container>
         </mat-select>
       </mat-form-field>
       <!-- <mat-form-field *ngIf="shops" class="example-margin mr-10-IMP">
@@ -70,50 +92,26 @@
         </mat-select>
       </mat-form-field> -->
 
-        <mat-form-field
-          *ngIf="channels.length > 0"
-          class="example-margin mr-10-IMP"
-        >
-          <mat-select
-            placeholder="Channel"
-            name="channel"
-            [(ngModel)]="selectedChannel"
-            multiple
-            #channelSelect="ngModel"
-            [compareWith]="equals"
-          >
-            <mat-option disabled="disabled" class="filter-option">
-              <button
-                mat-raised-button
-                class="mat-primary fill text-sm"
-                (click)="selectAll(channelSelect, channels)"
-              >
-                Select All
-              </button>
-              <button
-                mat-raised-button
-                color="warn"
-                class="ml-1 mat-accent fill text-sm"
-                (click)="deselectAll(channelSelect)"
-              >
-                Deselect All
-              </button>
-            </mat-option>
-
-            <mat-option [value]="channel" *ngFor="let channel of channels">{{
-              channel.title
-            }}</mat-option>
-          </mat-select>
+        </section>
+        <section>
+          <strong>
+            OR
+          </strong>
+        </section>
+        <section>
+        <mat-form-field class="example-full-width">
+          <mat-label>Search Shop Code</mat-label>
+          <input matInput placeholder="Shop Code" [(ngModel)]="shopCode">
         </mat-form-field>
-    </section>
+        </section>
     <section>
-      <button [disabled]="loadingData || !selectedZone.id || !selectedRegion.id || selectedChannel.length<1" (click)="loadHurdleRate()" mat-raised-button color="primary">
+      <button [disabled]="(!selectedZone.id || !selectedRegion.id || loadingData) && (shopCode=='')" (click)="loadHurdleRate()" mat-raised-button color="primary">
         Display</button>  
-        <span *ngIf="selectedChannel.length < 1" class="channel-message"
-        ><small>(Channel, {{zonePlaceholder}} and {{regionPlaceholder}} selection is mandatory)</small></span
+        <span
+        ><small>(Either select {{zonePlaceholder}} and {{regionPlaceholder}} or search through a Shop Code)</small></span
       >    
     </section>
-
+</ng-container>
     <section>
       <strong> OR </strong> 
     </section>
@@ -153,38 +151,38 @@
       </ng-container>
   </mat-menu>
   </div>
-<mat-card *ngIf="hurdleRateList.length > 0">
-<mat-card-content>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Shop Code</th>
-        <th scope="col">Shop Name</th>
-        <th scope="col">Region</th>
-        <th scope="col">Zone</th>
-        <th scope="col">Channel</th>
-        <th scope="col">Category</th>
-        <th scope="col">Brand</th>
-        <th scope="col">Hurdle Rate</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let count of hurdleRateList; let i = index">
-        <th scope="col">{{ i + 1 }}</th>
-        <td>{{ count?.shop_code }}</td>
-        <td>{{ count?.shop_title }}</td>
-        <td>{{ count?.zone_name }}</td>
-        <td>{{ count?.region_title }}</td>
-        <td>{{ count?.channel_title }}</td>
-        <td>{{ count?.category_title }}</td>
-        <td>{{ count?.brand_title }}</td>
-        <td>{{ count?.hurdle_rate }}</td>
-      </tr>
-    </tbody>
-  </table>
-</mat-card-content>
-</mat-card>
+  <mat-card *ngIf="hurdleRateList.length > 0">
+    <mat-card-content>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Shop Code</th>
+            <th scope="col">Shop Name</th>
+            <th scope="col">Region</th>
+            <th scope="col">Zone</th>
+            <th scope="col">Channel</th>
+            <th scope="col">Category</th>
+            <th scope="col">Brand</th>
+            <th scope="col">Hurdle Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let count of hurdleRateList; let i = index">
+            <th scope="col">{{ i + 1 }}</th>
+            <td>{{ count?.shop_code }}</td>
+            <td>{{ count?.shop_title }}</td>
+            <td>{{ count?.zone_name }}</td>
+            <td>{{ count?.region_title }}</td>
+            <td>{{ count?.channel_title }}</td>
+            <td>{{ count?.category_title }}</td>
+            <td>{{ count?.brand_title }}</td>
+            <td>{{ count?.hurdle_rate }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+    </mat-card>
 
 <div
   bsModal
