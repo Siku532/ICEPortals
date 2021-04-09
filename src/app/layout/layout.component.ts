@@ -36,12 +36,13 @@ export class LayoutComponent implements OnInit {
     url = this.router.url.split(/[?/]/);
     const s: any = url.find((d) => d === "shop_detail");
     const r: any = url.find((d) => d === "details");
-    const t: any = url.find((d) => d == "tableau");
     const p: any = url.find((d) => d == "planogram-images");
-    if (p || s || r || t) {
+    const i: any = url.find((d) => d == "instogram");
+    const t: any = url.find((d) => d == "tableau");
+    if (p || s || r || i || t) {
       this.hideSideBar = true;
-      if (t) {
-        this.isTableauRequest = true;
+      if(t){
+        this.isTableauRequest=true;
       }
     }
   }

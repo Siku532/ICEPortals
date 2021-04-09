@@ -59,7 +59,6 @@ import { AttendanceReportComponent } from './innerComponents/attendance-report/a
 import { VdReportComponent } from './innerComponents/vd-report/vd-report.component';
 import { MerchandiserRosterComponent } from './innerComponents/merchandiser-roster/merchandiser-roster.component';
 import { UploadDesiredSosComponent } from './innerComponents/upload-desired-sos/upload-desired-sos.component';
-
 const routes: Routes = [
   {
     path: "",
@@ -185,6 +184,10 @@ const routes: Routes = [
       { path: "vd-report-gt", component: VdReportComponent },
       { path: "merchandiser_roster", component: MerchandiserRosterComponent },
       { path: "upload_desired_sos", component: UploadDesiredSosComponent },
+      {
+        path: "tableau",
+        component: TableauHelperComponent,
+      },
     ],
   },
   // { path: 'shop_detail/:id', component: ShopDetailComponent },
@@ -193,6 +196,10 @@ const routes: Routes = [
   {
     path: "evaluation",
     loadChildren: "./evaluation/evaluation.module#EvaluationModule",
+  },
+  {
+    path: "instogram",
+    loadChildren: "./market-intelligence/market-intelligence.module#MarketIntelligenceModule",
   },
 ];
 

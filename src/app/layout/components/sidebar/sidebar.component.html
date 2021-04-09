@@ -40,6 +40,9 @@
         <mat-icon class="sidenav-icon" *ngIf="item.header == 'Operational Reports'"
         >add</mat-icon
       >
+      <mat-icon class="sidenav-icon" *ngIf="item.header == 'VD Reports'"
+      >add</mat-icon
+    >
             <mat-icon class="sidenav-icon" *ngIf="item.header == 'Evaluation'"
               >add</mat-icon
             >
@@ -56,12 +59,22 @@
                 >
               </ng-container>
               <ng-template #elseBlock>
+                <ng-container *ngIf="item2.link=='tableau' else routeUrl">
+                  <a
+                  [routerLinkActive]="'link-active'"
+                  routerLink="/dashboard/{{ item2.link }}"
+                  [queryParams]="{ link:item2.tableauLink }"
+                  ><span>{{ item2.lable | translate }}</span></a
+                >
+                </ng-container>
+                <ng-template #routeUrl>
                 <a
                   [routerLinkActive]="'link-active'"
                   routerLink="/dashboard/{{ item2.link }}"
                   ><span>{{ item2.lable | translate }}</span></a
                 >
               </ng-template>
+            </ng-template>
             </li>
 
             <li></li>
