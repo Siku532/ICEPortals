@@ -1,0 +1,9 @@
+img.small {
+    cursor: pointer;
+}
+
+.example-card {
+    max-width: 400px;
+    /* max-height: 400px */
+    box-shadow: 2px 5px 15px 3px #c4c4c4
+}
