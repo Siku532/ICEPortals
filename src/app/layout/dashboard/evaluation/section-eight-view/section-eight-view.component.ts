@@ -280,6 +280,56 @@ export class SectionEightViewComponent implements OnInit {
     }
   }
 
+
+
+
+  changeStock(product) {
+    this.loading = true;
+    if (product.unit_available != null) {
+      if (this.isEditable) {
+        const obj = {
+          msdId: product.detailId,
+          newValue: product.stock,
+          evaluatorId: this.evaluatorId,
+          title: product.product_title,
+          categoryTitle: this.data.sectionTitle,
+          type: 11,
+        };
+        this.httpService.updateData(obj).subscribe((data: any) => {
+          if (data.success) {
+            this.loading = false;
+            this.toastr.success("Data Updated Successfully");
+            this.childModal.hide();
+            const key = data.detailId;
+            this.products.forEach((e) => {
+              if (key === e.detailId) {
+                const i = this.products.findIndex((p) => p.detailId === key);
+                const obj = {
+                  id: e.detailId,
+                  stock: e.stock,
+                  unit_available: e.unit_available,
+                  product_title: e.product_title,
+                  face_unit: e.face_unit,
+                  color: "red",
+                };
+
+                this.products.splice(i, 1, obj);
+              }
+
+              this.stock = this.getStockCount(this.products);
+            });
+          } else {
+            this.toastr.error(data.message, "Update Data");
+          }
+        });
+      }
+    } else {
+      this.toastr.error("Availability Value is Incorrect");
+      this.loading = false;
+    }
+  }
+
+
   changeFacing(product) {
     this.loading = true;
     if (product.face_unit != null) {

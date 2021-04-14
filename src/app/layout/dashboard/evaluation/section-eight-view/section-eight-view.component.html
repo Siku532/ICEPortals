@@ -112,7 +112,6 @@
             <tr>
               <!-- <th>Brand Title</th> -->
               <th>Product Title</th>
-              <!-- <th>D.Depth</th> -->
               <th>A.Depth</th>
               <th>Facing</th>
             </tr>
@@ -137,12 +136,15 @@
               <ng-container *ngIf="isEditable == true">
                 <td
                   style="width: 100px !important"
+                  [ngStyle]="{ 'background-color': product.color }"
                 >
-                  <input
-                    type="number"
-                    [(ngModel)]="product.stock"
-                    readonly
-                  />
+                <input
+                type="number"
+                [(ngModel)]="product.stock"
+                maxlength="3"
+                style="width: 4em"
+                (change)="changeStock(product)"
+              />
                 </td>
                 <!-- (change)="changeAvailability(product)" -->
                 <td
@@ -166,7 +168,6 @@
                 Total ({{ total }})% - Score Recommended =
                 {{ recommendedScore }}
               </td>
-              <td *ngIf="projectType != 'NFL'">{{ stock }}</td>
               <td>{{ stock }}</td>
               <td>{{ facing }}</td>
             </tr>
