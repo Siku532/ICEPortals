@@ -110,4 +110,9 @@ export class ShopDetailComponent implements OnInit {
     }, 2000);
   }
 
+
+  goToSurvey(item){
+    window.open(`${environment.hash}dashboard/evaluation/list/details/${item.surveyId}/${item.shopId}`, '_blank');
+  }
+
 }

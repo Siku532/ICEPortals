@@ -577,5 +577,7 @@ export class BodyComponent implements OnInit {
 
   }
 
-
+  goToSurvey(item){
+    window.open(`${environment.hash}dashboard/evaluation/list/details/${item.surveyId}/${item.shopId}`, '_blank');
+  }
 }
