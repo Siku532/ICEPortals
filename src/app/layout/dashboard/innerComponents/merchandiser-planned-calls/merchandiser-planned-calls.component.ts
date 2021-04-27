@@ -104,8 +104,17 @@ export class MerchandiserPlannedCallsComponent implements OnInit {
 
     this.loading = true;
     const obj: any = {
-      zoneId: this.selectedZone.id ? this.selectedZone.id : -1,
-      regionId: this.selectedRegion.id ? this.selectedRegion.id : -1,
+      clusterId: -1,
+      zoneId: this.selectedZone.id
+        ? this.selectedZone.id == -1
+          ? localStorage.getItem("zoneId")
+          : this.selectedZone.id
+        : localStorage.getItem("zoneId"),
+      regionId: this.selectedRegion.id
+        ? this.selectedRegion.id == -1
+          ? localStorage.getItem("regionId")
+          : this.selectedRegion.id
+        : localStorage.getItem("regionId"),
       startDate: startDate,
       endDate: endDate,
       cityId: this.selectedCity.id || -1,
