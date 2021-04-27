@@ -100,8 +100,8 @@ export class RawDataComponent implements OnInit {
           ? localStorage.getItem("clusterId")
           : this.selectedCluster.id
         : localStorage.getItem("clusterId"),
-      zoneId: this.zoneCheck(),
-      regionId: this.regionCheck(),
+      zoneId: this.selectedQuery.zone=='Y'? this.zoneCheck(): -1,
+      regionId:this.selectedQuery.region=='Y'? this.regionCheck(): -1,
         startDate: this.selectedQuery.date=='Y'? moment(this.startDate).format("YYYY-MM-DD"): -1,
         endDate: this.selectedQuery.date=='Y'?moment(this.endDate).format("YYYY-MM-DD"):-1,
       };
