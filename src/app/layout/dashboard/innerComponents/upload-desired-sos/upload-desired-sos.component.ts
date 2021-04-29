@@ -52,6 +52,7 @@ export class UploadDesiredSosComponent implements OnInit {
   selectedShop:any={};
   shops:any=[];
   shopCode='';
+  hurdleRateListTmp:any=[];
 
 downloadList = [{ key: 'xlsx', title: 'Excel', icon: 'fa fa-file-excel-o' }];
  selectedFileType: {};
@@ -302,5 +303,50 @@ downloadList = [{ key: 'xlsx', title: 'Excel', icon: 'fa fa-file-excel-o' }];
             setTimeout(() => {
               this.loadingData = false;
             }, 1000);
+          }
+
+
+          downloadHurdleRate(){
+            this.loadingData = true;
+            const obj = {
+              clusterId: this.selectedCluster.id
+              ? this.selectedCluster.id == -1
+                ? localStorage.getItem("clusterId")
+                : this.selectedCluster.id
+              : localStorage.getItem("clusterId"),
+            zoneId: this.selectedZone.id
+              ? this.selectedZone.id == -1
+                ? localStorage.getItem("zoneId")
+                : this.selectedZone.id
+              : localStorage.getItem("zoneId"),
+            regionId: this.selectedRegion.id
+              ? this.selectedRegion.id == -1
+                ? localStorage.getItem("regionId")
+                : this.selectedRegion.id
+              : localStorage.getItem("regionId"),
+            channelId: this.arrayMaker(this.selectedChannel),
+            shopId:this.selectedShop.id || -1,
+            shopCode:this.shopCode
+            }
+            this.httpService.getDesiredSOS(obj).subscribe(
+              (data) => {
+                if (data) {
+                  this.hurdleRateListTmp = data;
+                  if(this.hurdleRateListTmp.length==0){
+                    this.toastr.info("No Data Found");
+                  }
+                  else{
+                    this.downloadFile(this.downloadList[0],this.hurdleRateListTmp)
+                  }
+                }
+                this.loadingData=false;
+              },
+              (error) => {
+                error.status === 0
+                  ? this.toastr.error("Please check Internet Connection", "Error")
+                  : this.toastr.error(error.description, "Error");
+                  this.loadingData=false;
+              }
+            );
           }
   }

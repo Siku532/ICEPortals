@@ -121,8 +121,10 @@
         </mat-form-field>
         </section>
     <section>
-      <button [disabled]="(loadingData || !selectedZone.id || !selectedRegion.id || selectedChannel.length<1) && (shopCode=='')" (click)="loadHurdleRate()" mat-raised-button color="primary">
-        Display</button>  
+      <button class="mr-10-IMP" [disabled]="(loadingData || !selectedZone.id || !selectedRegion.id || selectedChannel.length<1 || selectedZone.id==-1) && (shopCode=='')" (click)="loadHurdleRate()" mat-raised-button color="primary">
+        Display</button> 
+        <button class="mr-10-IMP" [disabled]="(loadingData || !selectedZone.id || !selectedRegion.id || selectedChannel.length<1) && (shopCode=='')" (click)="downloadHurdleRate()" mat-raised-button color="primary">
+          Download SOS</button>  
         <span
         ><small>(Either select channel, {{zonePlaceholder}} and {{regionPlaceholder}} or search through a shop code)</small></span
       >    
