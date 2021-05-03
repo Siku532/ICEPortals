@@ -24,6 +24,8 @@ export class DetailsPageComponent implements OnInit {
   loading = true;
   p = 0;
   params: any = {};
+  isExternalUrl=false;
+  
   constructor(private router: Router, private toastr: ToastrService, private httpService: EvaluationService, private activeRoute: ActivatedRoute) {
     this.activeRoute.queryParams.subscribe(p => {
       console.log('active params', p);
@@ -90,4 +92,13 @@ export class DetailsPageComponent implements OnInit {
 
 }
 
+setImageUrl(){
+  for(const element of this.tableData){
+    if(element.shop_image_url!=null){
+    if(element.shop_image_url.indexOf("amazonaws.com")>=0){
+      this.isExternalUrl=true;
+    }
+  }
+}
+}
 }

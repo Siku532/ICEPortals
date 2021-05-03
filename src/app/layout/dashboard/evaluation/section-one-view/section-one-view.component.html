@@ -14,7 +14,8 @@
 
         <div class="col-md-4 text-center">
             <label class="title" for="title">{{img.title}}</label>
-            <img src="{{ip}}{{img.url}}" width="400" height="400" (click)="showChildModal(img)" class="img-thumbnail img-item">
+            <img *ngIf="!img.isExternalUrl" src="{{ip}}{{img.url}}" width="400" height="400" (click)="showChildModal(img)" class="img-thumbnail img-item">
+            <img *ngIf="img.isExternalUrl" src="{{img.url}}" width="400" height="400" (click)="showChildModal(img)" class="img-thumbnail img-item">
         </div>
     </ng-container>
 

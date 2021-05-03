@@ -17,13 +17,8 @@
     <!--  -->
     <!-- <ngx-image-zoom [zoomMode]="'hover'" [magnification]="4" [lensWidth]="300" [lensHeight]="300" [enableLens]="true" [circularLens]="true" [thumbImage]="ip+selectedImage?.url" [fullImage]="ip+selectedImage?.url"></ngx-image-zoom> -->
 
-    <img
-      src="{{ ip }}{{ selectedImage?.url }}"
-      width="400 "
-      height="400"
-      (click)="showChildModal(selectedImage)"
-      class="img-thumbnail img-item"
-    />
+    <img src="{{ip}}{{selectedImage?.url}}" width="400 " height="400" (click)="showChildModal(selectedImage)" class="img-thumbnail img-item" *ngIf="!selectedImage.isExternalUrl">
+        <img src="{{selectedImage?.url}}" width="400 " height="400" (click)="showChildModal(selectedImage)" class="img-thumbnail img-item" *ngIf="selectedImage.isExternalUrl">
   </div>
 
   <div class="col-md-6">
@@ -38,12 +33,8 @@
             bgColorGreen: img?.time >= img?.timeRequired
           }"
         >
-          <img
-            src="{{ ip }}{{ img.url }} "
-            width="50 "
-            height="50 "
-            class="img-thumbnail side-image"
-          />
+        <img src="{{ip}}{{img.url}} " width="50 " height="50 " class="img-thumbnail side-image" *ngIf="!img.isExternalUrl">
+        <img src="{{img.url}} " width="50 " height="50 " class="img-thumbnail side-image" *ngIf="img.isExternalUrl">
           <div
             class="row justify-content-center"
             style="word-break: break-word !important"
@@ -121,7 +112,8 @@
         </button>
       </div>
       <div class="modal-body" style="padding: 10px">
-        <img src="{{ ip }}{{ selectedShop.url }} " alt=" " srcset="" />
+        <img src="{{ip}}{{selectedShop.url}} " alt=" " srcset=" " *ngIf="!selectedShop.isExternalUrl">
+        <img src="{{selectedShop.url}} " alt=" " srcset=" " *ngIf="selectedShop.isExternalUrl">
       </div>
     </div>
   </div>

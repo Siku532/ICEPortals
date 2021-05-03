@@ -8,7 +8,9 @@
         </button>
             </div>
             <div class="modal-body text-center">
-                <img src="{{ip}}{{selectedItem.shopFullImg}}" alt="" style=" width: 100%; height: 500px; ">
+                <img src="{{ip}}{{selectedItem.shopFullImg}}" alt="" style=" width: 100%; height: 500px;" *ngIf="!isExternalUrl">
+                <img src="{{selectedItem.shopFullImg}}" alt="" style=" width: 100%; height: 500px;" *ngIf="isExternalUrl">
+          
             </div>
         </div>
     </div>
@@ -84,7 +86,10 @@
                 <!-- <img mat-card-image src="assets/images/LU-logo.png" height="300" alt=""  style="cursor:pointer"> -->
                 
                 <div class="ribbon">
-                        <img mat-card-image class="small" src="{{ip}}{{item.shopFullImg}}" width="250" height="300" alt="" (click)="setSelectedItem(item);showChildModal()">
+                    <img mat-card-image class="small" src="{{ip}}{{item.shopFullImg}}" width="250" height="300" alt=""
+                    (click)="setSelectedItem(item);showChildModal()" *ngIf="!isExternalUrl">
+                    <img mat-card-image class="small" src="{{item.shopFullImg}}" width="250" height="300" alt=""
+                    (click)="setSelectedItem(item);showChildModal()" *ngIf="isExternalUrl">
                         <span *ngIf="item.evaluationStatus == 1"  class="ribbon-{{item.score>70?'green':'red'}}">
                             <span>{{item.score}}</span>
                         </span>

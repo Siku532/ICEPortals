@@ -830,18 +830,14 @@
                     </div> -->
       <div class="modal-body" style="padding: 10px">
         <!--  -->
-        <ngx-image-zoom
-          [zoomMode]="'hover'"
-          [magnification]="2"
-          [lensWidth]="250"
-          [lensHeight]="250"
-          [enableLens]="true"
-          [circularLens]="true"
-          [thumbImage]="ip + selectedShop?.url"
-          [fullImage]="ip + selectedShop?.url"
-        >
+        <ngx-image-zoom *ngIf="!selectedShop?.isExternalUrl" [zoomMode]="'hover'" [magnification]="2" [lensWidth]="250" [lensHeight]="250"
+          [enableLens]="true" [circularLens]="true" [thumbImage]="ip + selectedShop?.url"
+          [fullImage]="ip + selectedShop?.url">
         </ngx-image-zoom>
-
+        <ngx-image-zoom *ngIf="selectedShop?.isExternalUrl" [zoomMode]="'hover'" [magnification]="2" [lensWidth]="250" [lensHeight]="250"
+        [enableLens]="true" [circularLens]="true" [thumbImage]="selectedShop?.url"
+        [fullImage]="selectedShop?.url">
+      </ngx-image-zoom>
         <!-- <img src="{{ip}}{{selectedShop?.url}}" alt="" srcset=""> -->
       </div>
     </div>

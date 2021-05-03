@@ -16,7 +16,7 @@ export class ShopDetailComponent implements OnInit {
   loading = false;
   // ip= environment.ip
   configFile = config;
-
+  isExternalUrl=false;
   ip: any = this.configFile.ip;
   remarksId: any = 0;
 
@@ -83,6 +83,7 @@ export class ShopDetailComponent implements OnInit {
       // this.dataSource = res;
       if (res != null) {
       this.tableData = res;
+      this.setImageUrl();
       }
       this.loading = false;
       // if (res.planned == 0)
@@ -103,5 +104,13 @@ export class ShopDetailComponent implements OnInit {
     const url = 'url-pdf';
     this.httpService.DownloadResource(obj, url);
 
+  }
+
+  setImageUrl(){
+    for(const element of this.tableData){
+      if(element.shopFullImg.indexOf("amazonaws.com")>=0){
+        this.isExternalUrl=true;
+      }
+    }
   }
 }

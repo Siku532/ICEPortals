@@ -155,6 +155,7 @@ export class HomeComponent implements OnInit {
       (data) => {
         if (data) {
           this.data = data;
+          this.setImageUrl();
           this.surveyDetails = this.data.shopDetails.sectionMap;
           if(this.projectType=='NFL'){
             this.exceptionList=this.data.exceptionDetails;
@@ -707,4 +708,18 @@ export class HomeComponent implements OnInit {
   hideRemarksModalWithNoChange() {
     this.evaluationRemarksModal.hide();
   }
+
+
+  setImageUrl(){
+    for(const data of this.data.section){
+      for(const image of data.imageList){
+        if(image.url!=null){
+      if(image.url.indexOf("amazonaws.com")>=0){
+        const i = data.imageList.findIndex((e) => e.url == image.url);
+        data.imageList[i].isExternalUrl=true;
+      }
+    }
+    }
+  }
+}
 }

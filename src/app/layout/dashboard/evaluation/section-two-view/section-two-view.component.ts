@@ -48,6 +48,7 @@ export class SectionTwoViewComponent implements OnInit {
         title: this.data.imageList[i].title,
         shopRemarks: this.data.imageList[i].shopRemarks,
         visitDate: this.data.imageList[i].visitDate,
+        isExternalUrl: this.data.imageList[i].isExternalUrl,
         visitDateTime: this.data.imageList[i].visitDateTime,
         surveyId: this.data.imageList[i].surveyId,
         timeRequired: this.setTimeFormat(this.data.imageList[i].timeRequired),
