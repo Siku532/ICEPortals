@@ -19,7 +19,7 @@
             (ngModelChange)="showCount('show')"
           >
             <ng-container *ngFor="let region of regions">
-              <mat-option *ngIf="region.id != -1" [value]="region.id">{{
+              <mat-option [value]="region.id">{{
                 region.title
               }}</mat-option>
             </ng-container>
@@ -38,25 +38,47 @@
       </form>
     </section>
   </mat-card-content>
-
+  </mat-card>
+  <div class="example-section mb-20" style="text-align: end" *ngIf="shopWiseCount.length > 0">
+    <button
+    class="btn btn-danger mr-10-IMP"
+    title="Click to delete selected routes"
+    [disabled]="selectedSurveyors.length==0 || loadingData"
+    (click)="deleteRoutes('delete')"
+  >
+    Delete Selected
+  </button>
+    </div>
+ <mat-card *ngIf="shopWiseCount.length > 0">
   <mat-card-content>
-    <table class="table" *ngIf="shopWiseCount.length > 0">
+    <table class="table">
       <thead>
         <tr>
+          <th>
+          <mat-checkbox color="primary" (change)="checkUncheckAll($event)" #isAllChecked>
+          </mat-checkbox>
+        </th>
           <th scope="col">#</th>
           <th scope="col">Surveyor Code</th>
           <th scope="col">Surveyor Name</th>
           <th scope="col">Shops on Route</th>
-          <th scope="col">Action</th>
+          <!-- <th scope="col">Action</th> -->
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let count of shopWiseCount; let i = index">
+          <td>
+            <mat-checkbox color="primary" name="{{count?.full_name}}"
+                          id="{{count?.surveyor_id}}" (change)="checkUncheckSingle(checked,count,i)"
+                          #checked>
+            </mat-checkbox>
+
+        </td>
           <th scope="col">{{ i + 1 }}</th>
           <td>{{ count?.m_code }}</td>
           <td>{{ count?.full_name }}</td>
           <td>{{ count?.shops_on_route }}</td>
-          <td>
+          <!-- <td>
             <button
               class="btn btn-danger"
               title="Click to remove Shops from Routes"
@@ -64,7 +86,7 @@
             >
               <i class="fa fa-trash"></i>
             </button>
-          </td>
+          </td> -->
         </tr>
       </tbody>
     </table>

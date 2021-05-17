@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild,ViewChildren } from "@angular/core";
 import {
   FormGroup,
   FormControl,
@@ -16,18 +16,22 @@ import { ModalDirective } from "ngx-bootstrap";
 })
 export class UploadRoutesNewComponent implements OnInit {
   @ViewChild("errorModal") errorModal: ModalDirective;
+  @ViewChildren('checked') private myCheckbox: any;
   loadingData: boolean;
   selectedRegionUp: any = new FormControl({}, [Validators.required]);
   selectedFile = new FormControl(null, [Validators.required]);
   selectedOption = new FormControl("", [Validators.required]);
   form: FormGroup;
   shopWiseCount: any = [];
-  regionId = -1;
+  selectedSurveyors:any=[];
+  regionId:any;
+  regionIdTmp=-1;
   regions: any = [];
   response: any = "";
   projectType: any;
   zonePlaceholder = "";
   regionPlaceholder = "";
+  isRegionRequired=true;
   constructor(
     private toastr: ToastrService,
     private httpService: DashboardService,
@@ -42,6 +46,7 @@ export class UploadRoutesNewComponent implements OnInit {
     if (this.projectType == "NFL" || this.projectType == "NFL_SO") {
       this.zonePlaceholder = "Region";
       this.regionPlaceholder = "Zone";
+      this.isRegionRequired=false;
     } else {
       this.zonePlaceholder = "Zone";
       this.regionPlaceholder = "Region";
@@ -52,8 +57,9 @@ export class UploadRoutesNewComponent implements OnInit {
   }
 
   showCount(action) {
+    if(this.regionId){
+      this.selectedSurveyors=[];
     this.loadingData = true;
-    if (this.regionId !== -1) {
       const obj = {
         regionId: this.regionId,
         action: action,
@@ -75,10 +81,10 @@ export class UploadRoutesNewComponent implements OnInit {
     }
   }
 
-  deleteRoutes(surveyorId, action) {
+  deleteRoutes(action) {
     this.loadingData = true;
     const obj = {
-      surveyorId: surveyorId,
+      surveyorIds: this.selectedSurveyors,
       action: action,
     };
     this.httpService.updateRouteStatus(obj).subscribe(
@@ -138,11 +144,16 @@ export class UploadRoutesNewComponent implements OnInit {
     formData.append("newSurveyor", "No");
     // formData.append('startDate', post.date);
     formData.append("filePath", this.form.get("avatar").value);
+    if(this.isRegionRequired=true && (post.selectedRegionUp==-1 || post.selectedRegionUp=={})){
+      this.loadingData = false;
+      this.toastr.error("Plz select a single "+this.regionPlaceholder+" to which the file is belonged");
+    }
+    else if( this.form.get("avatar").value == null){
+      this.loadingData = false;
+      this.toastr.error("Plz select a file to upload");
+    }
 
-    if (
-      post.selectedRegionUp !== {} &&
-      this.form.get("avatar").value !== null
-    ) {
+   else {
       this.loadingData = true;
       this.httpService.uploadRoutes(formData).subscribe((data) => {
         if (data) {
@@ -158,10 +169,7 @@ export class UploadRoutesNewComponent implements OnInit {
           this.toastr.error("There is an error in ur file!!");
         }
       });
-    } else {
-      this.loadingData = false;
-      this.toastr.error("Plz fill all the required details");
-    }
+    } 
   }
 
   showErrorModal(): void {
@@ -170,4 +178,40 @@ export class UploadRoutesNewComponent implements OnInit {
   hideErrorModal(): void {
     this.errorModal.hide();
   }
+
+
+  
+  checkUncheckSingle(event, item, index) {
+    if (event.checked === true) {
+        this.selectedSurveyors.push(item.surveyor_id);
+    } else {
+        const i = this.selectedSurveyors.indexOf(item.surveyor_id);
+        this.selectedSurveyors.splice(i, 1);
+    }
+}
+
+
+checkUncheckAll(event) {
+    if (event.checked === true) {
+        for (let i = 0; i < this.shopWiseCount.length; i++) {
+          if(this.selectedSurveyors.indexOf(this.shopWiseCount[i].surveyor_id)==-1){
+            this.selectedSurveyors.push(this.shopWiseCount[i].surveyor_id);
+          }
+        }
+        for (let index = 0; index < this.myCheckbox._results.length; index++) {
+            this.myCheckbox._results[index]._checked = true;
+        }
+    } else {
+        for (let i = 0; i < this.shopWiseCount.length; i++) {
+            const i = this.selectedSurveyors.indexOf('surveyor_id');
+            this.selectedSurveyors.splice(i, 1);
+            this.selectedSurveyors = [];
+        }
+        for (let index = 0; index < this.myCheckbox._results.length; index++) {
+            this.myCheckbox._results[index]._checked = false;
+        }
+
+    }
+}
+
 }
