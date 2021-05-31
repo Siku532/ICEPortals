@@ -59,6 +59,8 @@ import { AttendanceReportComponent } from './innerComponents/attendance-report/a
 import { VdReportComponent } from './innerComponents/vd-report/vd-report.component';
 import { MerchandiserRosterComponent } from './innerComponents/merchandiser-roster/merchandiser-roster.component';
 import { UploadDesiredSosComponent } from './innerComponents/upload-desired-sos/upload-desired-sos.component';
+import { ShopWiseRoutesComponent } from './innerComponents/shop-wise-routes/shop-wise-routes.component';
+
 const routes: Routes = [
   {
     path: "",
@@ -137,6 +139,7 @@ const routes: Routes = [
       },
       { path: "add_device", component: AddDeviceComponent },
       { path: "upload_routes_new", component: UploadRoutesNewComponent },
+      { path: "upload_routes/:surveyorId", component: ShopWiseRoutesComponent },
       {
         path: "merchandiser-planned-calls",
         component: MerchandiserPlannedCallsComponent,

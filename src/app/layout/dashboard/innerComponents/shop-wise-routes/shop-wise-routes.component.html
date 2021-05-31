@@ -1,0 +1,90 @@
+<div class="row">
+  <div class="col-md-12" style="margin: 20% 40%" *ngIf="loadingData && shopList.length==0">
+    <img src="assets/images/basicloader.gif" alt="" srcset="" />
+  </div>
+</div>
+<div class="animated slideInLeft" *ngIf="shopList?.length>0">
+  <mat-card>
+    <mat-card-title>
+      Shops
+      <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData}"></i>
+    </mat-card-title>
+  </mat-card>
+  <mat-accordion displayMode="flat" multi class="mat-table">
+    <section matSort class="mat-elevation-z2 mat-header-row">
+      <span class="mat-header-cell" mat-sort-header="id">#</span>
+      <span class="mat-header-cell" mat-sort-header="routeDay">Route Day</span>
+      <span class="mat-header-cell" mat-sort-header="activeShops">Active Shops</span>
+    </section>
+  
+    <mat-expansion-panel *ngFor="let element of shopList; let i = index">
+      <mat-expansion-panel-header class="mat-row">
+        <span class="mat-cell">{{i+1}}</span>
+        <span class="mat-cell">{{element.route_title}}</span>
+        <span class="mat-cell">{{element.shopsCount}}</span>
+      </mat-expansion-panel-header>
+      <table class="table table-bordered">
+        <thead>
+          <tr style="text-align: center">
+            <th>
+              <mat-checkbox color="primary" (change)="checkUncheckAll($event, element.route_surveyor_id)" #isAllChecked>
+              </mat-checkbox>
+            </th>
+            <th style="cursor: pointer">
+              #
+            </th>
+            <th style="cursor: pointer">
+              Shop Code
+            </th>
+            <th style="cursor: pointer">
+             Shop Title
+            </th>
+            <th style="cursor: pointer">
+              Shop Address
+             </th>
+            <th style="cursor: pointer">
+              Channel
+             </th>
+             <th style="cursor: pointer">
+              Distribution
+             </th>
+          </tr>
+        </thead> 
+        <tbody>
+          <tr *ngFor="let shop of element.shopList; let j=index" style="text-align: center">
+          <td> <mat-checkbox color="primary" name="{{shop?.surveyor_route_id}}"
+            id="{{shop?.id}} - {{shop?.surveyor_route_id}}" (change)="checkUncheckSingle(checked,shop,i)"
+            #checked></mat-checkbox></td> 
+            <td>{{j+1}}</td>
+            <td>{{shop.shop_code}}</td>
+            <td>{{shop.shop_name}}</td>
+            <td>{{shop.shop_address}}</td>
+            <td>{{shop?.channelName}}</td>
+            <td>{{shop?.distribution}}</td>
+          </tr>       
+        </tbody>
+        </table>
+    </mat-expansion-panel>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+    <button [disabled]="selectedShops.length==0"
+            class="btn btn-danger btn-fixed"
+            title="Click to Delete shops from routes"
+            (click)="deleteRoutes()" >
+            Delete
+          </button>
+          </div>
+          </div>
+        </div>
+  </mat-accordion>
+  </div>
+
+  
+  <div class="row" *ngIf="!loadingData && shopList.length == 0">
+    <div class="col-md-12 text-center">
+      <div class="alert alert-info">
+        <p>No Data Found</p>
+      </div>
+    </div>
+  </div>

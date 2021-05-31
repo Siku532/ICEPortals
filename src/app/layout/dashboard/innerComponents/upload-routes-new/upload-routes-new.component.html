@@ -46,7 +46,7 @@
     [disabled]="selectedSurveyors.length==0 || loadingData"
     (click)="deleteRoutes('delete')"
   >
-    Delete Selected
+    Delete ({{selectedSurveyors?.length}})
   </button>
     </div>
  <mat-card *ngIf="shopWiseCount.length > 0">
@@ -77,7 +77,7 @@
           <th scope="col">{{ i + 1 }}</th>
           <td>{{ count?.m_code }}</td>
           <td>{{ count?.full_name }}</td>
-          <td>{{ count?.shops_on_route }}</td>
+          <td style="cursor: pointer;" (click)="getRouteShops(count)" >{{ count?.shops_on_route }}</td>
           <!-- <td>
             <button
               class="btn btn-danger"

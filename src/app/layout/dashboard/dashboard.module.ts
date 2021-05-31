@@ -96,6 +96,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { VdReportComponent } from './innerComponents/vd-report/vd-report.component';
 import { MerchandiserRosterComponent } from './innerComponents/merchandiser-roster/merchandiser-roster.component';
 import { UploadDesiredSosComponent } from './innerComponents/upload-desired-sos/upload-desired-sos.component';
+import { ShopWiseRoutesComponent } from './innerComponents/shop-wise-routes/shop-wise-routes.component';
 
 @NgModule({
   imports: [
@@ -193,7 +194,8 @@ import { UploadDesiredSosComponent } from './innerComponents/upload-desired-sos/
     AttendanceReportComponent,
     VdReportComponent,
     MerchandiserRosterComponent,
-    UploadDesiredSosComponent
+    UploadDesiredSosComponent,
+    ShopWiseRoutesComponent
   ],
 })
 export class DashboardModule {}

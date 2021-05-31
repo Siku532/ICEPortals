@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild,ViewChildren } from "@angular/core";
+import { environment } from "src/environments/environment";
 import {
   FormGroup,
   FormControl,
@@ -214,4 +215,10 @@ checkUncheckAll(event) {
     }
 }
 
+getRouteShops(surveyor){
+  window.open(
+    `${environment.hash}dashboard/upload_routes/${surveyor.surveyor_id}`,
+    "_blank"
+  );
+}
 }

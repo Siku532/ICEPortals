@@ -214,8 +214,20 @@ export class DashboardService {
 
   getProductList(obj) {
     const urlencoded = this.UrlEncodeMaker(obj);
-    const url = this.ip + "viewProductDetail";
+    const url = this.ip + "viewProductDetail";           //----------> ViewProductDetailsController
     return this.http.post(url, urlencoded, this.httpOptions);
+  }
+
+
+  getShopWiseRoutes(obj) {
+    const urlencoded = this.UrlEncodeMaker(obj);      // ------------> ShopWiseRoutesController
+    const url = this.ip + "shopWiseRoutes";
+    return this.http.post(url, urlencoded, this.httpOptions);
+  }
+
+  deleteShopWiseRoutes(obj) {
+    const url = this.ip + "deleteShopWhopWiseRoutes"; // -----------> DeleteShopWiseRouteController
+    return this.http.post(url, obj);
   }
 
   updateCategory(obj) {
