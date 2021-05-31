@@ -21,6 +21,7 @@ import { ModalDirective } from "ngx-bootstrap";
 })
 export class SectionSevenViewComponent implements OnInit {
   @Input("data") data;
+  @Input("evaluatorId") taggedEvaluatorId;
   // @ViewChild('childModal') childModal: ModalDirective;
   @ViewChild("childModal") childModal: ModalDirective;
   @Output("showModal") showModal: any = new EventEmitter<any>();
@@ -138,7 +139,8 @@ export class SectionSevenViewComponent implements OnInit {
 
   changeSku(value) {
     this.loading = true;
-    if (this.isEditable) {
+    if (this.isEditable && (this.taggedEvaluatorId==localStorage.getItem("user_id")
+    || localStorage.getItem('user_type')==localStorage.getItem('Reevaluator'))) {
       this.updatingMSL = true;
 
       this.colorUpdateList.push(value.id);
@@ -194,11 +196,15 @@ export class SectionSevenViewComponent implements OnInit {
         }
       });
     }
+    else{
+      this.toastr.error('Operation not allowed. Please login  with the relevent Id', "Error");
+    }
   }
 
   changeFacing(value) {
     this.loading = true;
-    if (this.isEditable) {
+    if (this.isEditable && (this.taggedEvaluatorId==localStorage.getItem("user_id")
+    || localStorage.getItem('user_type')==localStorage.getItem('Reevaluator'))) {
       this.changeColor = true;
       this.updatingMSL = true;
       if (value !== null) {
@@ -253,6 +259,9 @@ export class SectionSevenViewComponent implements OnInit {
         this.toastr.error("Facing Value is Incorrect");
         this.loading = false;
       }
+    }
+    else{
+      this.toastr.error('Operation not allowed. Please login  with the relevent Id', "Error");
     }
   }
 

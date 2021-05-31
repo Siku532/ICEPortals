@@ -63,6 +63,7 @@
                 [isEditable]="isEditable"
                 (productList)="calculateMSLAgain($event)"
                 (showModal)="showChildModal($event)"
+                [evaluatorId]="surveyDetails.evaluatorId"
               ></section-seven-view>
             </ng-container>
 
@@ -94,6 +95,7 @@
                 [data]="sec"
                 (showModal)="showChildModal($event)"
                 [isEditable]="isEditable"
+                [evaluatorId]="surveyDetails.evaluatorId"
               >
               </section-nine-view>
             </ng-container>
@@ -121,6 +123,7 @@
                 [projectType]="projectType"
                 [isEditable]="isEditable"
                 (showModal)="showChildModal($event)"
+                [evaluatorId]="surveyDetails.evaluatorId"
               >
               </section-eight-view>
             </ng-container>
@@ -130,6 +133,7 @@
                 class="width-100"
                 [data]="sec"
                 (showModal)="showChildModal($event)"
+                [evaluatorId]="surveyDetails.evaluatorId"
               >
               </section-ten-view>
             </ng-container>
@@ -138,6 +142,7 @@
                 class="width-100"
                 [data]="sec"
                 [channelId]="surveyDetails.channelId"
+                [evaluatorId]="surveyDetails.evaluatorId"
                 [isEditable]="isEditable"
                 (showModal)="showChildModal($event)"
               ></section-eleven-view>
@@ -320,6 +325,7 @@
                     <!-- <hr> -->
                   </tbody>
                 </table>
+                <ng-container *ngIf="data?.criteria.length>0">
                 <div class="row" *ngIf="userType != reevaluatorRole">
                   <div
                     class="col-md-12"
@@ -350,6 +356,7 @@
                     </button>
                   </div>
                 </div>
+              </ng-container>
               </div>
             </div>
 
@@ -399,8 +406,7 @@
                 *ngIf="
                   data?.criteria &&
                   isFromShop &&
-                  !isDragging &&
-                  (userType == evaluatorRole || userType == reevaluatorRole)
+                  !isDragging
                 "
               >
                 <div class="col-md-12">
@@ -503,6 +509,7 @@
                       <!-- <hr> -->
                     </tbody>
                   </table>
+                  <ng-container *ngIf="data?.criteria.length>0">
                   <div class="row" *ngIf="userType == evaluatorRole">
                     <div
                       class="col-md-12"
@@ -533,6 +540,7 @@
                       </button>
                     </div>
                   </div>
+                </ng-container>
                 </div>
               </div>
   

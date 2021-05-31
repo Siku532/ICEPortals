@@ -22,6 +22,7 @@ import { KeyValuePipe } from "@angular/common";
 })
 export class SectionNineViewComponent implements OnInit {
   @Input("data") data;
+  @Input("evaluatorId") taggedEvaluatorId;
   // @ViewChild('childModal') childModal: ModalDirective;
   @ViewChild("childModal") childModal: ModalDirective;
   @Output("showModal") showModal: any = new EventEmitter<any>();
@@ -105,7 +106,8 @@ export class SectionNineViewComponent implements OnInit {
       }
     }
     if (value != null) {
-      if (this.isEditable) {
+      if (this.isEditable && (this.taggedEvaluatorId==localStorage.getItem("user_id")
+      || localStorage.getItem('user_type')==localStorage.getItem('Reevaluator'))) {
         const obj = {
           msdId: data.id,
           title: data.question,
@@ -143,6 +145,9 @@ export class SectionNineViewComponent implements OnInit {
           }
         });
       }
+      else{
+        this.toastr.error('Operation not allowed. Please login  with the relevent Id', "Error");
+      }
     } else {
       this.toastr.error("Value is Incorrect");
       this.loading = false;
@@ -152,7 +157,8 @@ export class SectionNineViewComponent implements OnInit {
   updateTextData(value) {
     this.loading = true;
     if (value.answer != null && value.answer >= 0) {
-      if (this.isEditable) {
+      if (this.isEditable && (this.taggedEvaluatorId==localStorage.getItem("user_id")
+      || localStorage.getItem('user_type')==localStorage.getItem('Reevaluator'))) {
         const obj = {
           msdId: value.id,
           newValue: value.answer,
@@ -189,6 +195,9 @@ export class SectionNineViewComponent implements OnInit {
             this.toastr.error(data.message, "Update Data");
           }
         });
+      }
+      else{
+        this.toastr.error('Operation not allowed. Please login  with the relevent Id', "Error");
       }
     } else {
       this.toastr.error("Value is Incorrect");

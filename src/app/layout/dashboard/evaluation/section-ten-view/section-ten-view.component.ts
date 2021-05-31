@@ -19,6 +19,7 @@ import { EvaluationService } from "../evaluation.service";
 })
 export class SectionTenViewComponent implements OnInit {
   @Input("data") data;
+  @Input("evaluatorId") taggedEvaluatorId;
   // @ViewChild('childModal') childModal: ModalDirective;
   @Output("showModal") showModal: any = new EventEmitter<any>();
   @Input("isEditable") isEditable: any;

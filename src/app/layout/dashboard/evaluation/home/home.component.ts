@@ -77,6 +77,11 @@ export class HomeComponent implements OnInit {
     private evaluationService: EvaluationService,
     private readonly location: Location
   ) {
+    this.userType = localStorage.getItem("user_type");
+    this.projectType = localStorage.getItem("projectType");
+    this.reevaluatorRole = localStorage.getItem("Reevaluator");
+    this.evaluatorRole = localStorage.getItem("Evaluator");
+    
     this.surveyId;
 
     this.activatedRoutes.queryParams.subscribe((q) => {
@@ -116,10 +121,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.availabilityCount = 0;
     this.location.replaceState("/details");
-    this.userType = localStorage.getItem("user_type");
-    this.projectType = localStorage.getItem("projectType");
-    this.reevaluatorRole = localStorage.getItem("Reevaluator");
-    this.evaluatorRole = localStorage.getItem("Evaluator");
   }
   formatLabel(value: number | null) {
     if (!value) {
@@ -195,15 +196,23 @@ export class HomeComponent implements OnInit {
             this.evaluationRemarks = this.data.EvaluationRemarks || [];
 
             // tslint:disable-next-line:triple-equals
-            if (this.userType == this.reevaluatorRole) {
+            if (this.userType == this.reevaluatorRole && this.surveyDetails.evaluationStatus!=-1) {
+              this.isEditable = true;
               this.checkEvaluatedRemarks();
               this.setRemarksForReEvaluation();
             }
-            if (
-              this.userType == this.evaluatorRole ||
-              this.userType == this.reevaluatorRole
+            else if (
+              this.userType == this.evaluatorRole && this.surveyDetails.evaluationStatus==-1
             ) {
-              this.isEditable = true;
+              if(!this.checkUser(this.surveyDetails)){
+                this.toastr.error('You are not allowed to View this shop this this login. Please login with the relevent id');
+                localStorage.removeItem('isLoggedin');
+                this.router.navigate(['/login']);
+              }
+              else
+              {
+              this.isEditable=true
+              }
             }
             if (this.data.criteria) {
               this.calculateScore();
@@ -518,6 +527,7 @@ export class HomeComponent implements OnInit {
   // }
   evaluateShop() {
     const user_id = localStorage.getItem("user_id");
+    if(user_id==this.surveyDetails.evaluatorId || this.userType==this.reevaluatorRole){
     this.loading = true;
     const req = true;
 
@@ -598,6 +608,12 @@ export class HomeComponent implements OnInit {
         );
       }
     }
+  }
+  else{
+    this.toastr.error('You are not Allowed to evaluate this shop with this user', "Error");
+    localStorage.removeItem('isLoggedin');
+    this.router.navigate(['/login']);
+  }
   }
 
   checkForSlectedRemarks(list) {
@@ -721,5 +737,8 @@ export class HomeComponent implements OnInit {
     }
     }
   }
+}
+checkUser(data){
+  return data.evaluatorId==localStorage.getItem('user_id') ? true: false;
 }
 }

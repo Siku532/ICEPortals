@@ -22,6 +22,7 @@ import { KeyValuePipe } from "@angular/common";
 })
 export class SectionElevenViewComponent implements OnInit {
   @Input("data") data;
+  @Input("evaluatorId") taggedEvaluatorId;
   // @ViewChild('childModal') childModal: ModalDirective;
   @ViewChild("childModal") childModal: ModalDirective;
   @Output("showModal") showModal: any = new EventEmitter<any>();
@@ -216,7 +217,8 @@ export class SectionElevenViewComponent implements OnInit {
 
   changeSku(value) {
     this.loading = true;
-    if (this.isEditable) {
+    if (this.isEditable && (this.taggedEvaluatorId==localStorage.getItem("user_id")
+    || localStorage.getItem('user_type')==localStorage.getItem('Reevaluator'))) {
       this.updatingMSL = true;
 
       this.colorUpdateList.push(value.id);
@@ -272,11 +274,15 @@ export class SectionElevenViewComponent implements OnInit {
         }
       });
     }
+    else{
+      this.toastr.error('Operation not allowed. Please login  with the relevent login', "Error");
+    }
   }
 
   changeFacing(value) {
     this.loading = true;
-    if (this.isEditable) {
+    if (this.isEditable && (this.taggedEvaluatorId==localStorage.getItem("user_id")
+    || localStorage.getItem('user_type')==localStorage.getItem('Reevaluator'))) {
       this.changeColor = true;
       this.updatingMSL = true;
       if (value !== null) {
@@ -333,6 +339,9 @@ export class SectionElevenViewComponent implements OnInit {
         this.loading = false;
       }
     }
+    else{
+      this.toastr.error('Operation not allowed. Please login  with the relevent Id', "Error");
+    }
   }
 
 
@@ -355,7 +364,8 @@ export class SectionElevenViewComponent implements OnInit {
   updateTextData(value) {
     this.loading = true;
     if (value.answer != null && value.answer >= 0) {
-      if (this.isEditable) {
+      if (this.isEditable && (this.taggedEvaluatorId==localStorage.getItem("user_id")
+    || localStorage.getItem('user_type')==localStorage.getItem('Reevaluator'))) {
         const obj = {
           msdId: value.id,
           newValue: value.answer,
@@ -399,6 +409,9 @@ export class SectionElevenViewComponent implements OnInit {
           }
         });
       }
+      else{
+        this.toastr.error('Operation not allowed. Please login  with the relevent Id', "Error");
+      }
     } else {
       this.toastr.error("Value is Incorrect");
       this.loading = false;
@@ -415,7 +428,8 @@ export class SectionElevenViewComponent implements OnInit {
       }
     }
     if (value != null) {
-      if (this.isEditable) {
+      if (this.isEditable && (this.taggedEvaluatorId==localStorage.getItem("user_id")
+    || localStorage.getItem('user_type')==localStorage.getItem('Reevaluator'))) {
         const obj = {
           msdId: data.id,
           title: data.question,
@@ -458,6 +472,9 @@ export class SectionElevenViewComponent implements OnInit {
             this.toastr.error(data.message, "Update Data");
           }
         });
+      }
+      else{
+        this.toastr.error('Operation not allowed. Please login  with the relevent Id', "Error");
       }
     } else {
       this.toastr.error("Value is Incorrect");

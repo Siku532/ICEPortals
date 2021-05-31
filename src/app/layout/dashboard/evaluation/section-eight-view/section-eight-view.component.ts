@@ -21,6 +21,7 @@ import { ModalDirective } from "ngx-bootstrap";
 })
 export class SectionEightViewComponent implements OnInit {
   @Input("data") data;
+  @Input("evaluatorId") taggedEvaluatorId;
   @Input("projectType") projectType;
   @ViewChild("childModal") childModal: ModalDirective;
   @Output("showModal") showModal: any = new EventEmitter<any>();
@@ -167,7 +168,8 @@ export class SectionEightViewComponent implements OnInit {
   toggleValue(product, flag) {
     if (product.unit_available != null && product.face_unit != null) {
       this.loading = true;
-      if (this.isEditable) {
+      if (this.isEditable && (this.taggedEvaluatorId==localStorage.getItem("user_id")
+      || localStorage.getItem('user_type')==localStorage.getItem('Reevaluator'))) {
         this.changeColor = true;
         this.colorUpdateList.push(product.id);
         const obj = {
@@ -224,6 +226,9 @@ export class SectionEightViewComponent implements OnInit {
           }
         });
       }
+      else{
+        this.toastr.error('Operation not allowed. Please login  with the relevent Id', "Error");
+      }
     } else {
       this.toastr.error("Value is Incorrect");
       this.loading = false;
@@ -233,7 +238,8 @@ export class SectionEightViewComponent implements OnInit {
   changeAvailability(product) {
     this.loading = true;
     if (product.unit_available != null) {
-      if (this.isEditable) {
+      if (this.isEditable && (this.taggedEvaluatorId==localStorage.getItem("user_id")
+    || localStorage.getItem('user_type')==localStorage.getItem('Reevaluator'))) {
         const obj = {
           msdId: product.detailId,
           newValue: product.unit_available,
@@ -274,6 +280,9 @@ export class SectionEightViewComponent implements OnInit {
           }
         });
       }
+      else{
+        this.toastr.error('Operation not allowed. Please login  with the relevent Id', "Error");
+      }
     } else {
       this.toastr.error("Availability Value is Incorrect");
       this.loading = false;
@@ -286,7 +295,8 @@ export class SectionEightViewComponent implements OnInit {
   changeStock(product) {
     this.loading = true;
     if (product.unit_available != null) {
-      if (this.isEditable) {
+      if (this.isEditable && (this.taggedEvaluatorId==localStorage.getItem("user_id")
+    || localStorage.getItem('user_type')==localStorage.getItem('Reevaluator'))) {
         const obj = {
           msdId: product.detailId,
           newValue: product.stock,
@@ -323,6 +333,9 @@ export class SectionEightViewComponent implements OnInit {
           }
         });
       }
+      else{
+        this.toastr.error('Operation not allowed. Please login  with the relevent Id', "Error");
+      }
     } else {
       this.toastr.error("Availability Value is Incorrect");
       this.loading = false;
@@ -333,7 +346,8 @@ export class SectionEightViewComponent implements OnInit {
   changeFacing(product) {
     this.loading = true;
     if (product.face_unit != null) {
-      if (this.isEditable) {
+      if (this.isEditable && (this.taggedEvaluatorId==localStorage.getItem("user_id")
+      || localStorage.getItem('user_type')==localStorage.getItem('Reevaluator'))) {
         this.changeColor = true;
         this.colorUpdateList.push(product.id);
         const obj = {
@@ -376,6 +390,9 @@ export class SectionEightViewComponent implements OnInit {
           }
         });
       }
+      else{
+        this.toastr.error('Operation not allowed. Please login  with the relevent Id', "Error");
+      }
     } else {
       this.toastr.error("Facing Value is Incorrect");
       this.loading = false;
@@ -394,7 +411,8 @@ export class SectionEightViewComponent implements OnInit {
   updateTextData(tag) {
     this.loading = true;
     if (tag.value != null && tag.value >= 0) {
-      if (this.isEditable) {
+      if (this.isEditable && (this.taggedEvaluatorId==localStorage.getItem("user_id")
+    || localStorage.getItem('user_type')==localStorage.getItem('Reevaluator'))) {
         const obj = {
           msdId: tag.questionId,
           newValue: tag.value,
@@ -414,6 +432,9 @@ export class SectionEightViewComponent implements OnInit {
           }
         });
       }
+      else{
+        this.toastr.error('Operation not allowed. Please login  with the relevent Id', "Error");
+      }
     } else {
       this.toastr.error("Value is Incorrect");
       this.loading = false;
@@ -431,7 +452,8 @@ export class SectionEightViewComponent implements OnInit {
       }
     }
     if (value != null) {
-      if (this.isEditable) {
+      if (this.isEditable && (this.taggedEvaluatorId==localStorage.getItem("user_id")
+    || localStorage.getItem('user_type')==localStorage.getItem('Reevaluator'))) {
         const obj = {
           msdId: data.questionId,
           title: data.heading,
@@ -451,6 +473,9 @@ export class SectionEightViewComponent implements OnInit {
             this.toastr.error(data.message, "Update Data");
           }
         });
+      }
+      else{
+        this.toastr.error('Operation not allowed. Please login  with the relevent Id', "Error");
       }
     } else {
       this.toastr.error("Value is Incorrect");
