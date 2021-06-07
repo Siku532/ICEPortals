@@ -1,0 +1,150 @@
+<script>angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache']);</script>
+<mat-card class="mb-20">
+  <mat-card-content>
+    <mat-card-title>
+      {{title}} <i color="warn" [ngClass]="{'fa fa-cog fa-spin':loading}"></i>
+     
+
+    </mat-card-title>
+    
+    
+    <section class="example-section" >
+      <ng-container *ngIf="projectType !== 'NFL'">
+      <mat-form-field class="example-margin mr-5-IMP" >
+        <mat-select placeholder="Selected Supervisor" name='Supervisor' [(ngModel)]="selectedSupervisorFilter"
+                    (ngModelChange)="getSurveyourData()">
+                    <ng-container *ngFor="let sup of supervisor">
+          <mat-option [value]="sup.id" >{{sup.fullName}}</mat-option>
+        </ng-container>
+        </mat-select>
+      </mat-form-field>
+    
+      <mat-form-field style="margin-left: 1%;" class="example-margin mr-5-IMP" >
+        <mat-select placeholder="Selected Surveyor" name='Surveyor' [(ngModel)]="selectedSurveyorFilter">
+                    <ng-container *ngFor="let sur of surveyor">
+                    
+          <mat-option [value]="sur.id" >{{sur.fullName}}</mat-option>
+        </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="projectType === 'NFL'">
+      <mat-form-field style="margin-left: 1%;" class="example-margin mr-5-IMP" >
+        <mat-select placeholder="Selected Surveyor" name='Surveyor' [(ngModel)]="selectedSurveyorFilter">
+                    <ng-container *ngFor="let sur of supervisor">
+                    
+          <mat-option [value]="sur.id" >{{sur.fullName}}</mat-option>
+        </ng-container>
+        </mat-select>
+      </mat-form-field>
+      </ng-container>
+      <mat-form-field style="margin-left: 1%;" class="example-full-width mr-10-IMP">
+        <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker0" [(ngModel)]="startDate" placeholder="Choose a date" readonly >
+        <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+        <mat-datepicker #picker0></mat-datepicker>
+    </mat-form-field>
+
+    </section>
+    <section class="example-section">
+      <button [disabled]="loading" mat-raised-button color="warn"  (click)="getShopsTracking()">View</button>
+      <button style="margin-left: 1%;" [disabled]="loading" mat-raised-button color="warn"
+              (click)="resetFilters()">Reset Filters
+      </button>
+    </section>
+
+
+    <!--    </section>-->
+  </mat-card-content>
+</mat-card>
+ <mat-card class="mb-20" *ngIf="prodata.length > 0" class="my-3">
+   <mat-card-content >
+     
+     
+  <table class="table animated slideInLeft table-responsive">
+    <thead>
+      <tr>
+        <th  scope="col"> 
+          <br><i class="">Planned </i></th>
+        <th  scope="col">
+          <br><i class="">Captured </i></th>
+        <th  scope="col">
+          <br><i class="">Abnormal </i></th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let pro of prodata">
+      <tr >
+        <td scope="row" >{{pro.planned}}</td>
+        <td scope="row">{{pro.captured}}</td>
+        <td scope="row">{{pro.AbnormalShops}}</td> 
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+</mat-card-content>
+</mat-card>  
+
+
+
+
+<mat-card *ngIf="trackedShops.length > 0">
+  <div class="row">
+    <div class="col-md-9">
+      <section class="example-section">
+        <agm-map [latitude]="latitude" [longitude]="longitude" [fitBounds]="trackedShops.length > 1"
+                 [zoom]="6" style="height: 600px">
+          <!--  <agm-marker-cluster [imagePath]="'http://ndn1.concavetech.com/dist/assets/map-marker-icons/m'">-->
+          <div>
+            <agm-marker
+              [agmFitBounds]="true"
+              *ngFor="let shop of trackedShops;"
+              latitude="{{shop.latitude}}"
+              longitude="{{shop.longitude}}"
+              iconUrl="{{colorType+shop.shop_flag.toString().slice(-1)+'.png'}}">
+
+              <!-- (mouseOver)="showInfo($event)"  (mouseOut)="hideInfo($event)"-->
+              &lt;!&ndash; (mouseOver)="showInfo($event)" (mouseOut)="hideInfo($event)"&ndash;&gt;
+
+              <agm-snazzy-info-window [maxWidth]="200" >
+                <ng-template>
+                  <strong>Visit Time:</strong> {{shop.visitTime}}
+                  <br>
+                  <strong>Time Difference:</strong> {{shop.timeDifference}}
+                  <br>
+                  <strong> Code:</strong> {{shop.m_code}}
+                  <br>
+                  <strong>Shop Title:</strong> {{shop.shop_title}}
+                  <br>
+                  <strong>Address:</strong> {{shop.address}}
+                  <br>
+                  <strong>Remarks:</strong> {{shop.shop_status}}
+                  <br>
+                  <a (click)="goToEvaluation(shop.surveyId,shop.m_code)"><strong>click for view</strong><i
+                    class="fas fa-share-square"></i></a>
+
+                </ng-template>
+
+              </agm-snazzy-info-window>
+            </agm-marker>
+          </div>
+
+          <!-- </agm-marker-cluster>-->
+        </agm-map>
+      </section>
+    </div>
+    <!-- remove legend-->
+ 
+  <div class="col-md-3">
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let leg of legends">
+        <!--<div class="row">{{leg.de_code}} : -->
+          {{leg.split(',', 2)[1]}} :<img [src]="colorType+leg.split(',',2)[0].toString().slice(-1)+'.png'">
+        <!--</div>-->
+      </mat-list-item>
+      <!--<mat-list-item role="listitem">Item 2</mat-list-item>
+      <mat-list-item role="listitem">Item 3</mat-list-item>-->
+    </mat-list>
+    
+  </div>
+</div>
+</mat-card>
