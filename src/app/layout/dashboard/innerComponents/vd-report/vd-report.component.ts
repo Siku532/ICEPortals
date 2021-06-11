@@ -229,7 +229,7 @@ export class VdReportComponent implements OnInit {
   }
 
   getChillerList() {
-    this.httpService.getChillerList().subscribe(
+    this.httpService.getChillerList(-1).subscribe(
       (data) => {
         if (data) {
           this.chillerList = data;
