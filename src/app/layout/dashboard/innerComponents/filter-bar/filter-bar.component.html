@@ -1408,8 +1408,8 @@
 
 <!-- / raw data -->
 
-<!-- merchandiser productivity -->
-<mat-card class="mb-20" *ngIf="router.url === '/dashboard/productivity_report'">
+<!-- merchandiser/ supervisor productivity -->
+<mat-card class="mb-20" *ngIf="router.url === '/dashboard/productivity_report' || isSupervisorDataRequest">
   <mat-card-content>
     <mat-card-title>
       {{ title | uppercase }}
@@ -1533,7 +1533,7 @@
       </mat-form-field>
     </section>
 
-    <section class="example-section">
+    <section class="example-section" *ngIf="!isSupervisorDataRequest">
       <button mat-raised-button color="warn" (click)="MProductivityReport()">
         Download
       </button>
@@ -1742,7 +1742,7 @@
 
 <ng-container
   *ngIf="
-    tableData.length > 0 && router.url === '/dashboard/productivity_report'
+    tableData.length > 0 && (router.url === '/dashboard/productivity_report' || isSupervisorDataRequest)
   "
   #webView
 >
@@ -1752,20 +1752,20 @@
         <thead>
           <tr>
             <th scope="col" (click)="sortIt('merchandiser_code')">
-              Merchandiser Code
+              {{surveyorType}} Code
               <br />
               <i class="material-icons arrow">
                 {{ getArrowType("merchandiser_code") }}
               </i>
             </th>
             <th scope="col" (click)="sortIt('merchandiser_name')">
-              Merchandiser Name
+              {{surveyorType}} Name
               <br />
               <i class="material-icons arrow">
                 {{ getArrowType("merchandiser_name") }}
               </i>
             </th>
-            <th scope="col" (click)="sortIt('planned')">
+            <th scope="col" (click)="sortIt('planned')" *ngIf="!isSupervisorDataRequest">
               Planned
               <br />
               <i class="material-icons arrow">
@@ -1797,6 +1797,7 @@
               scope="col"
               (click)="sortIt('unvisited')"
               style="background: #f12e2b; color: white"
+              *ngIf="!isSupervisorDataRequest"
             >
               Unvisited
               <br />
@@ -1804,7 +1805,7 @@
                 {{ getArrowType("unvisited") }}
               </i>
             </th>
-            <th scope="col" (click)="sortIt('completed_percent')">
+            <th *ngIf="!isSupervisorDataRequest" scope="col" (click)="sortIt('completed_percent')">
               Productivity <strong>%</strong>
               <br />
               <i class="material-icons arrow">
@@ -1838,7 +1839,7 @@
                 >
               </td>
 
-              <td>{{ item.planned }}</td>
+              <td *ngIf="!isSupervisorDataRequest">{{ item.planned }}</td>
               <td class="a-link" *ngIf="item.completed != 0" title="Completed">
                 <a
                   class="a-link"
@@ -1893,8 +1894,8 @@
                 {{ item.unsuccessful }}
               </td>
 
-              <td>{{ item.unvisited }}</td>
-              <td>{{ getPercentage(item.completed_percent) }}</td>
+              <td *ngIf="!isSupervisorDataRequest">{{ item.unvisited }}</td>
+              <td *ngIf="!isSupervisorDataRequest">{{ getPercentage(item.completed_percent) }}</td>
               <td>{{ getPercentage(item.successful_percent) }}</td>
             </tr>
           </ng-container>
@@ -1905,8 +1906,7 @@
 </ng-container>
 <ng-container
   *ngIf="
-    tableData.length > 0 && router.url === '/dashboard/productivity_report'
-  "
+    tableData.length > 0 && (router.url === '/dashboard/productivity_report' || isSupervisorDataRequest)"
   #mobileView
 >
   <div class="row isMobileView">
@@ -1927,7 +1927,7 @@
               {{ getArrowType("merchandiser_name") }}
             </i>
           </th>
-          <th scope="col" (click)="sortIt('planned')">
+          <th *ngIf="!isSupervisorDataRequest" scope="col" (click)="sortIt('planned')">
             Planned
             <br />
             <i class="material-icons arrow">
@@ -1955,7 +1955,7 @@
               {{ getArrowType("unsuccessful") }}
             </i>
           </th>
-          <th
+          <th *ngIf="!isSupervisorDataRequest"
             scope="col"
             (click)="sortIt('unvisited')"
             style="background: #f12e2b; color: white"
@@ -1966,7 +1966,7 @@
               {{ getArrowType("unvisited") }}
             </i>
           </th>
-          <th scope="col" (click)="sortIt('completed_percent')">
+          <th *ngIf="!isSupervisorDataRequest" scope="col" (click)="sortIt('completed_percent')">
             Productivity <strong>%</strong>
             <br />
             <i class="material-icons arrow">
@@ -1992,7 +1992,7 @@
               {{ item.merchandiser_name }}
             </td>
 
-            <td>{{ item.planned }}</td>
+            <td *ngIf="!isSupervisorDataRequest">{{ item.planned }}</td>
             <td class="a-link" *ngIf="item.completed != 0" title="Completed">
               <a
                 class="a-link"
@@ -2043,8 +2043,8 @@
               {{ item.unsuccessful }}
             </td>
 
-            <td>{{ item.unvisited }}</td>
-            <td>{{ getPercentage(item.completed_percent) }}</td>
+            <td *ngIf="!isSupervisorDataRequest">{{ item.unvisited }}</td>
+            <td *ngIf="!isSupervisorDataRequest">{{ getPercentage(item.completed_percent) }}</td>
             <td>{{ getPercentage(item.successful_percent) }}</td>
           </tr>
         </ng-container>
@@ -2055,7 +2055,7 @@
 
 <div
   class="row"
-  *ngIf="loading && router.url === '/dashboard/productivity_report'"
+  *ngIf="loading && (router.url === '/dashboard/productivity_report' || isSupervisorDataRequest)"
 >
   <div class="col-md-12 text-center">
     <div class="img-center">

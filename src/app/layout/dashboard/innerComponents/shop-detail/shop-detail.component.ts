@@ -58,7 +58,8 @@ export class ShopDetailComponent implements OnInit {
         startDate: o.startDate,
         endDate: o.endDate,
         merchandiserId: id,
-        remarksId: this.remarksId
+        remarksId: this.remarksId,
+        type: o.type,
         // cityId: o.cityId || -1,
         // distributionId:o.selectedDitribution.id ||-1,
         // storeType:o.selectedStoreType || null,

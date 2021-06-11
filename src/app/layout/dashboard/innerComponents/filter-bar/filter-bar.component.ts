@@ -121,6 +121,8 @@ export class FilterBarComponent implements OnInit {
   isRegionFilterEnabled = false;
   clusterList: any = [];
   selectedCluster: any = {};
+  isSupervisorDataRequest=false;
+  surveyorType='Merchandiser';
 
   clusterId: any;
 
@@ -165,8 +167,13 @@ export class FilterBarComponent implements OnInit {
     this.impactTypeList = this.dataService.getImpactType();
     if (
       this.router.url === "/dashboard/productivity_report" ||
+      this.router.url==="/dashboard/supervisor_productivity" ||
       this.router.url === "/dashboard/merchandiser_attendance"
     ) {
+      if(this.router.url==="/dashboard/supervisor_productivity"){
+        this.isSupervisorDataRequest=true;
+        this.surveyorType='Supervisor';
+      }
       this.getTabsData();
     }
 
@@ -1563,10 +1570,11 @@ export class FilterBarComponent implements OnInit {
       distributionId: this.selectedDistribution.id || -1,
       storeType: this.selectedStoreType || null,
       channelId: -1,
+      type: !this.isSupervisorDataRequest? 1:2,
     };
     localStorage.setItem("obj", JSON.stringify(obj));
     this.getTableData(obj);
-
+    if(!this.isSupervisorDataRequest){
     this.httpService.getDashboardData(obj).subscribe(
       (data) => {
         // console.log(data, 'home data');
@@ -1575,16 +1583,14 @@ export class FilterBarComponent implements OnInit {
         if (res) {
           this.tabsData = data;
         }
-        this.loading = false;
-        // if (res.planned == 0)
-        //   this.toastr.info('No data available for current selection', 'Summary')
       },
       (error) => {
         this.clearLoading();
-
         console.log(error, "home error");
       }
     );
+  }
+  this.loadingData=false;
   }
   getTableData(obj) {
     this.httpService.merchandiserShopListCBL(obj).subscribe(
@@ -1606,7 +1612,6 @@ export class FilterBarComponent implements OnInit {
       }
     );
   }
-
   // getMerchandiserDetailPage(id){
   //   this.router.navigate
   // }
