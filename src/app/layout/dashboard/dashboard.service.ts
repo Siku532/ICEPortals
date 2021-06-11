@@ -138,9 +138,9 @@ export class DashboardService {
   }
 
   merchandiserShopListCBL(obj) {
-    const body = `clusterId=${obj.clusterId}&zoneId=${obj.zoneId}&regionId=${obj.regionId}&endDate=${obj.endDate}&startDate=${obj.startDate}&distributionId=${obj.distributionId}&cityId=${obj.cityId}&storeType=${obj.storeType}&channelId=${obj.channelId}`;
+    const urlEncode = this.UrlEncodeMaker(obj);
     const url = this.ip + "merchandiserShopListCBL";
-    return this.http.post(url, body, this.httpOptions);
+    return this.http.post(url, urlEncode, this.httpOptions);
     // .pipe(
     //   timeout(60000),
     //   catchError(e => {
@@ -192,8 +192,8 @@ export class DashboardService {
   }
 
 
-  getChillerList() {
-    const filter = JSON.stringify({ act: 20 });
+  getChillerList(channelId) {
+    const filter = JSON.stringify({ act: 20, channelId: channelId });
     const url = this.ip + "loadFilters";
     return this.http.post(url, filter);
   }
@@ -525,5 +525,24 @@ export class DashboardService {
     const urlEncode = this.UrlEncodeMaker(obj);
     const url = this.ip + "get_desired_sos";
     return this.http.post(url,urlEncode, this.httpOptions);
+  }
+  getChillerProductList(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);             // ---------> ChillerProductListMapController
+    const url = this.ip + "chillerProductList";
+    return this.http.post(url,urlEncode, this.httpOptions);
+  }
+
+  updateChillerProductList(obj) {
+    const url = this.ip + "updateChillerProductData";     //----------> UpdateChillerProductStatus
+    return this.http.post(url,obj);
+  }
+  insertChiller(obj) {
+    const url = this.ip + "insertChiller"; // -----------> CreateChillerController
+    return this.http.post(url, obj);
+  }
+  getUniqueChillerProductList() {
+    const filter = JSON.stringify({ act: 23});
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, filter);
   }
 }

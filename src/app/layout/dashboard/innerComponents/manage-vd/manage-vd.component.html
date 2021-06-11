@@ -1,0 +1,201 @@
+<mat-card class="mb-20">
+  <mat-card-content>
+    <mat-card-title>
+      Manage VD
+      <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+    </mat-card-title>
+    <section>
+      <mat-form-field
+      *ngIf="channelList.length > 0"
+      class="example-margin mr-10-IMP"
+    >
+      <mat-select
+        placeholder="Select Channel"
+        name="channel"
+        [(ngModel)]="selectedChannel"
+        (ngModelChange)="getChillerList()"
+      >
+      <ng-container *ngFor="let channel of channelList">
+        <mat-option [value]="channel">{{
+          channel.title
+        }}</mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field
+    *ngIf="chillerList.length > 0"
+    class="example-margin mr-10-IMP"
+  >
+    <mat-select
+      placeholder="VD Type"
+      name="chiller"
+      [(ngModel)]="selectedChiller"
+      (ngModelChange)="getChillerProductList()"
+    >
+      <mat-option [value]="chiller" *ngFor="let chiller of chillerList">{{
+        chiller.title
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field *ngIf="tmpProductList.length>0" class="example-margin mr-10-IMP">
+    <mat-select
+      placeholder="Products"
+      name="products"
+      [(ngModel)]="selectedProduct"
+      (ngModelChange)="getChillerProductList()"
+    >
+      <ngx-mat-select-search
+        [placeholderLabel]="'Find Product...'"
+        [noEntriesFoundLabel]="'No Matching Product Found'"
+        [(ngModel)]="selectedKeyword"
+        (ngModelChange)="filterItem(selectedKeyword)"
+      ></ngx-mat-select-search>
+      <mat-option [value]="-1">All</mat-option>
+      <mat-option [value]="product" *ngFor="let product of filteredProducts">{{
+        product.product_title
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button class=" example-margin mr-10-IMP" mat-raised-button color="primary"
+  title="Create New VD"
+   (click)="showInsertModal()" *ngIf="selectedChannel.id">
+    <mat-icon>add</mat-icon>
+    </button>
+    </section>
+</mat-card-content>
+</mat-card>
+
+
+
+
+<mat-card *ngIf="chillerProductList.length > 0">
+  <mat-card-content>
+    <button [disabled]="updatedProductList.length==0 || loading"
+    class="btn btn-primary btn-fixed"
+    title="Click to Apply changes" (click)="updateChillerData()">
+    Update ({{updatedProductList.length}})
+    <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
+  </button>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Product Title</th>
+          <th scope="col">Active</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of chillerProductList; let i = index">
+          <th scope="col">{{ i + 1 }}</th>
+          <td>{{ product?.product_title }}</td>
+          <td><input type="checkbox" class="myinput large" [checked]="product.active=='Y'"
+            data-toggle="toggle" data-onstyle="light" (change)="changeProductStatus(checked1,product)" #checked1>
+        </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+  </mat-card>
+
+
+  <div
+  bsModal
+  #insertModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">
+          Create VD
+          <i [ngClass]="{ 'fa fa-cog fa-spin': loadingModalButton }"></i>
+        </h4>
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="hideInsertModal()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="form" enctype="multipart/form-data">
+        <div class="modal-body">
+          <div class="form-group">
+          </div> 
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              formControlName="title"
+            />
+            <div
+            *ngIf="
+              form.controls.title.errors &&
+              (form.controls.title.touched || form.controls.title.dirty)
+            "
+          >
+            <mat-error
+              *ngIf="form.hasError('required', 'title')"
+              class="invalid-feedback"
+            >
+              Valid title is required.
+            </mat-error>
+          </div>
+          </div>
+        
+            <div class="form-group">
+              <label for="channel">Channel</label>
+  
+              <select
+                formControlName="channelId"
+                class="form-control"
+                placeholder="Select Channel"
+                name="channelId"
+              >
+                <ng-container *ngFor="let channel of channelList">
+                  <option [value]="channel.id">
+                    {{ channel.title }}
+                  </option>
+                </ng-container>
+              </select>
+              <div
+                *ngIf="
+                  form.controls.channelId.errors &&
+                  (form.controls.channelId.touched || form.controls.channelId.dirty)
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'channelId')"
+                  class="invalid-feedback"
+                >
+                Channel Selection is Mandatory.
+                </mat-error>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            (click)="insertData(form.value)"
+            class="mr-1"
+            [disabled]="!form.valid || loadingModalButton"
+            mat-raised-button
+            color="primary"
+          >
+            <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingModalButton }"></i>
+            Create VD
+          </button>
+          <button [disabled]="loadingModalButton" (click)="hideInsertModal()">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

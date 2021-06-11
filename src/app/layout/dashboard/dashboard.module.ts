@@ -97,6 +97,7 @@ import { VdReportComponent } from './innerComponents/vd-report/vd-report.compone
 import { MerchandiserRosterComponent } from './innerComponents/merchandiser-roster/merchandiser-roster.component';
 import { UploadDesiredSosComponent } from './innerComponents/upload-desired-sos/upload-desired-sos.component';
 import { ShopWiseRoutesComponent } from './innerComponents/shop-wise-routes/shop-wise-routes.component';
+import { ManageVdComponent } from './innerComponents/manage-vd/manage-vd.component';
 
 @NgModule({
   imports: [
@@ -195,7 +196,8 @@ import { ShopWiseRoutesComponent } from './innerComponents/shop-wise-routes/shop
     VdReportComponent,
     MerchandiserRosterComponent,
     UploadDesiredSosComponent,
-    ShopWiseRoutesComponent
+    ShopWiseRoutesComponent,
+    ManageVdComponent
   ],
 })
 export class DashboardModule {}
