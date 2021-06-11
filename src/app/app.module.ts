@@ -22,6 +22,11 @@ import {
   HashLocationStrategy,
   KeyValuePipe,
 } from "@angular/common";
+import { AgmCoreModule } from '@agm/core';
+import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
+import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
+import { config } from 'src/assets/config';
+
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
@@ -56,6 +61,13 @@ export const createTranslateLoader = (http: HttpClient) => {
       countDuplicates: true,
       autoDismiss: true,
     }),
+    AgmCoreModule.forRoot({
+      apiKey: config.API_KEY,
+      libraries: ['places', 'geometry']
+    }),
+    AgmSnazzyInfoWindowModule,
+    AgmJsMarkerClustererModule,
+
   ],
 
   exports: [],

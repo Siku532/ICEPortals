@@ -44,6 +44,8 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("regionId", res.user.regionIds);
         localStorage.setItem("zoneId", res.user.zoneIds);
         localStorage.setItem("clusterId", res.user.clusterIds);
+        localStorage.setItem('u_surveyor_id', res.user.surveyorId);
+
 
         localStorage.setItem(
           "clusterName",
