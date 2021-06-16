@@ -5,9 +5,8 @@ import {
   Input,
   ViewChild,
 } from "@angular/core";
-import { DashboardService } from "../../dashboard.service";
-import { DashboardDataService } from "../../dashboard-data.service";
-import * as moment from "moment";
+import { DashboardService } from "../../../dashboard.service";
+import { DashboardDataService } from "../../../dashboard-data.service";
 import { Router } from "@angular/router";
 import {
   FormGroup,
@@ -16,10 +15,7 @@ import {
   FormBuilder,
 } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
-import { environment } from "src/environments/environment";
-import { NgModel } from "@angular/forms";
 import { ModalDirective } from "ngx-bootstrap";
-import { config } from "src/assets/config";
 
 @Component({
   selector: 'app-manage-vd',
@@ -33,29 +29,31 @@ export class ManageVdComponent implements OnInit {
   selectedChannel:any={};
 
   chillerProductList:any=[];
-  updatedProductList:any=[];
-  filteredProducts:any=[];
-  selectedKeyword='';
-  selectedProduct:any={};
-  tmpProductList:any=[];
 
   loadingData:boolean;
   loading: boolean;
   loadingModalButton: boolean;
 
-  @ViewChild("insertModal") insertModal: ModalDirective;
+  isUpdateRequest:boolean;
+  operationType='';
+  ip="http://nflm.rtdtradetracker.com";
+
+planogramList:any=[];
+
+  @ViewChild("childModal") childModal: ModalDirective;
 
   form: FormGroup;
 
   constructor( private toastr: ToastrService,
     private httpService: DashboardService,
     public router: Router,
-    private dataService: DashboardDataService,
     public formBuilder: FormBuilder) { 
     this.channelList=JSON.parse(localStorage.getItem('channelList'));
     this.form = formBuilder.group({
+      id: new FormControl(""),
       title: new FormControl("", [Validators.required]),
       channelId: new FormControl("", [Validators.required]),
+      codeVerification: new FormControl("", [Validators.required])
     });
   }
 
@@ -69,30 +67,13 @@ export class ManageVdComponent implements OnInit {
       (data) => {
         if (data) {
           this.chillerList = data;
-        }
-        this.loadingData=false;
-      },
-      (error) => {
-        error.status === 0
-          ? this.toastr.error("Please check Internet Connection", "Error")
-          : this.toastr.error(error.description, "Error");
-      }
-    );
-  }
-
-  getChillerProductList() {
-    this.loadingData=true;
-    const obj={
-      chillerId: this.selectedChiller.id,
-      productId:this.selectedProduct.product_id || -1
-    }
-    this.httpService.getChillerProductList(obj).subscribe(
-      (data) => {
-        if (data) {
-          this.chillerProductList = data;
-          if(this.tmpProductList.length==0){
-            this.filteredProducts=this.chillerProductList;
-            this.tmpProductList=this.chillerProductList;
+          const i = this.chillerList.findIndex((p) => p.id == this.selectedChiller.id);
+          if(i>-1){
+            this.selectedChiller=this.chillerList[i];
+          }
+          else{
+            this.selectedChiller={};   
+            this.chillerProductList=[];
           }
         }
         this.loadingData=false;
@@ -105,70 +86,89 @@ export class ManageVdComponent implements OnInit {
     );
   }
 
-  changeProductStatus(event, item) {
+  getChillerProductList(productId) {
+    this.loadingData=true;
     const obj={
-      productMapId: item.product_type_map_id,
-      active: event.checked? 'Y': 'N',
+      chillerId: this.selectedChiller.id,
+      productId:productId
+    }
+    this.httpService.getChillerProductList(obj).subscribe(
+      (data:any) => {
+        if (data) {
+          this.chillerProductList = data;
+        }
+        this.loadingData=false;
+      },
+      (error) => {
+        error.status === 0
+          ? this.toastr.error("Please check Internet Connection", "Error")
+          : this.toastr.error(error.description, "Error");
+      }
+    );
+  }
+
+
+
+  getChillerPlanogramList(productId) {
+    this.loadingData=true;
+    const obj={
       chillerId: this.selectedChiller.id
     }
-    const i = this.updatedProductList.findIndex((p) => p.productMapId == item.product_type_map_id);
-    if(i>-1){
-      this.updatedProductList.splice(i,1, obj);
-    }
-    else{
-      this.updatedProductList.push(obj);
-    }
-    console.log(this.updatedProductList)
-}
-
-updateChillerData() {
-  this.loading=true;
-  const obj={
-    productList: this.updatedProductList,
+    this.httpService.getChillerPlanogramList(obj).subscribe(
+      (data:any) => {
+        if (data) {
+          this.planogramList=data;
+        }
+        this.loadingData=false;
+      },
+      (error) => {
+        error.status === 0
+          ? this.toastr.error("Please check Internet Connection", "Error")
+          : this.toastr.error(error.description, "Error");
+      }
+    );
   }
-  this.httpService.updateChillerProductList(obj).subscribe(
-    (data:any) => {
-      if (data.success) {
-        this.toastr.success('Product Updated Successfully');
-        this.updatedProductList=[];
-      }
-      else
-      {
-        this.toastr.error('There was an error updating the product');
-      }
-      this.loading=false;
-    },
-    (error) => {
-      error.status === 0
-        ? this.toastr.error("Please check Internet Connection", "Error")
-        : this.toastr.error(error.description, "Error");
-    }
-  );
-}
 
-hideInsertModal(){
+
+hideChildModal(){
     this.form.reset();
-    this.insertModal.hide();
+    this.childModal.hide();
 }
 
 showInsertModal(){
+  this.isUpdateRequest=false;
+  this.operationType="Create";
   this.form.patchValue({
+    id:-1,
     channelId: this.selectedChannel.id
   });
-  this.insertModal.show();
+  this.childModal.show();
+}
+
+showUpdateModal(){
+this.operationType="Update";
+this.isUpdateRequest=true
+this.form.patchValue({
+  id: this.selectedChiller.id,
+  title: this.selectedChiller.title,
+  codeVerification: this.selectedChiller.codeVerification,
+  channelId: this.selectedChannel.id
+});
+this.childModal.show();
 }
 
 insertData(data) {
   this.loadingModalButton = true;
   const formData = new FormData();
   formData.append("formData", JSON.stringify(data));
-  this.httpService.insertChiller(formData).subscribe((data: any) => {
+  const url=this.isUpdateRequest? "update-chiller": "insertChiller";
+  this.httpService.insertChiller(formData, url).subscribe((data: any) => {
     if (data.success == "true") {
       this.toastr.success(data.message);
       if(this.selectedChannel.id){
       this.getChillerList();
       }
-      this.hideInsertModal();
+      this.hideChildModal();
     } else {
       this.toastr.error(data.message, "Error");
     }
@@ -176,15 +176,4 @@ insertData(data) {
   });
 }
 
-filterItem(value){
-  if(value){
-    value=value.toLowerCase();
-  }
-  if(value=='All'){
-    this.filteredProducts=this.tmpProductList;
-  }
-   this.filteredProducts = Object.assign([], this.tmpProductList).filter(
-      item => item.product_title.toLowerCase().indexOf(value.toLowerCase()) > -1
-   )
-}
 }

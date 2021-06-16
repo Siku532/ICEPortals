@@ -1,0 +1,49 @@
+<mat-card *ngIf="chillerProductList.length > 0">
+  <mat-card-content>
+    <div>
+      <button [disabled]="updatedProductList.length==0 || loading"
+      class="btn btn-primary product-attr"
+      title="Click to Apply changes" (click)="updateChillerData()">
+      Apply ({{updatedProductList.length}})
+      <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
+    </button>
+    <mat-form-field *ngIf="tmpProductList?.length>0" class="product-attr">
+      <mat-select
+        placeholder="Search Products"
+        name="products"
+        [(ngModel)]="selectedProduct"
+        (ngModelChange)="emitChange()"
+      >
+        <ngx-mat-select-search
+          [placeholderLabel]="'Find Product...'"
+          [noEntriesFoundLabel]="'No Matching Product Found'"
+          [(ngModel)]="selectedKeyword"
+          (ngModelChange)="filterItem(selectedKeyword)"
+        ></ngx-mat-select-search>
+        <mat-option [value]="-1">All</mat-option>
+        <mat-option [value]="product" *ngFor="let product of filteredProducts">{{
+          product.product_title
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Product Title</th>
+          <th scope="col">Active</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of chillerProductList; let i = index">
+          <th scope="col">{{ i + 1 }}</th>
+          <td>{{ product?.product_title }}</td>
+          <td><input type="checkbox" class="myinput large" [checked]="product.active=='Y'"
+            data-toggle="toggle" data-onstyle="light" (change)="changeProductStatus(checked1,product)" #checked1>
+        </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+  </mat-card>

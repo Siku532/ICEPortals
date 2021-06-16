@@ -532,17 +532,27 @@ export class DashboardService {
     return this.http.post(url,urlEncode, this.httpOptions);
   }
 
+
   updateChillerProductList(obj) {
     const url = this.ip + "updateChillerProductData";     //----------> UpdateChillerProductStatus
     return this.http.post(url,obj);
   }
-  insertChiller(obj) {
-    const url = this.ip + "insertChiller"; // -----------> CreateChillerController
+  insertChiller(obj, urlMapping) {
+    const url = this.ip + urlMapping; // -----------> CreateChillerController || UpdateChillerController
     return this.http.post(url, obj);
   }
   getUniqueChillerProductList() {
     const filter = JSON.stringify({ act: 23});
     const url = this.ip + "loadFilters";
     return this.http.post(url, filter);
+  }
+  updateChillerPlanograms(obj) {
+    const url = this.ip + "updateChillerPlanogram";     //----------> UpdateChillerPlanogramController
+    return this.http.post(url,obj);
+  }
+  getChillerPlanogramList(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);             // ---------> ChillerPlanogramListController
+    const url = this.ip + "chillerPlanogramList";
+    return this.http.post(url,urlEncode, this.httpOptions);
   }
 }

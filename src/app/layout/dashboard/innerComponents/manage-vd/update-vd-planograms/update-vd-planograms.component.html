@@ -1,0 +1,33 @@
+
+<div class="row">
+  <div class="col-md-12 text-right">
+  <button [disabled]="updatedPlanogramList.length==0 || loading"
+  (click)="updateChillerPlanograms()"
+  class="btn btn-primary product-attr"
+  title="Click to Apply changes">
+  Apply ({{updatedPlanogramList.length}})
+  <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
+</button>
+<!-- <button 
+  class="btn btn-primary product-attr"
+  title="Click to Apply changes">
+  Upload
+  <i [ngClass]="{ 'fa fa-spinner fa-spin': loading }"></i>
+</button> -->
+</div>
+</div>
+<div class="row justify-content-center">
+  <ng-container *ngFor="let img of planogramList">
+      <div class="col-md-4 text-center">
+          <label class="title" for="title">
+            <input  type="checkbox" [checked]="img.active=='Y'"
+            (change)="assignPlanograms(checked1,img)"
+          data-toggle="toggle" data-onstyle="light" #checked1
+          >
+            {{img.image.title}}
+          </label>
+          <img  src="{{ip}}{{img.image.url}}" class="img-thumbnail img-item">
+      </div>
+  </ng-container>
+
+</div>

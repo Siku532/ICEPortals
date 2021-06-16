@@ -1,0 +1,43 @@
+.myinput.large {
+    height: 22px;
+    width: 22px;
+  }
+  
+  .myinput.large[type="checkbox"]:before {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .myinput.large[type="checkbox"]:after {
+    top: -20px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .product-attr
+  {  width: 20%; 
+     margin-right: 10px; 
+     display: inline-block;
+ }
+
+  .mr-10-IMP {
+    margin-right: 1% !important;
+  }
+  .img-item {
+    height: 350px !important;
+    width: 350px !important;
+}
+
+.title {
+    background: lightgreen;
+    color: black;
+    margin-bottom: 0;
+    width: 300px;
+}
+
+
+.btn-right{ 
+  max-width: 200px !important; 
+  float: right; 
+  margin: 20px; 
+}

@@ -97,7 +97,10 @@ import { VdReportComponent } from './innerComponents/vd-report/vd-report.compone
 import { MerchandiserRosterComponent } from './innerComponents/merchandiser-roster/merchandiser-roster.component';
 import { UploadDesiredSosComponent } from './innerComponents/upload-desired-sos/upload-desired-sos.component';
 import { ShopWiseRoutesComponent } from './innerComponents/shop-wise-routes/shop-wise-routes.component';
-import { ManageVdComponent } from './innerComponents/manage-vd/manage-vd.component';
+import { ManageVdComponent } from './innerComponents/manage-vd/manage-vd/manage-vd.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { UpdateVdProductComponent } from './innerComponents/manage-vd/update-vd-product/update-vd-product.component';
+import { UpdateVdPlanogramsComponent } from './innerComponents/manage-vd/update-vd-planograms/update-vd-planograms.component';
 
 @NgModule({
   imports: [
@@ -131,7 +134,8 @@ import { ManageVdComponent } from './innerComponents/manage-vd/manage-vd.compone
     ReactiveFormsModule,
     AccordionModule,
     MatExpansionModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    MatTabsModule
   ],
   declarations: [
     DashboardComponent,
@@ -197,7 +201,9 @@ import { ManageVdComponent } from './innerComponents/manage-vd/manage-vd.compone
     MerchandiserRosterComponent,
     UploadDesiredSosComponent,
     ShopWiseRoutesComponent,
-    ManageVdComponent
+    ManageVdComponent,
+    UpdateVdProductComponent,
+    UpdateVdPlanogramsComponent
   ],
 })
 export class DashboardModule {}
