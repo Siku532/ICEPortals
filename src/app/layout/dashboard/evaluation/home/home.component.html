@@ -1,4 +1,12 @@
+
 <div>
+  <div style="text-align: end" *ngIf="data?.section">
+  <button class="btn btn-primary" title="Export AS PDF" (click)="downloadPDF()" [disabled]="loadingDownload">
+    <i class="fa fa-spinner fa-spin" *ngIf="loadingDownload"></i>
+    <i class="fa fa-download" *ngIf="!loadingDownload"></i>
+  </button>
+    </div>
+
   <div class="row">
     <div class="col-md-12" style="margin: 20% 40%" *ngIf="!data.section">
       <img src="assets/images/basicloader.gif" alt="" srcset="" />
@@ -45,6 +53,7 @@
                 [data]="sec"
                 [isEditable]="isEditable"
                 (showModal)="showChildModal($event)"
+                (downloadPdf)="downloadPDF()"
               ></section-two-view>
             </ng-container>
             <ng-container *ngIf="sec?.imageViewType === 2">

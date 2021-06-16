@@ -87,35 +87,3 @@
         </div>
     </ng-container>
 </div> -->
-
-<div
-  bsModal
-  #childModal="bs-modal"
-  class="modal fade"
-  tabindex="-1 "
-  role="dialog "
-  aria-labelledby="dialog-child-name "
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 id="dialog-child-name " class="modal-title pull-left">
-          {{ selectedShop.title }}
-        </h4>
-        <button
-          type="button "
-          class="close pull-right"
-          aria-label="Close "
-          (click)="hideChildModal()"
-        >
-          <span aria-hidden="true ">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" style="padding: 10px">
-        <img src="{{ip}}{{selectedShop.url}} " alt=" " srcset=" " *ngIf="!selectedShop.isExternalUrl">
-        <img src="{{selectedShop.url}} " alt=" " srcset=" " *ngIf="selectedShop.isExternalUrl">
-      </div>
-    </div>
-  </div>
-</div>
-<!-- </ng-container> -->

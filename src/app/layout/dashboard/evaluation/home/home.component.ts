@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef,  EventEmitter } from "@angular/core";
 import { EvaluationService } from "../evaluation.service";
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -7,6 +7,9 @@ import { ModalDirective } from "ngx-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { ResizeEvent } from "angular-resizable-element";
 import { config } from "src/assets/config";
+import jspdf from 'jspdf';
+import domtoimage from 'dom-to-image';
+
 
 @Component({
   selector: "app-home",
@@ -18,8 +21,9 @@ export class HomeComponent implements OnInit {
   // ip = environment.ip;
   configFile = config;
 
-  ip: any = this.configFile.ip;
+  ip: any = "http://nflm.rtdtradetracker.com/";
   loading = false;
+  loadingDownload=false;
   selectedShop: any = {};
 
   @ViewChild("childModal") childModal: ModalDirective;
@@ -741,4 +745,50 @@ export class HomeComponent implements OnInit {
 checkUser(data){
   return data.evaluatorId==localStorage.getItem('user_id') ? true: false;
 }
+
+downloadPDF()
+{
+  this.loadingDownload=true;
+  const that=this;
+  var node = document.getElementById('style-2');
+  var img;
+  var filename;
+  var newImage;
+  domtoimage.toPng(node, { width: node.scrollWidth, height: node.scrollHeight, bgcolor: '#fff' })
+    .then(function(dataUrl) {
+      img = new Image();
+      img.src = dataUrl;
+      newImage = img.src;
+      img.onload = function(){
+      var pdfWidth = img.width;
+      var pdfHeight = img.height;
+        var doc;
+
+        if(pdfWidth > pdfHeight)
+        {
+          doc = new jspdf('l', 'px', [pdfWidth , pdfHeight]);
+        }
+        else
+        {
+          doc = new jspdf('p', 'px', [pdfWidth , pdfHeight]);
+        }
+
+
+        var width = doc.internal.pageSize.getWidth();
+        var height = doc.internal.pageSize.getHeight();
+        doc.addImage(newImage, 'PNG',  10, 10, width, height);
+        filename = that.surveyDetails.shopTitle + '.pdf';
+        doc.save(filename);
+        that.loadingDownload=false;
+      };
+    }
+    )
+    .catch(function(error) {
+      console.log(error);
+      that.loadingDownload=false;
+    });
+
+}
+
+
 }
