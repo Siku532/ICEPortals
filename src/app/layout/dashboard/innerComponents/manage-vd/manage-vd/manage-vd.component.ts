@@ -1,13 +1,11 @@
 import {
   Component,
   OnInit,
-  AfterViewChecked,
-  Input,
   ViewChild,
 } from "@angular/core";
 import { DashboardService } from "../../../dashboard.service";
-import { DashboardDataService } from "../../../dashboard-data.service";
 import { Router } from "@angular/router";
+import { config } from 'src/assets/config';
 import {
   FormGroup,
   FormControl,
@@ -29,6 +27,7 @@ export class ManageVdComponent implements OnInit {
   selectedChannel:any={};
 
   chillerProductList:any=[];
+  codeVerification:any=['Y', 'N'];
 
   loadingData:boolean;
   loading: boolean;
@@ -36,13 +35,16 @@ export class ManageVdComponent implements OnInit {
 
   isUpdateRequest:boolean;
   operationType='';
-  ip="http://nflm.rtdtradetracker.com";
+  ip=config.ip;
 
-planogramList:any=[];
+ planogramList:any=[];
+ public image: any = File;
 
   @ViewChild("childModal") childModal: ModalDirective;
+  @ViewChild("uploadModal") uploadModal: ModalDirective;
 
   form: FormGroup;
+  uploadForm: FormGroup;
 
   constructor( private toastr: ToastrService,
     private httpService: DashboardService,
@@ -54,6 +56,12 @@ planogramList:any=[];
       title: new FormControl("", [Validators.required]),
       channelId: new FormControl("", [Validators.required]),
       codeVerification: new FormControl("", [Validators.required])
+    });
+    this.uploadForm = formBuilder.group({
+      title: new FormControl("", [Validators.required]),
+      type:'Chiller_Verification',
+      path: new FormControl("", [Validators.required]),
+      chillerId: new FormControl("", [Validators.required]) 
     });
   }
 
@@ -152,9 +160,21 @@ this.form.patchValue({
   id: this.selectedChiller.id,
   title: this.selectedChiller.title,
   codeVerification: this.selectedChiller.codeVerification,
-  channelId: this.selectedChannel.id
+  channelId: this.selectedChannel.id,
 });
 this.childModal.show();
+}
+
+showUploadModal(){
+  this.uploadForm.patchValue({
+    chillerId: this.selectedChiller.id,
+    type:'Chiller_Verification',
+  });
+this.uploadModal.show();
+}
+hideUploadModal(){
+  this.uploadForm.reset();
+  this.uploadModal.hide();
 }
 
 insertData(data) {
@@ -175,5 +195,42 @@ insertData(data) {
     this.loadingModalButton = false;
   });
 }
+onSelectFile(event) {
+  if (event.target.files && event.target.files[0]) {
+    this.image = <File>event.target.files[0];
+    const file = event.target.files[0];
+    this.image = file;
+    const reader = new FileReader();
+    reader.readAsDataURL(this.image);
+    reader.onload = (_event) => {};
+  }
+}
+uploadPlanogram(post){
+  this.loadingModalButton=true;
+  const formData = new FormData();
+  formData.append("planogramData", JSON.stringify(post));
+  formData.append("path", this.image);
+  this.httpService.insertChillerPlanogram(formData).subscribe((data: any) => {
+    if (data.success == "true") {
+      this.toastr.success(data.message);
+      if(this.planogramList.length>0){
+        const obj={
+          id: data.id,
+          title:post.title,
+          type:post.type,
+          path: data.path,
+          chillerId: post.chillerId,
+          active: 'Y'
+        }
+        this.planogramList.push(obj);
+      }
+      this.hideUploadModal();
+    } else {
+      this.toastr.error(data.message, "Error");
+    }
+    this.loadingModalButton = false;
+  });
+}
+
 
 }

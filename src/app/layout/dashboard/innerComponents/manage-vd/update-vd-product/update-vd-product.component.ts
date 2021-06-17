@@ -1,14 +1,13 @@
 import {
   Component,
   OnInit,
-  AfterViewChecked,
   Input,
-  ViewChild,
   Output, EventEmitter
 } from "@angular/core";
 import { DashboardService } from "../../../dashboard.service";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { config } from 'src/assets/config';
 
 @Component({
   selector: 'app-update-vd-product',
@@ -28,7 +27,7 @@ export class UpdateVdProductComponent implements OnInit {
   loading: boolean;
   @Output('productChange') productChange: any = new EventEmitter<any>();
 
-  ip="http://nflm.rtdtradetracker.com";
+  ip=config.ip;
 
 
   constructor( private toastr: ToastrService,

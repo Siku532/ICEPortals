@@ -555,4 +555,8 @@ export class DashboardService {
     const url = this.ip + "chillerPlanogramList";
     return this.http.post(url,urlEncode, this.httpOptions);
   }
+  insertChillerPlanogram(obj) {
+    const url = this.ip + 'insert-chiller-planogram'; // -----------> InsertChillerPlanogramController
+    return this.http.post(url, obj);
+  }
 }

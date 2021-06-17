@@ -1,7 +1,7 @@
 <mat-card class="mb-20">
   <mat-card-content>
     <mat-card-title>
-      Manage VD
+      Manage VD 
       <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
     </mat-card-title>
     <section>
@@ -40,7 +40,7 @@
     <button class=" example-margin mr-10-IMP" mat-raised-button color="primary"
     title="Update VD"
      (click)="showUpdateModal()" *ngIf="chillerList.length>0 && selectedChiller.id">
-       Update
+       Update VD
       <mat-icon>edit</mat-icon>
       </button>
     </section>
@@ -48,9 +48,16 @@
       <button class=" example-margin mr-10-IMP" mat-raised-button color="primary"
       title="Create VD"
        (click)="showInsertModal()" *ngIf="selectedChannel.id">
-         Add
+         Add New VD
         <mat-icon>add</mat-icon>
         </button>
+        <button class=" example-margin mr-10-IMP" mat-raised-button color="primary"
+        *ngIf="selectedChiller.id"
+        title="Add New Planogram"
+         (click)="showUploadModal();">
+          Upload Planogram
+          <mat-icon>cloud_upload</mat-icon>
+          </button>
     </section>
 </mat-card-content>
 </mat-card>
@@ -95,8 +102,6 @@
       </div>
       <form [formGroup]="form" enctype="multipart/form-data">
         <div class="modal-body">
-          <div class="form-group">
-          </div> 
           <div class="form-group">
             <input type="hidden" formControlName="id" />
           </div> 
@@ -205,6 +210,127 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+</div>
+
+
+<div
+  bsModal
+  #uploadModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">Upload Planogram</h4>
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="hideUploadModal()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form [formGroup]="uploadForm" enctype="multipart/form-data">
+        <div class="modal-body">
+         
+          <div class="form-group">
+            <label for="title">Planogram Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              formControlName="title"
+            />
+            <div
+            *ngIf="
+            uploadForm.controls.title.errors &&
+              (uploadForm.controls.title.touched || uploadForm.controls.title.dirty)
+            "
+          >
+            <mat-error
+              *ngIf="uploadForm.hasError('required', 'title')"
+              class="invalid-feedback"
+            >
+              Valid Planogram Name is required.
+            </mat-error>
+          </div>
+          </div>
+          <div class="form-group">
+            <label for="chiller">Select VD</label>
+
+            <select
+              formControlName="chillerId"
+              class="form-control"
+              placeholder="Select VD"
+              name="chillerId"
+            >
+              <ng-container *ngFor="let chiller of chillerList">
+                <option [value]="chiller.id">
+                  {{ chiller.title }}
+                </option>
+              </ng-container>
+            </select>
+            <div
+              *ngIf="
+              uploadForm.controls.chillerId.errors &&
+                (uploadForm.controls.chillerId.touched || uploadForm.controls.chillerId.dirty)
+              "
+            >
+              <mat-error
+                *ngIf="uploadForm.hasError('required', 'chillerId')"
+                class="invalid-feedback"
+              >
+              VD Selection is Mandatory.
+              </mat-error>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="image">Select Image</label>
+            <input
+              type="file"
+              id="path"
+              name="path"
+              class="form-control-file"
+              formControlName="path"
+              accept="image/*"
+              (change)="onSelectFile($event)"
+            />
+            <div
+            *ngIf="
+            uploadForm.controls.path.errors &&
+              (uploadForm.controls.path.touched || uploadForm.controls.path.dirty)
+            "
+          >
+            <mat-error
+              *ngIf="uploadForm.hasError('required', 'path')"
+              class="invalid-feedback"
+            >
+              Please select an image
+            </mat-error>
+          </div>
+          </div>
+        <div class="modal-footer">
+          <button
+            (click)="uploadPlanogram(uploadForm.value)"
+            class="mr-1"
+            [disabled]="!uploadForm.valid || loadingModalButton"
+            mat-raised-button
+            color="primary"
+          >
+            <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingModalButton }"></i>
+            Upload
+          </button>
+        </div>
+      </div>
+      </form>
+
     </div>
   </div>
 </div>

@@ -1,14 +1,12 @@
 import {
   Component,
   OnInit,
-  AfterViewChecked,
-  Input,
-  ViewChild,
-  Output, EventEmitter
+  Input
 } from "@angular/core";
 import { DashboardService } from "../../../dashboard.service";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { config } from 'src/assets/config';
 
 @Component({
   selector: 'app-update-vd-planograms',
@@ -18,7 +16,7 @@ import { ToastrService } from "ngx-toastr";
 export class UpdateVdPlanogramsComponent implements OnInit {
   @Input('planogramList') planogramList;
   @Input('selectedChiller') selectedChiller;
-  ip="http://nflm.rtdtradetracker.com";
+  ip=config.ip;
 
   loading:boolean;
   updatedPlanogramList:any=[];
