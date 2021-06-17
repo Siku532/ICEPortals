@@ -95,6 +95,7 @@ export class VoTrackingComponent implements OnInit {
     this.selectedSupervisorFilter = -1;
     this.selectedSurveyorFilter = -1;
     this.startDate=new Date();
+    this.prodata=-1
   }
   getShopsTracking() {
     
@@ -114,12 +115,13 @@ export class VoTrackingComponent implements OnInit {
         this.latitude=this.trackedShops[0].latitude;
         this.longitude=this.trackedShops[0].longitude;
         const alldata = this.trackedShops.map((id) => {
-          return id.surveyorId + ',' + id.m_code; ;
+          return id.shop_flag + ',' + id.shop_statuss ;
         
       });
 
       this.legends = new Set(alldata);
       });
+      this.getProductivityData();
     }
     else
     {
@@ -137,7 +139,7 @@ export class VoTrackingComponent implements OnInit {
         this.latitude=this.trackedShops[0].latitude;
         this.longitude=this.trackedShops[0].longitude;
         const alldata = this.trackedShops.map((id) => {
-          return id.shop_flag + ',' + id.shop_status; ;
+          return id.shop_flag + ',' + id.shop_status ;
         
       });
      
