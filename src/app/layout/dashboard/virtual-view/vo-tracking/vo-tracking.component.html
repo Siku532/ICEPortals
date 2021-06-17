@@ -1,4 +1,4 @@
-<script>angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache']);</script>
+<!--<script>angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache']);</script>-->
 <mat-card class="mb-20">
   <mat-card-content>
     <mat-card-title>
@@ -9,7 +9,7 @@
     
     
     <section class="example-section" >
-      <ng-container *ngIf="projectType !== 'NFL'">
+     
       <mat-form-field class="example-margin mr-5-IMP" >
         <mat-select placeholder="Selected Supervisor" name='Supervisor' [(ngModel)]="selectedSupervisorFilter"
                     (ngModelChange)="getSurveyourData()">
@@ -27,17 +27,8 @@
         </ng-container>
         </mat-select>
       </mat-form-field>
-    </ng-container>
-    <ng-container *ngIf="projectType === 'NFL'">
-      <mat-form-field style="margin-left: 1%;" class="example-margin mr-5-IMP" >
-        <mat-select placeholder="Selected Surveyor" name='Surveyor' [(ngModel)]="selectedSurveyorFilter">
-                    <ng-container *ngFor="let sur of supervisor">
-                    
-          <mat-option [value]="sur.id" >{{sur.fullName}}</mat-option>
-        </ng-container>
-        </mat-select>
-      </mat-form-field>
-      </ng-container>
+    
+
       <mat-form-field style="margin-left: 1%;" class="example-full-width mr-10-IMP">
         <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker0" [(ngModel)]="startDate" placeholder="Choose a date" readonly >
         <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
@@ -56,7 +47,7 @@
     <!--    </section>-->
   </mat-card-content>
 </mat-card>
- <mat-card class="mb-20" *ngIf="prodata.length > 0" class="my-3">
+ <mat-card  *ngIf="prodata.length > 0" >
    <mat-card-content >
      
      
@@ -64,11 +55,11 @@
     <thead>
       <tr>
         <th  scope="col"> 
-          <br><i class="">Planned </i></th>
+          <i class="">Planned </i></th>
         <th  scope="col">
-          <br><i class="">Captured </i></th>
+          <i class="">Captured </i></th>
         <th  scope="col">
-          <br><i class="">Abnormal </i></th>
+          <i class="">Abnormal </i></th>
       </tr>
     </thead>
     <tbody>
@@ -79,6 +70,16 @@
         <td scope="row">{{pro.AbnormalShops}}</td> 
       </tr>
     </ng-container>
+    <tr>
+      <ng-container *ngFor="let leg of legends">
+      <th  scope="col"><i class="">{{leg.split(',', 2)[1]}}</i></th>
+    </ng-container>
+    </tr>
+    <tr >
+      <ng-container *ngFor="let leg of legends">
+      <td scope="col" ><img [src]="colorType+leg.split(',',2)[0].toString().slice(-1)+'.png'"></td>
+    </ng-container>
+    </tr>
     </tbody>
   </table>
 </mat-card-content>
@@ -89,7 +90,7 @@
 
 <mat-card *ngIf="trackedShops.length > 0">
   <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-12">
       <section class="example-section">
         <agm-map [latitude]="latitude" [longitude]="longitude" [fitBounds]="trackedShops.length > 1"
                  [zoom]="6" style="height: 600px">
@@ -119,7 +120,7 @@
                   <br>
                   <strong>Remarks:</strong> {{shop.shop_status}}
                   <br>
-                  <a (click)="goToEvaluation(shop.surveyId,shop.m_code)"><strong>click for view</strong><i
+                  <a *ngIf="shop.shop_status !== 'Unvisited'" (click)="goToEvaluation(shop.surveyId,shop.m_code)"><strong>click for view</strong><i
                     class="fas fa-share-square"></i></a>
 
                 </ng-template>
@@ -134,17 +135,6 @@
     </div>
     <!-- remove legend-->
  
-  <div class="col-md-3">
-    <mat-list role="list">
-      <mat-list-item role="listitem" *ngFor="let leg of legends">
-        <!--<div class="row">{{leg.de_code}} : -->
-          {{leg.split(',', 2)[1]}} :<img [src]="colorType+leg.split(',',2)[0].toString().slice(-1)+'.png'">
-        <!--</div>-->
-      </mat-list-item>
-      <!--<mat-list-item role="listitem">Item 2</mat-list-item>
-      <mat-list-item role="listitem">Item 3</mat-list-item>-->
-    </mat-list>
-    
-  </div>
+
 </div>
 </mat-card>
