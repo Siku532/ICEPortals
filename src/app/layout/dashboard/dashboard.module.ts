@@ -101,6 +101,7 @@ import { ManageVdComponent } from './innerComponents/manage-vd/manage-vd/manage-
 import {MatTabsModule} from '@angular/material/tabs';
 import { UpdateVdProductComponent } from './innerComponents/manage-vd/update-vd-product/update-vd-product.component';
 import { UpdateVdPlanogramsComponent } from './innerComponents/manage-vd/update-vd-planograms/update-vd-planograms.component';
+import { UploadVdHurdleRatesComponent } from './innerComponents/upload-vd-hurdle-rates/upload-vd-hurdle-rates.component';
 
 @NgModule({
   imports: [
@@ -203,7 +204,8 @@ import { UpdateVdPlanogramsComponent } from './innerComponents/manage-vd/update-
     ShopWiseRoutesComponent,
     ManageVdComponent,
     UpdateVdProductComponent,
-    UpdateVdPlanogramsComponent
+    UpdateVdPlanogramsComponent,
+    UploadVdHurdleRatesComponent
   ],
 })
 export class DashboardModule {}

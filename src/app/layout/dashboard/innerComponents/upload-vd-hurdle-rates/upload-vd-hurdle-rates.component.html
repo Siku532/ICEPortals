@@ -1,0 +1,118 @@
+<mat-card class="mb-20">
+  <mat-card-content>
+    <mat-card-title>
+      Upload VD Hurdle Rate
+      <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+    </mat-card-title>
+    <section>
+      <mat-form-field
+      *ngIf="chillerList.length > 0"
+      class="example-margin mr-10-IMP"
+    >
+      <mat-select
+        placeholder="VD Type"
+        name="chiller"
+        [(ngModel)]="selectedChiller"
+      >
+        <mat-option [value]="chiller" *ngFor="let chiller of chillerList">{{
+          chiller.title
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    </section>
+ <section>
+      <button class="mr-10-IMP" [disabled]="loadingData || !selectedChiller.id" (click)="loadHurdleRate()" mat-raised-button color="primary">
+        Display</button> 
+    </section>
+
+    <section>
+      <strong> OR </strong> 
+    </section>
+    <form
+    (ngSubmit)="uploadData(form.value)"
+    [formGroup]="form"
+    enctype="multipart/form-data">
+    <section>
+    <input
+    #fileInput
+    (change)="onFileChange($event)"
+    id="avatar"
+    type="file"
+  />
+  </section>
+<section>
+  <button [disabled]="loadingUpload" type="submit" mat-raised-button color="warn">
+    <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingUpload }"></i>
+    Upload File</button>
+</section>
+</form> 
+</mat-card-content>
+</mat-card>
+<div class="example-section" style="text-align: end">
+  <button matTooltip="Download Sample File" class="hidden-sm" 
+        mat-icon-button [matMenuTriggerFor]="profile" [disabled]="hurdleRateList.length==0">
+          <i class="material-icons">
+                  cloud_download
+                  </i><br>
+          </button>
+  <mat-menu #profile="matMenu">
+      <ng-container *ngFor="let file of downloadList">
+          <button mat-menu-item (click)="downloadFile(file,hurdleRateList)">
+                      <i class="{{file?.icon}} " aria-hidden="true "></i> &nbsp;
+                  <span>{{file?.title}}</span>
+              </button>
+      </ng-container>
+  </mat-menu>
+  </div>
+<mat-card *ngIf="hurdleRateList.length > 0">
+<mat-card-content>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Vd Name</th>
+        <th scope="col">Group Name</th>
+        <th scope="col">Hurdle Rate</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let count of hurdleRateList; let i = index">
+        <th scope="col">{{ i + 1 }}</th>
+        <td>{{ count?.vd_name }}</td>
+        <td>{{ count?.vd_group }}</td>
+        <td>{{ count?.hurdle_rate }}</td>
+      </tr>
+    </tbody>
+  </table>
+</mat-card-content>
+</mat-card>
+
+<div
+  bsModal
+  #errorModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">Status</h4>
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="hideErrorModal()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <label>{{ response }}</label>
+      </div>
+    </div>
+  </div>
+</div>

@@ -61,6 +61,7 @@ import { MerchandiserRosterComponent } from './innerComponents/merchandiser-rost
 import { UploadDesiredSosComponent } from './innerComponents/upload-desired-sos/upload-desired-sos.component';
 import { ShopWiseRoutesComponent } from './innerComponents/shop-wise-routes/shop-wise-routes.component';
 import { ManageVdComponent } from './innerComponents/manage-vd/manage-vd/manage-vd.component';
+import { UploadVdHurdleRatesComponent } from './innerComponents/upload-vd-hurdle-rates/upload-vd-hurdle-rates.component';
 
 const routes: Routes = [
   {
@@ -196,6 +197,10 @@ const routes: Routes = [
       {
         path: "manage-vd",
         component: ManageVdComponent,
+      },
+      {
+        path: "vdHurdleRate",
+        component: UploadVdHurdleRatesComponent,
       },
     ],
   },

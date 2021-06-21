@@ -457,6 +457,12 @@ export class DashboardService {
     const url = this.ip + "update-desied-sos";     //  ---------> UploadDesiredSOSController
      return this.http.post(url, obj);
    }
+
+
+   uploadVDHurdleRate(obj) {
+    const url = this.ip + "update-vd-hurdle-rates";     //  ---------> UploadHurdleRatesController
+     return this.http.post(url, obj);
+   }
   getKey(obj) {
     const body = this.UrlEncodeMaker(obj);
     return this.http.post(this.ip + "tableauTicket", body, this.httpOptions);
@@ -558,5 +564,10 @@ export class DashboardService {
   insertChillerPlanogram(obj) {
     const url = this.ip + 'insert-chiller-planogram'; // -----------> InsertChillerPlanogramController
     return this.http.post(url, obj);
+  }
+  getVDHurdleRate(obj) {
+    const urlEncode = this.UrlEncodeMaker(obj);
+    const url = this.ip + "vdHurdleRateList";       // ---------> VdHurdleRateListController
+    return this.http.post(url,urlEncode, this.httpOptions);
   }
 }

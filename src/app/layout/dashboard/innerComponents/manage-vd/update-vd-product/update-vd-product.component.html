@@ -1,4 +1,4 @@
-<mat-card *ngIf="chillerProductList.length > 0">
+<mat-card>
   <mat-card-content>
     <div>
       <button [disabled]="updatedProductList.length==0 || loading"
@@ -47,3 +47,11 @@
     </table>
   </mat-card-content>
   </mat-card>
+
+  <div class="row" style="margin: 20px;" *ngIf="!loading && chillerProductList.length == 0">
+    <div class="col-md-12 text-center">
+      <div class="alert alert-info">
+        <p>No Data Found</p>
+      </div>
+    </div>
+  </div>
