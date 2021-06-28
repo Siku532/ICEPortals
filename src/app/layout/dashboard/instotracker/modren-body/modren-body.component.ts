@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MarketIntelligenceService } from 'src/app/layout/dashboard/market-intelligence/market-intelligence-service.service';
+import { InstotrackerService } from 'src/app/layout/dashboard/instotracker/instotracker-service.service';
 import * as moment from 'moment';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
@@ -70,7 +70,7 @@ export class ModrenBodyComponent implements OnInit {
 
   //#endregion
 
-  constructor(private route: ActivatedRoute, private generalService: MarketIntelligenceService) {
+  constructor(private route: ActivatedRoute, private generalService: InstotrackerService) {
 
     // this.categories = [
     //   { key: 'Gillette', value: 'Gillette' },

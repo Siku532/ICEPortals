@@ -35,7 +35,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
 
-import { MarketIntelligenceRoutingModule } from './market-intelligence-routing.module';
+import { InstotrackerRoutingModule } from './instotracker-routing.module';
 import{HttpModule} from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { SingleShopComponent } from './single-shop/single-shop.component';
@@ -46,7 +46,7 @@ import { ShopDetailComponent } from './shop-detail/shop-detail.component';
   imports: [
     CommonModule,
     FormsModule,
-    MarketIntelligenceRoutingModule,
+    InstotrackerRoutingModule,
     MatFormFieldModule,
     MatToolbarModule,
     MatInputModule,
@@ -78,4 +78,4 @@ import { ShopDetailComponent } from './shop-detail/shop-detail.component';
      ShopDetailComponent,
     SingleShopComponent ]
 })
-export class MarketIntelligenceModule { }
+export class InstotrackerModule { }

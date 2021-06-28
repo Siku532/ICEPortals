@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
-import { MarketIntelligenceService } from 'src/app/layout/dashboard/market-intelligence/market-intelligence-service.service';
+import { InstotrackerService } from 'src/app/layout/dashboard/instotracker/instotracker-service.service';
 import { ModalDirective } from "ngx-bootstrap";
 
 @Component({
@@ -17,7 +17,7 @@ export class SingleShopComponent implements OnInit {
   imageLoading: boolean;
   ;
   constructor(
-    private generalService: MarketIntelligenceService,
+    private generalService: InstotrackerService,
     private acRouter: ActivatedRoute
   ) {
     this.acRouter.params.subscribe(params => {

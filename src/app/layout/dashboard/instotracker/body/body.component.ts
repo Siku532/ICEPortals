@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { MarketIntelligenceService } from "../market-intelligence-service.service";
+import { InstotrackerService } from "../instotracker-service.service";
 import * as moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
 import { NgxDrpOptions, PresetItem, Range } from 'ngx-mat-daterange-picker';
@@ -67,7 +67,7 @@ export class BodyComponent implements OnInit {
 
   //#endregion
 
-  constructor(private route: ActivatedRoute, private generalService: MarketIntelligenceService) {  }
+  constructor(private route: ActivatedRoute, private generalService: InstotrackerService) {  }
 
   ngOnInit() {
     this.user=localStorage.getItem("user_id");

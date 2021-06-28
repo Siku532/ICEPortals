@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { MarketIntelligenceService } from 'src/app/layout/dashboard/market-intelligence/market-intelligence-service.service';
+import { InstotrackerService } from 'src/app/layout/dashboard/instotracker/instotracker-service.service';
 import { ModalDirective } from 'ngx-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { config } from "src/assets/config";
@@ -22,7 +22,7 @@ export class ShopDetailComponent implements OnInit {
   ip = config.ip;
   loadingData: boolean=false;
   imageLoading: boolean=false;
-  constructor(private generalService: MarketIntelligenceService,private route:ActivatedRoute) { }
+  constructor(private generalService: InstotrackerService,private route:ActivatedRoute) { }
 
   ngOnInit() {
 
