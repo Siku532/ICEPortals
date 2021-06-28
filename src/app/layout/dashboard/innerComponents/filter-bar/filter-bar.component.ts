@@ -1034,9 +1034,9 @@ export class FilterBarComponent implements OnInit {
     if (this.endDate >= this.startDate) {
       const obj = {
         startDate: moment(this.startDate).format("YYYY-MM-DD"),
-        endDate: moment(this.endDate).format("YYYY-MM-DD")
+        endDate: moment(this.endDate).format("YYYY-MM-DD"),
       };
-      const url = "merchandiser_attendance_report";
+      const url = "distributionCheckIn";
       const body = this.httpService.UrlEncodeMaker(obj);
       this.httpService.getKeyForProductivityReport(body, url).subscribe(
         (data) => {
