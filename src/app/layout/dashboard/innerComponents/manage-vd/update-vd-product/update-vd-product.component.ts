@@ -42,13 +42,14 @@ export class UpdateVdProductComponent implements OnInit {
     }
   }
  
-  changeProductStatus(event, item) {
+  changeProductActiveStatus(event, item) {
+    const i = this.updatedProductList.findIndex((p) => p.productMapId == item.product_type_map_id && p.chillerId==this.selectedChiller.id);
     const obj={
       productMapId: item.product_type_map_id,
       active: event.checked? 'Y': 'N',
-      chillerId: this.selectedChiller.id
+      chillerId: this.selectedChiller.id,
+      mustHave: i>-1? this.updatedProductList[i].mustHave : item.must_have
     }
-    const i = this.updatedProductList.findIndex((p) => p.productMapId == item.product_type_map_id && p.chillerId==this.selectedChiller.id);
     if(i>-1){
       this.updatedProductList.splice(i,1, obj);
     }
@@ -56,6 +57,23 @@ export class UpdateVdProductComponent implements OnInit {
       this.updatedProductList.push(obj);
     }
     console.log(this.updatedProductList)
+}
+
+changeProductMSLStatus(event, item) {
+  const i = this.updatedProductList.findIndex((p) => p.productMapId == item.product_type_map_id && p.chillerId==this.selectedChiller.id);
+  const obj={
+    productMapId: item.product_type_map_id,
+    active: i>-1? this.updatedProductList[i].active : item.active,
+    chillerId: this.selectedChiller.id,
+    mustHave: event.checked? 'Y': 'N',
+  }
+  if(i>-1){
+    this.updatedProductList.splice(i,1, obj);
+  }
+  else{
+    this.updatedProductList.push(obj);
+  }
+  console.log(this.updatedProductList)
 }
 
 updateChillerData() {
@@ -107,7 +125,8 @@ updateData(){
       product_type_map_id: element.productMapId,
       product_id: this.chillerProductList[i].product_id,
       product_title: this.chillerProductList[i].product_title,
-      active: element.active
+      active: element.active,
+      must_have: element.mustHave
     }
     this.chillerProductList.splice(i,1,obj);
   }

@@ -69,7 +69,7 @@
 <app-update-vd-product [chillerProductList]="chillerProductList" [selectedChiller]="selectedChiller"
 (productChange)="getChillerProductList($event)" *ngIf="chillerProductList.length>0">
 </app-update-vd-product>
-<div class="row" style="margin: 20px;" *ngIf="!loadingData && selectedChiller.id">
+<div class="row" style="margin: 20px;" *ngIf="!loadingData && chillerProductList.length==0">
   <div class="col-md-12 text-center">
     <div class="alert alert-info">
       <p>No Data Found</p>

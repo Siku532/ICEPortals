@@ -32,15 +32,19 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">Product Title</th>
-          <th scope="col">Active</th>
+          <th scope="col">Priority</th>
+          <th scope="col">MSL</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let product of chillerProductList; let i = index">
           <th scope="col">{{ i + 1 }}</th>
           <td>{{ product?.product_title }}</td>
+          <td><input type="checkbox" class="myinput large" [checked]="product.must_have=='Y'"
+            data-toggle="toggle" data-onstyle="light" (change)="changeProductMSLStatus(checked1,product)" #checked1>
+        </td>
           <td><input type="checkbox" class="myinput large" [checked]="product.active=='Y'"
-            data-toggle="toggle" data-onstyle="light" (change)="changeProductStatus(checked1,product)" #checked1>
+            data-toggle="toggle" data-onstyle="light" (change)="changeProductActiveStatus(checked,product)" #checked>
         </td>
         </tr>
       </tbody>
