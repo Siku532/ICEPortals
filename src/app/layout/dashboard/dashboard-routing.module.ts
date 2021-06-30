@@ -213,7 +213,7 @@ const routes: Routes = [
   },
   {
     path: "instogram",
-    loadChildren: "./market-intelligence/market-intelligence.module#MarketIntelligenceModule",
+    loadChildren: "./instotracker/instotracker.module#InstotrackerModule",
   },
   {path: 'virtual_view', loadChildren: './virtual-view/virtual-view.module#VirtualViewModule'},
 ];
