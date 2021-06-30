@@ -1469,7 +1469,7 @@ export class FilterBarComponent implements OnInit {
         regionId: this.selectedRegion.id
           ? this.selectedRegion.id == -1
             ? localStorage.getItem("regionId")
-            : this.selectedZone.id
+            : this.selectedRegion.id
           : localStorage.getItem("regionId"),
         cityId: this.selectedCity.id || -1,
         distributionId: this.selectedDistribution.id || -1,
