@@ -451,7 +451,7 @@ export class FilterBarComponent implements OnInit {
     );
   }
 
-  getSelectiveClusters() {
+   getSelectiveClusters() {
     this.httpService.getAllClusters().subscribe(
       (data) => {
         const res: any = data;

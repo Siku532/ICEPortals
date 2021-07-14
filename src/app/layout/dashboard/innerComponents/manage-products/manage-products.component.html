@@ -2,104 +2,122 @@
   <mat-card>
     <mat-card-title>
       Manage Products
-      <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData}"></i>
+      <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
     </mat-card-title>
-  <mat-card-content>
-  <section>
-    <mat-form-field class="example-margin mr-10-IMP">
-      <mat-select
-        placeholder="Channel"
-        name="channel"
-        [(ngModel)]="selectedChannel"
-      >
-        <mat-option [value]="channel" *ngFor="let channel of channels">{{
-         channel.title
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </section>
+    <mat-card-content>
+      <section>
+        <mat-form-field class="example-margin mr-10-IMP">
+          <mat-select
+            placeholder="Channel"
+            name="channel"
+            [(ngModel)]="selectedChannel"
+          >
+            <mat-option [value]="channel" *ngFor="let channel of channels">{{
+              channel.title
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
 
-  <section>
-    <button
-      mat-raised-button
-      color="primary"
-      [disabled]="loadingData || !selectedChannel.id"
-      (click)="loadProducts()"
-    >
-      Display Products
-    </button>
-  </section>
-   </mat-card-content>
+      <section>
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="loadingData || !selectedChannel.id"
+          (click)="loadProducts()"
+        >
+          Display Products
+        </button>
+      </section>
+    </mat-card-content>
   </mat-card>
 
-  <mat-accordion displayMode="flat" multi class="mat-table" *ngIf="categoryList?.length>0">
+  <mat-accordion
+    displayMode="flat"
+    multi
+    class="mat-table"
+    *ngIf="categoryList?.length > 0"
+  >
     <section matSort class="mat-elevation-z2 mat-header-row">
       <span class="mat-header-cell" mat-sort-header="id">#</span>
-      <span class="mat-header-cell" mat-sort-header="categoryName">Category Name</span>
-      <span class="mat-header-cell" mat-sort-header="prioritySkus">Priority Skus</span>
+      <span class="mat-header-cell" mat-sort-header="categoryName"
+        >Category Name</span
+      >
+      <span class="mat-header-cell" mat-sort-header="prioritySkus"
+        >Priority Skus</span
+      >
       <span class="mat-header-cell" mat-sort-header="total">Total Skus</span>
     </section>
-  
+
     <mat-expansion-panel *ngFor="let element of categoryList; let i = index">
       <mat-expansion-panel-header class="mat-row">
-        <span class="mat-cell">{{i+1}}</span>
-        <span class="mat-cell">{{element.categoryTitle}}</span>
-        <span class="mat-cell">{{element.totalMslProducts}}</span>
-        <span class="mat-cell">{{element.totalProducts}}</span>
+        <span class="mat-cell">{{ i + 1 }}</span>
+        <span class="mat-cell">{{ element.categoryTitle }}</span>
+        <span class="mat-cell">{{ element.totalMslProducts }}</span>
+        <span class="mat-cell">{{ element.totalProducts }}</span>
       </mat-expansion-panel-header>
       <table class="table table-bordered">
         <thead>
           <tr style="text-align: center">
-            <th style="cursor: pointer">
-              #
-            </th>
-            <th style="cursor: pointer">
-              Product Name
-            </th>
-            <th style="cursor: pointer">
-             MSL
-            </th>
-            <th style="cursor: pointer">
-              Desired Facing
-             </th>
-            <th style="cursor: pointer">
-              Active
-             </th>
+            <th style="cursor: pointer">#</th>
+            <th style="cursor: pointer">Product Name</th>
+            <th style="cursor: pointer">MSL</th>
+            <th style="cursor: pointer">Desired Facing</th>
+            <th style="cursor: pointer">Active</th>
           </tr>
-        </thead> 
+        </thead>
         <tbody>
-          <tr *ngFor="let product of element.productDataMap; let j=index" style="text-align: center">
-            <td>{{j+1}}</td>
-            <td>{{product.productTitle}}</td>
-            <td><input type="checkbox" class="myinput large" [checked]="product.mustHave=='Y'"
-              data-toggle="toggle" data-onstyle="light" (click)="spliceMsl(checked,product)" #checked>
+          <tr
+            *ngFor="let product of element.productDataMap; let j = index"
+            style="text-align: center"
+          >
+            <td>{{ j + 1 }}</td>
+            <td>{{ product.productTitle }}</td>
+            <td>
+              <input
+                type="checkbox"
+                class="myinput large"
+                [checked]="product.mustHave == 'Y'"
+                data-toggle="toggle"
+                data-onstyle="light"
+                (click)="spliceMsl(checked, product)"
+                #checked
+              />
             </td>
-            <td>{{product.desiredFacing}}</td>
-            <td><input type="checkbox" class="myinput large" [checked]="product.active=='Y'"
-              data-toggle="toggle" data-onstyle="light" (click)="spliceActive(checked1,product)" #checked1>
-          </td>
-          </tr>       
+            <td>{{ product.desiredFacing }}</td>
+            <td>
+              <input
+                type="checkbox"
+                class="myinput large"
+                [checked]="product.active == 'Y'"
+                data-toggle="toggle"
+                data-onstyle="light"
+                (click)="spliceActive(checked1, product)"
+                #checked1
+              />
+            </td>
+          </tr>
         </tbody>
-        </table>
+      </table>
     </mat-expansion-panel>
     <div class="row">
       <div class="col-md-12">
         <div class="form-group">
-    <button [disabled]="selectedProducts.length==0"
+          <button
+            [disabled]="selectedProducts.length == 0"
             class="btn btn-primary btn-fixed"
-            title="Click to Apply changes" (click)="updateCategory()">
+            title="Click to Apply changes"
+            (click)="updateCategory()"
+          >
             Update
           </button>
-          </div>
-          </div>
         </div>
+      </div>
+    </div>
   </mat-accordion>
-  </div>
+</div>
 
-
-
-  
-  <div
+<div
   bsModal
   #childModal="bs-modal"
   [config]="{ ignoreBackdropClick: true, keyboard: false, backdrop: 'static' }"
@@ -127,40 +145,36 @@
       </div>
       <div class="modal-body">
         <div class="row">
-        <div class="form-group col-md-5">
-          <label for="MSL">Must Have</label>
-          <select
-            class="form-control"
-            name="msl"
-            [(ngModel)]="selectedMsl"
-          >
-            <ng-container *ngFor="let selectedMsl of mslStatus">
-              <option
-              [value]="selectedMsl"
-              [selected]="selectedMsl==selectedProduct.mustHave"
+          <div class="form-group col-md-5">
+            <label for="MSL">Must Have</label>
+            <select class="form-control" name="msl" [(ngModel)]="selectedMsl">
+              <ng-container *ngFor="let selectedMsl of mslStatus">
+                <option
+                  [value]="selectedMsl"
+                  [selected]="selectedMsl == selectedProduct.mustHave"
+                >
+                  {{ selectedMsl }}
+                </option>
+              </ng-container>
+            </select>
+          </div>
+          <div class="form-group col-md-5">
+            <label for="active">Active</label>
+            <select
+              class="form-control"
+              name="active"
+              [(ngModel)]="selectedActiveStatus"
             >
-              {{ selectedMsl }}
-            </option>
-            </ng-container>
-          </select>
-        </div>
-        <div class="form-group col-md-5">
-          <label for="active">Active</label>
-          <select
-            class="form-control"
-            name="active"
-            [(ngModel)]="selectedActiveStatus"
-          >
-            <ng-container *ngFor="let selectedActive of activeStatus">
-            <option
-            [selected]="selectedActive==selectedProduct.active"
-              [value]="selectedActive"
-            >
-              {{ selectedActive }}
-            </option>
-            </ng-container>
-          </select>
-        </div>
+              <ng-container *ngFor="let selectedActive of activeStatus">
+                <option
+                  [selected]="selectedActive == selectedProduct.active"
+                  [value]="selectedActive"
+                >
+                  {{ selectedActive }}
+                </option>
+              </ng-container>
+            </select>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -172,9 +186,7 @@
           <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingModalButton }"></i>
           Update Product
         </button>
-        <button [disabled]="loadingModal" (click)="hideModal()">
-          Cancel
-        </button>
+        <button [disabled]="loadingModal" (click)="hideModal()">Cancel</button>
       </div>
     </div>
   </div>
