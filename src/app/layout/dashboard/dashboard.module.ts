@@ -103,6 +103,7 @@ import { UpdateVdProductComponent } from './innerComponents/manage-vd/update-vd-
 import { UpdateVdPlanogramsComponent } from './innerComponents/manage-vd/update-vd-planograms/update-vd-planograms.component';
 import { UploadVdHurdleRatesComponent } from './innerComponents/upload-vd-hurdle-rates/upload-vd-hurdle-rates.component';
 import { ManageEmailsComponent } from './innerComponents/manage-emails/manage-emails.component';
+import { CalenderDemoComponent } from './innerComponents/calender-demo/calender-demo.component';
 
 @NgModule({
   imports: [
@@ -207,7 +208,8 @@ import { ManageEmailsComponent } from './innerComponents/manage-emails/manage-em
     UpdateVdProductComponent,
     UpdateVdPlanogramsComponent,
     UploadVdHurdleRatesComponent,
-    ManageEmailsComponent
+    ManageEmailsComponent,
+    CalenderDemoComponent
   ],
 })
 export class DashboardModule {}
