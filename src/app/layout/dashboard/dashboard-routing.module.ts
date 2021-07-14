@@ -62,6 +62,7 @@ import { UploadDesiredSosComponent } from './innerComponents/upload-desired-sos/
 import { ShopWiseRoutesComponent } from './innerComponents/shop-wise-routes/shop-wise-routes.component';
 import { ManageVdComponent } from './innerComponents/manage-vd/manage-vd/manage-vd.component';
 import { UploadVdHurdleRatesComponent } from './innerComponents/upload-vd-hurdle-rates/upload-vd-hurdle-rates.component';
+import { ManageEmailsComponent } from './innerComponents/manage-emails/manage-emails.component';
 
 const routes: Routes = [
   {
@@ -126,6 +127,7 @@ const routes: Routes = [
       { path: "time-analysis-report", component: TimeAnalysisReportComponent },
       { path: "shop-list-report", component: ShopListReportComponent },
       { path: "merchandiser_List", component: MerchandiserListComponent },
+      { path: "manage-emails", component: ManageEmailsComponent },
       {
         path: "merchandiser_attendance",
         component: MerchandiserAttendanceComponent,

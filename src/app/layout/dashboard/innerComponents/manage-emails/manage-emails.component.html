@@ -1,0 +1,354 @@
+<mat-card>
+  <mat-card-title>
+    Manage Emails
+    <i [ngClass]="{ 'fa fa-cog fa-spin': loadingData }"></i>
+  </mat-card-title>
+  <mat-card-content>
+    <section>
+      <mat-form-field class="example-margin mr-10-IMP" style="width: 300px">
+        <mat-select
+          placeholder="Email Type"
+          name="emailType"
+          [(ngModel)]="selectedEmailType"
+          (ngModelChange)="getEmailByType()"
+        >
+          <mat-option
+            [value]="emailType"
+            *ngFor="let emailType of emailTypes"
+            >{{ emailType.emailTypeTitle }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </section>
+    <section>
+      <button
+        class="example-margin mr-10-IMP"
+        mat-raised-button
+        color="primary"
+        title="Create Email"
+        (click)="showInsertModal()"
+      >
+        Add Email
+        <mat-icon>add</mat-icon>
+      </button>
+    </section>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="tmpEmailList?.length > 0">
+  <mat-card-content>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class="text-primary">
+                  <th>#</th>
+                  <th>Email</th>
+                  <th>Email Type</th>
+                  <th>Cluster</th>
+                  <th>Zone</th>
+                  <th>Region</th>
+                  <th>Address Type</th>
+                  <th>Active</th>
+                  <th>Action</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let email of tmpEmailList; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ email.email }}</td>
+                    <td>{{ email.emailTypeTitle }}</td>
+                    <td>{{ email?.cluster?.title }}</td>
+                    <td>{{ email?.zone?.title }}</td>
+                    <td>{{ email?.region?.title }}</td>
+                    <td>{{ email.addressType }}</td>
+                    <td>{{ email.active }}</td>
+                    <td>
+                      <button
+                        class="example-margin mr-10-IMP"
+                        mat-raised-button
+                        color="primary"
+                        title="Update Email"
+                        (click)="showUpdateModal(email)"
+                      >
+                        Update
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<div
+  bsModal
+  #childModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-child-name"
+  [config]="{ backdrop: 'static', keyboard: false }"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-child-name" class="modal-title pull-left">
+          {{ modalTitle }}
+          <i [ngClass]="{ 'fa fa-cog fa-spin': loadingModal }"></i>
+        </h4>
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="hideModal()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="form" enctype="multipart/form-data">
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="hidden" formControlName="id" />
+          </div>
+          <div class="form-group">
+            <input type="hidden" formControlName="emailTypeTitle" />
+          </div>
+          <div class="row">
+            <div class="form-group col-md-8">
+              <label for="email">Email</label>
+              <input
+                type="text"
+                class="form-control"
+                id="email"
+                formControlName="email"
+              />
+              <div
+                *ngIf="
+                  form.controls.email.errors &&
+                  (form.controls.email.touched || form.controls.email.dirty)
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'email')"
+                  class="invalid-feedback"
+                >
+                  Valid Email is Required.
+                </mat-error>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="active">Active</label>
+              <select
+                formControlName="active"
+                class="form-control"
+                placeholder="Select Status"
+                name="active"
+              >
+                <ng-container *ngFor="let status of activeStatus">
+                  <option [value]="status.value">{{ status.value }}</option>
+                </ng-container>
+              </select>
+              <div
+                *ngIf="
+                  form.controls.active.errors &&
+                  (form.controls.active.touched || form.controls.active.dirty)
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'active')"
+                  class="invalid-feedback"
+                >
+                  Valid Status is Required.
+                </mat-error>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-8">
+              <label for="emailType">Email Type</label>
+              <select
+                formControlName="emailType"
+                class="form-control"
+                placeholder="Select Email Type"
+                name="emailType"
+                (change)="getEmailTypeTitle()"
+              >
+                <ng-container *ngFor="let email of emailTypes">
+                  <option
+                    *ngIf="email.emailType != 'All'"
+                    [value]="email.emailType"
+                  >
+                    {{ email.emailTypeTitle }}
+                  </option>
+                </ng-container>
+              </select>
+              <div
+                *ngIf="
+                  form.controls.emailType.errors &&
+                  (form.controls.emailType.touched ||
+                    form.controls.emailType.dirty)
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'emailType')"
+                  class="invalid-feedback"
+                >
+                  Valid Email Type is Required.
+                </mat-error>
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="addressType">Type</label>
+              <select
+                formControlName="addressType"
+                class="form-control"
+                placeholder="Select Type"
+                name="addressType"
+              >
+                <ng-container *ngFor="let addressType of addressTypes">
+                  <option [value]="addressType">{{ addressType }}</option>
+                </ng-container>
+              </select>
+              <div
+                *ngIf="
+                  form.controls.addressType.errors &&
+                  (form.controls.addressType.touched ||
+                    form.controls.addressType.dirty)
+                "
+              >
+                <mat-error
+                  *ngIf="form.hasError('required', 'addressType')"
+                  class="invalid-feedback"
+                >
+                  Valid Type is Required.
+                </mat-error>
+              </div>
+            </div>
+          </div>
+
+          <div
+            *ngIf="clusterList.length > 0"
+            class="form-group"
+            formGroupName="cluster"
+          >
+            <label for="cluster">{{ clusterPlaceHolder }}</label>
+            <select
+              formControlName="id"
+              class="form-control"
+              (change)="getZoneByCluster(form.value.cluster)"
+              name="id"
+            >
+              <ng-container *ngFor="let cluster of clusterList">
+                <option [value]="cluster.id">{{ cluster.title }}</option>
+              </ng-container>
+            </select>
+            <div
+              *ngIf="
+                form.controls.cluster.errors &&
+                (form.controls.cluster.touched || form.controls.cluster.dirty)
+              "
+            >
+              <mat-error
+                *ngIf="form.hasError('required', 'id')"
+                class="invalid-feedback"
+              >
+                Cluster Selection is Mandatory.
+              </mat-error>
+            </div>
+          </div>
+
+          <div *ngIf="zones.length > 0" class="form-group" formGroupName="zone">
+            <label for="zone">{{ zonePlaceholder }}</label>
+            <select
+              formControlName="id"
+              class="form-control"
+              (change)="zoneChange(form.value.zone)"
+              name="id"
+            >
+              <ng-container *ngFor="let zone of zones">
+                <option [value]="zone.id">{{ zone.title }}</option>
+              </ng-container>
+            </select>
+            <div
+              *ngIf="
+                form.controls.zone.errors &&
+                (form.controls.zone.touched || form.controls.zone.dirty)
+              "
+            >
+              <mat-error
+                *ngIf="form.hasError('required', 'id')"
+                class="invalid-feedback"
+              >
+                Zone Selection is Mandatory.
+              </mat-error>
+            </div>
+          </div>
+          <div
+            *ngIf="regions.length > 0"
+            class="form-group"
+            formGroupName="region"
+          >
+            <label for="region"> {{ regionPlaceholder }}</label>
+            <select
+              formControlName="id"
+              class="form-control"
+              name="id"
+              (change)="regionChange(form.value.region)"
+            >
+              <ng-container *ngFor="let region of regions">
+                <option [value]="region.id">{{ region.title }}</option>
+              </ng-container>
+            </select>
+            <div
+              *ngIf="
+                form.controls.region.errors &&
+                (form.controls.region.touched || form.controls.region.dirty)
+              "
+            >
+              <mat-error
+                *ngIf="form.hasError('required', 'id')"
+                class="invalid-feedback"
+              >
+                Region Selection is Mandatory.
+              </mat-error>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            *ngIf="!isUpdateRequest"
+            class="mr-1"
+            [disabled]="!form.valid || loadingModal"
+            (click)="insertUpdateData(form.value)"
+            mat-raised-button
+            color="primary"
+          >
+            <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingModalButton }"></i>
+            {{ modalTitle }}
+          </button>
+
+          <button
+            *ngIf="isUpdateRequest"
+            class="mr-1"
+            (click)="insertUpdateData(form.value)"
+            [disabled]="loadingModal"
+            mat-raised-button
+            color="primary"
+          >
+            <i [ngClass]="{ 'fa fa-spinner fa-spin': loadingModalButton }"></i>
+            {{ modalTitle }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -191,7 +191,6 @@ export class DashboardService {
     return this.http.post(url, filter);
   }
 
-
   getChillerList(channelId) {
     const filter = JSON.stringify({ act: 20, channelId: channelId });
     const url = this.ip + "loadFilters";
@@ -214,13 +213,12 @@ export class DashboardService {
 
   getProductList(obj) {
     const urlencoded = this.UrlEncodeMaker(obj);
-    const url = this.ip + "viewProductDetail";           //----------> ViewProductDetailsController
+    const url = this.ip + "viewProductDetail"; //----------> ViewProductDetailsController
     return this.http.post(url, urlencoded, this.httpOptions);
   }
 
-
   getShopWiseRoutes(obj) {
-    const urlencoded = this.UrlEncodeMaker(obj);      // ------------> ShopWiseRoutesController
+    const urlencoded = this.UrlEncodeMaker(obj); // ------------> ShopWiseRoutesController
     const url = this.ip + "shopWiseRoutes";
     return this.http.post(url, urlencoded, this.httpOptions);
   }
@@ -446,23 +444,20 @@ export class DashboardService {
     return this.http.post(url, obj);
   }
 
-
   uploadHurdleRates(obj) {
-   const url = this.ip + "update-hurdle-rates";     //  ---------> UploadHurdleRatesController
+    const url = this.ip + "update-hurdle-rates"; //  ---------> UploadHurdleRatesController
     return this.http.post(url, obj);
   }
 
-
   uploadSOS(obj) {
-    const url = this.ip + "update-desied-sos";     //  ---------> UploadDesiredSOSController
-     return this.http.post(url, obj);
-   }
+    const url = this.ip + "update-desied-sos"; //  ---------> UploadDesiredSOSController
+    return this.http.post(url, obj);
+  }
 
-
-   uploadVDHurdleRate(obj) {
-    const url = this.ip + "update-vd-hurdle-rates";     //  ---------> UploadHurdleRatesController
-     return this.http.post(url, obj);
-   }
+  uploadVDHurdleRate(obj) {
+    const url = this.ip + "update-vd-hurdle-rates"; //  ---------> UploadHurdleRatesController
+    return this.http.post(url, obj);
+  }
   getKey(obj) {
     const body = this.UrlEncodeMaker(obj);
     return this.http.post(this.ip + "tableauTicket", body, this.httpOptions);
@@ -492,11 +487,15 @@ export class DashboardService {
   }
 
   getSurveyors(clusterId, zoneId, regionId) {
-    const filter = JSON.stringify({ act: 19, clusterId: clusterId, zoneId: zoneId, regionId: regionId });
+    const filter = JSON.stringify({
+      act: 19,
+      clusterId: clusterId,
+      zoneId: zoneId,
+      regionId: regionId,
+    });
     const url = this.ip + "loadFilters";
     return this.http.post(url, filter);
   }
-
 
   updateSurveyorData(obj) {
     const url = this.ip + "updateSurveyor"; // -----------> UpdateSurveyorController
@@ -511,63 +510,69 @@ export class DashboardService {
     });
     const url = this.ip + "loadFilters";
     return this.http.post(url, filter);
-  
   }
 
-  
   getMerchandiserRoaster(obj) {
     const urlEncode = this.UrlEncodeMaker(obj);
-    const url = this.ip + '/merchandiser-roaster';
+    const url = this.ip + "/merchandiser-roaster";
     return this.http.post(url, urlEncode, this.httpOptions);
   }
 
   getHurdleRates(obj) {
     const urlEncode = this.UrlEncodeMaker(obj);
     const url = this.ip + "get_hurdle_rates";
-    return this.http.post(url,urlEncode, this.httpOptions);
+    return this.http.post(url, urlEncode, this.httpOptions);
   }
 
   getDesiredSOS(obj) {
     const urlEncode = this.UrlEncodeMaker(obj);
     const url = this.ip + "get_desired_sos";
-    return this.http.post(url,urlEncode, this.httpOptions);
+    return this.http.post(url, urlEncode, this.httpOptions);
   }
   getChillerProductList(obj) {
-    const urlEncode = this.UrlEncodeMaker(obj);             // ---------> ChillerProductListMapController
+    const urlEncode = this.UrlEncodeMaker(obj); // ---------> ChillerProductListMapController
     const url = this.ip + "chillerProductList";
-    return this.http.post(url,urlEncode, this.httpOptions);
+    return this.http.post(url, urlEncode, this.httpOptions);
   }
 
-
   updateChillerProductList(obj) {
-    const url = this.ip + "updateChillerProductData";     //----------> UpdateChillerProductStatus
-    return this.http.post(url,obj);
+    const url = this.ip + "updateChillerProductData"; //----------> UpdateChillerProductStatus
+    return this.http.post(url, obj);
   }
   insertChiller(obj, urlMapping) {
     const url = this.ip + urlMapping; // -----------> CreateChillerController || UpdateChillerController
     return this.http.post(url, obj);
   }
   getUniqueChillerProductList() {
-    const filter = JSON.stringify({ act: 23});
+    const filter = JSON.stringify({ act: 23 });
     const url = this.ip + "loadFilters";
     return this.http.post(url, filter);
   }
   updateChillerPlanograms(obj) {
-    const url = this.ip + "updateChillerPlanogram";     //----------> UpdateChillerPlanogramController
-    return this.http.post(url,obj);
+    const url = this.ip + "updateChillerPlanogram"; //----------> UpdateChillerPlanogramController
+    return this.http.post(url, obj);
   }
   getChillerPlanogramList(obj) {
-    const urlEncode = this.UrlEncodeMaker(obj);             // ---------> ChillerPlanogramListController
+    const urlEncode = this.UrlEncodeMaker(obj); // ---------> ChillerPlanogramListController
     const url = this.ip + "chillerPlanogramList";
-    return this.http.post(url,urlEncode, this.httpOptions);
+    return this.http.post(url, urlEncode, this.httpOptions);
   }
   insertChillerPlanogram(obj) {
-    const url = this.ip + 'insert-chiller-planogram'; // -----------> InsertChillerPlanogramController
+    const url = this.ip + "insert-chiller-planogram"; // -----------> InsertChillerPlanogramController
     return this.http.post(url, obj);
   }
   getVDHurdleRate(obj) {
     const urlEncode = this.UrlEncodeMaker(obj);
-    const url = this.ip + "vdHurdleRateList";       // ---------> VdHurdleRateListController
-    return this.http.post(url,urlEncode, this.httpOptions);
+    const url = this.ip + "vdHurdleRateList"; // ---------> VdHurdleRateListController
+    return this.http.post(url, urlEncode, this.httpOptions);
+  }
+
+  getFilterData(obj) {
+    const url = this.ip + "loadFilters";
+    return this.http.post(url, obj);
+  }
+
+  addUpdateEmail(obj, url) {
+    return this.http.post(this.ip + url, obj);
   }
 }
